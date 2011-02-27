@@ -24,18 +24,25 @@ object PipTest extends Application {
 
   Auth.saveAccessToken(t,s,"myauth")*/
   val tw = Auth.authorizedTwitterInstance(Auth.loadAccessToken("myauth"))
-
   val core = new PipCore(tw)
+
+  println("Je Twitter.com dostupny? " + {
+    if (Tools.isConnectionAvailable) "ano" else "ne"
+  })
+
+  Loc.load("czech.loc")
+  println("Test lokalizace: "+Loc("welcome"))
+
 
   println("Home timeline:")
   core.homeTimeline foreach {
     x => println(x.name+": "+x.text)
   }
 
-  println("Home timeline (using futures):")
-  core.homeTimelineFutures foreach {
-    x => println(x().name+": "+x().text)
-  }
+//  println("\nHome timeline (using futures):")
+//  core.homeTimelineFutures foreach {
+//    x => println(x().name+": "+x().text)
+//  }
 
 
 
