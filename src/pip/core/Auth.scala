@@ -1,7 +1,10 @@
 package pip.core
 
-import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
+import java.util.Properties
+import java.io.{FileInputStream, FileOutputStream}
+import twitter4j.{Twitter, TwitterFactory}
+
 /**
  * Created by IntelliJ IDEA.
  * User: svetylk0@seznam.cz
@@ -11,6 +14,7 @@ import twitter4j.auth.AccessToken
  */
 
 object Auth {
+  import Globals._
 
   val consumerKey="bWYDg4gHUN8bcdSuwo0OQ"
   val consumerSecret="qDSpvrfEy6MVUm0FsyiL1GLG8JLlJ119KecVcDp27k4"
@@ -31,9 +35,27 @@ object Auth {
     (accessToken.getToken, accessToken.getTokenSecret)
   }
 
-  def authorizedTwitterInstance(token: String, secret: String) = {
-    instance.setOAuthAccessToken(new AccessToken(token,secret))
+  def authorizedTwitterInstance(at: AccessToken) = {
+    instance.setOAuthAccessToken(at)
     instance
   }
 
+  def authorizedTwitterInstance(token: String, secret: String): Twitter =
+    authorizedTwitterInstance(new AccessToken(token,secret))
+
+  def loadAccessToken(file: String) = {
+    val prop = new Properties
+    prop.load(new FileInputStream(file))
+    new AccessToken(prop.getProperty("token"),prop.getProperty("secret"))
+  }
+
+  def saveAccessToken(token: String, secret: String, file: String) {
+    val prop = new Properties
+    prop.setProperty("token", token)
+    prop.setProperty("secret", secret)
+    prop.store(new FileOutputStream(file),"Access token")
+  }
+
+  def saveAccessToken(at: AccessToken, file: String): Unit =
+    saveAccessToken(at.getToken, at.getTokenSecret, file)
 }
