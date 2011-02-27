@@ -1,6 +1,7 @@
 package pip.gui
 
 import pip.core.Tweet
+import java.awt.{Graphics2D, GradientPaint, Color}
 import scala.swing.{SimpleSwingApplication, MainFrame, Label, GridBagPanel, Swing}
 
 
@@ -21,7 +22,6 @@ object TweetView extends SimpleSwingApplication {
     }
     
     contents = new GridBagPanel {
-      //add(iconLabel, new Constraints)
       val constraints = new Constraints
       constraints.fill = GridBagPanel.Fill.Horizontal
       constraints.gridx = 0
@@ -44,6 +44,16 @@ object TweetView extends SimpleSwingApplication {
       constraints.gridy = 1
       add(textLabel, constraints)
       border = Swing.EmptyBorder(10, 10, 10, 10)
+
+      override def paint(g: Graphics2D) {
+        val s = size
+        val gradient = new GradientPaint(0, 0, new Color(0xFFFFFF), 0, s.getHeight.asInstanceOf[Float], new Color(0xC8D2DE))
+        val paint = g.getPaint
+        g.setPaint(gradient)
+        g.fillRect(0, 0, s.getHeight.asInstanceOf[Int], s.getWidth.asInstanceOf[Int])
+        g.setPaint(paint)
+        //super.paint(g)
+      }
     }
   }
 }
