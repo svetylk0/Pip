@@ -1,5 +1,7 @@
 package pip.core
 
+import java.io.File
+
 /**
  * Created by IntelliJ IDEA.
  * User: svetylk0@seznam.cz
@@ -11,4 +13,6 @@ package pip.core
 object Globals {
   val defaultTweetCount = 20
   val encoding = "UTF-8"
+
+  val localizationDir = "loc"
 }
