@@ -1,7 +1,7 @@
 package pip.gui
 
 import pip.core.Tweet
-import java.awt.{Graphics2D, GradientPaint, Color, Insets}
+import java.awt.{Graphics2D, LinearGradientPaint, Color, Insets}
 import scala.swing.{SimpleSwingApplication, MainFrame, Label, GridBagPanel, Swing}
 
 
@@ -23,6 +23,7 @@ object TweetView extends SimpleSwingApplication {
     
     contents = new GridBagPanel {
       val constraints = new Constraints
+      constraints.anchor = GridBagPanel.Anchor.LineStart
       constraints.fill = GridBagPanel.Fill.Horizontal
       constraints.gridx = 0
       constraints.gridy = 0
@@ -53,10 +54,17 @@ object TweetView extends SimpleSwingApplication {
       override def paintComponent(g: Graphics2D) {
         val gradientHeight = size.getHeight.toInt
         val gradientWidth = size.getWidth.toInt
-        val gradient = new GradientPaint(0, 0, new Color(0xFFFFFF), 0, size.getHeight.toFloat, new Color(0xC8D2DE))
+        val gradient = new LinearGradientPaint(
+        0, 0, 0, size.getHeight.toFloat,
+        Array[Float](.0f, .499f, .5f, 1.f), 
+        Array[Color](
+          new Color(0xFFFFFF),
+          new Color(0xC0C0C0), 
+          new Color(0xC0C0C0),
+          new Color(0xFFFFFF)))
         val paint = g.getPaint
         g.setPaint(gradient)
-        g.fillRect(0, 0, gradientHeight, gradientWidth)
+        g.fillRect(0, 0, gradientWidth, gradientHeight)
         g.setPaint(paint)
         //super.paintComponent(g)
       }
