@@ -1,1 +1,1 @@
-scalac src\pip\gui\*.scala -sourcepath src\pip\test\*.scala src\pip\core\*.scala -cp lib\*.jar
+scalac src\pip\gui\*.scala src\pip\test\*.scala src\pip\core\*.scala -cp lib\*.jar
