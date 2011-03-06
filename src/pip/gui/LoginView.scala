@@ -1,9 +1,26 @@
 package pip.gui
-import scala.swing.{Button, Dialog, MainFrame, SimpleSwingApplication}
+import scala.swing._
 
-object LoginView extends Dialog {
-    title = "Dialog test"
-    modal = true
-    defaultButton = new Button("OK")
+object LoginView extends SimpleSwingApplication {
+  val parent = new FlowPanel {
+    contents += new Button("OK")
+    contents += new Label("Uzivatel")
+  }
+
+  def top = new MainFrame {
+    contents = new FlowPanel {
+      contents += new Button {
+        action = Action("click") {
+          Dialog.showInput(parent,
+                 message = "Please login",
+                 title = "Login",
+                 messageType = Dialog.Message.Plain,
+                 optionType = Dialog.Options.OkCancel,
+                 entries = Seq("Login", "Cancel"),
+                 initial = 1)
+        }
+      }
+   }
+ }
 }
 
