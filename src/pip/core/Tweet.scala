@@ -16,9 +16,9 @@ case class Tweet(status: Status) {
   val id = status.getId
   val user = status.getUser
 
-  val name = user.getName
+  val name = user.getScreenName
+  val nick = user.getName
   val text = status.getText
-  val source = status.getSource
 
   val profileIcon = new ImageIcon(user.getProfileImageURL)
 
