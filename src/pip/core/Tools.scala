@@ -20,5 +20,10 @@ object Tools {
     }
   }
 
+  def waitUntil(cond: => Boolean, timeout: Long = 100l) {
+    while(cond) {
+      Thread.sleep(timeout)
+    }
+  }
 
 }
