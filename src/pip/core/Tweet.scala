@@ -13,12 +13,14 @@ import actors.Futures.future
  */
 
 case class Tweet(status: Status) {
-  val id = status.getId
   val user = status.getUser
 
+  val id = status.getId
+  val isFavorited = status.isFavorited
   val name = user.getScreenName
   val nick = user.getName
   val text = status.getText
+  val retweetCount = status.getRetweetCount
 
   val profileIcon = new ImageIcon(user.getProfileImageURL)
 
