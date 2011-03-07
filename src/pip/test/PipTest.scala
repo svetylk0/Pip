@@ -1,9 +1,6 @@
 package pip.test
 
 import pip.core._
-import actors.Futures.future
-import collection.JavaConversions._
-import twitter4j.Paging
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,11 +36,14 @@ object PipTest extends Application {
     x => println(x.name+": "+x.text)
   }
 
+
 //  println("\nHome timeline (using futures):")
 //  core.homeTimelineFutures foreach {
 //    x => println(x().name+": "+x().text)
 //  }
 
+  //test tweetnuti
+//  core.tweet("test")
 
 
 }
