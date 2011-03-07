@@ -14,7 +14,7 @@ import twitter4j.Paging
  */
 
 object PipTest extends Application {
-/*  println("Otevri tuto URL v prohlizeci:")
+  println("Otevri tuto URL v prohlizeci:")
   println(Auth.authURL)
   println("a zadej pin:")
   val pin = readLine
@@ -22,8 +22,8 @@ object PipTest extends Application {
   val (t,s) = Auth.tokenStringAndSecret(pin)
   val tw = Auth.authorizedTwitterInstance(t,s)
 
-  Auth.saveAccessToken(t,s,"myauth")*/
-  val tw = Auth.authorizedTwitterInstance(Auth.loadAccessToken("myauth"))
+  Auth.saveAccessToken(t,s,"myauth")
+  //val tw = Auth.authorizedTwitterInstance(Auth.loadAccessToken("myauth"))
   val core = new PipCore(tw)
 
   println("Je Twitter.com dostupny? " + {
