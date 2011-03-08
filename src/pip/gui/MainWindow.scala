@@ -29,11 +29,26 @@ object MainWindow extends SimpleSwingApplication {
    */
 
   def top = new MainFrame {
+    val parent = new TextField(10)
+
     contents = new BoxPanel(Orientation.Vertical) {
       contents ++= core.homeTimelineFutures map {
         tweet =>
           new TweetView(tweet())
       }
+      contents += new Button {
+        action = Action("Click") {
+	  Dialog.showInput(parent,
+	         message = "Enter your PIN, please",
+		 title = "Login",
+		 messageType = Dialog.Message.Plain,
+		 initial = "")
+        }
+	doClick
+	visible = false
+      }
+      iconImage = Swing.Icon(this.getClass.getResource(
+                        "..\\..\\res\\zpevacek_icon.jpg")).getImage
     }
   }
 }
