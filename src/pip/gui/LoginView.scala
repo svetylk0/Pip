@@ -5,6 +5,7 @@ import scala.swing._
 
 object LoginView extends SimpleSwingApplication {
   val parent = new TextField(10)
+  val fileSeparator = System.getProperty("file.separator")
 
   def top = new MainFrame {
     contents = new FlowPanel {
@@ -20,7 +21,7 @@ object LoginView extends SimpleSwingApplication {
 	visible = false
      }
      iconImage = Swing.Icon(this.getClass.getResource(
-                                     "..\\..\\res\\zpevacek_icon.jpg")).getImage
+                 ".."+ fileSeparator +".."+ fileSeparator +"res"+ fileSeparator +"zpevacek_icon.jpg")).getImage
    }
  }
 }

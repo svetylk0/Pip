@@ -30,6 +30,7 @@ object MainWindow extends SimpleSwingApplication {
 
   def top = new MainFrame {
     val parent = new TextField(10)
+    val fileSeparator = System.getProperty("file.separator")
 
     contents = new BoxPanel(Orientation.Vertical) {
       contents ++= core.homeTimelineFutures map {
@@ -48,7 +49,7 @@ object MainWindow extends SimpleSwingApplication {
 	visible = false
       }
       iconImage = Swing.Icon(this.getClass.getResource(
-                        "..\\..\\res\\zpevacek_icon.jpg")).getImage
+      ".."+ fileSeparator +".."+ fileSeparator +"res"+ fileSeparator +"zpevacek_icon.jpg")).getImage
     }
   }
 }
