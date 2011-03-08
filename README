@@ -2,5 +2,6 @@
 Pip
 =====
 
+TODO:
+- upravit komponentu pro zobrazovani cvrlikani tak, aby vhodne zalamovala obsah vzheldem k velikosti okna aplikace
 - co takhle deploynout projekt jako applet s tim, ze lokalni instalace by probihala stylem drag&drop diky Java 6 pluginu?
-- chybi nam widget na zobrazovani jednotlivych tweetu
