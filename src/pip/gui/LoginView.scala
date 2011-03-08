@@ -1,6 +1,7 @@
 package pip.gui
 
 import java.net._
+import javax.swing.ImageIcon
 import scala.swing._
 
 object LoginView extends SimpleSwingApplication {
@@ -21,7 +22,7 @@ object LoginView extends SimpleSwingApplication {
 	visible = false
      }
      iconImage = Swing.Icon(this.getClass.getResource(
-                 ".."+ fileSeparator +".."+ fileSeparator +"res"+ fileSeparator +"zpevacek_icon.jpg")).getImage
+                ".."+ fileSeparator +".."+ fileSeparator +"res"+ fileSeparator +                "zpevacek_icon.jpg")).getImage
    }
  }
 }
