@@ -1,4 +1,6 @@
 package pip.gui
+
+import java.net._
 import scala.swing._
 
 object LoginView extends SimpleSwingApplication {
@@ -9,12 +11,16 @@ object LoginView extends SimpleSwingApplication {
       contents += new Button {
         action = Action("click") {
           Dialog.showInput(parent,
-                 message = "Uzivatelske jmeno",
-                 title = "Prihlaseni",
+                 message = "Enter your PIN, please",
+                 title = "Login",
                  messageType = Dialog.Message.Plain,
                  initial = "")
         }
-      }
+	doClick
+	visible = false
+     }
+     iconImage = Swing.Icon(this.getClass.getResource(
+                                     "..\\..\\res\\zpevacek_icon.jpg")).getImage
    }
  }
 }
