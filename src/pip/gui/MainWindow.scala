@@ -2,6 +2,8 @@ package pip.gui
 
 import pip.core.{Loc, Tools, Auth, PipCore}
 import swing._
+import java.io.File
+import javax.swing.ImageIcon
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,15 +14,18 @@ import swing._
  */
 
 object MainWindow extends SimpleSwingApplication {
+
+  import File.separator
+
   /**
    * Cast cvicneho nacteni dat
    */
   val tw = Auth.authorizedTwitterInstance(Auth.loadAccessToken("myauth"))
   val core = new PipCore(tw)
 
-  println("Je Twitter.com dostupny? " + {
-    if (Tools.isConnectionAvailable) "ano" else "ne"
-  })
+  //  println("Je Twitter.com dostupny? " + {
+  //    if (Tools.isConnectionAvailable) "ano" else "ne"
+  //  })
 
   Loc.load("czech.loc")
 
@@ -30,26 +35,22 @@ object MainWindow extends SimpleSwingApplication {
 
   def top = new MainFrame {
     val parent = new TextField(10)
-    val fileSeparator = System.getProperty("file.separator")
+
+    val pin = Dialog.showInput(
+      parent,
+      message = "Enter your PIN, please",
+      title = "Login",
+      messageType = Dialog.Message.Plain,
+      initial = ""
+    )
 
     contents = new BoxPanel(Orientation.Vertical) {
       contents ++= core.homeTimelineFutures map {
         tweet =>
           new TweetView(tweet())
       }
-      contents += new Button {
-        action = Action("Click") {
-	  Dialog.showInput(parent,
-	         message = "Enter your PIN, please",
-		 title = "Login",
-		 messageType = Dialog.Message.Plain,
-		 initial = "")
-        }
-	doClick
-	visible = false
-      }
-      iconImage = Swing.Icon(this.getClass.getResource(
-      ".."+ fileSeparator +".."+ fileSeparator +"res"+ fileSeparator +"zpevacek_icon.jpg")).getImage
     }
+
+    iconImage = (new ImageIcon("res" + separator + "zpevacek_icon.jpg")).getImage
   }
 }
