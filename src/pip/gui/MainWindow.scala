@@ -38,8 +38,8 @@ object MainWindow extends SimpleSwingApplication {
 
     val pin = Dialog.showInput(
       parent,
-      message = "Enter your PIN, please",
-      title = "Login",
+      message = Loc("Enter your PIN, please"),
+      title = Loc("Login"),
       messageType = Dialog.Message.Plain,
       initial = ""
     )

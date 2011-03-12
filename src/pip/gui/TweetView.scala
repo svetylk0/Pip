@@ -16,40 +16,47 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   val nameLabel = new Label {
     text = tweet.name
   }
-  val textLabel = new Label {
-    text = tweet.text
+  val tweetText = new TextArea(tweet.text, 3, 20) {
+    editable = false
+    lineWrap = true
+    wordWrap = true
   }
 
   val constraints = new Constraints
   constraints.anchor = GridBagPanel.Anchor.LineStart
   constraints.fill = GridBagPanel.Fill.Horizontal
+  constraints.gridheight = 2
+  constraints.weightx = .5
   constraints.gridx = 0
   constraints.gridy = 0
-  constraints.insets = new Insets(20, 20, 20, 20)
+  constraints.insets = new Insets(5, 10, 0, 0)
   add(iconLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
+  constraints.gridheight = 1
   constraints.gridx = 1
   constraints.gridy = 0
-  constraints.insets = new Insets(5, 3, 5, 5)
-  add(userLabel, constraints)
-
-  constraints.fill = GridBagPanel.Fill.Horizontal
-  constraints.gridx = 2
-  constraints.gridy = 0
-  constraints.insets = new Insets(5, 5, 5, 3)
+  constraints.insets = new Insets(0, 3, 5, 0)
   add(nameLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
+  constraints.gridheight = 1
+  constraints.gridx = 2
+  constraints.gridy = 0
+  constraints.insets = new Insets(0, 5, 5, 0)
+  add(userLabel, constraints)
+
+  constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridwidth = 2
+  constraints.gridheight = 1
   constraints.gridx = 1
   constraints.gridy = 1
-  constraints.insets = new Insets(0, 5, 5, 5)
-  add(textLabel, constraints)
+  constraints.insets = new Insets(0, 5, 5, 0)
+  add(tweetText, constraints)
 
   border = Swing.EmptyBorder(10, 10, 10, 10)
 
-  override def paintComponent(g: Graphics2D) {
+  /*override def paintComponent(g: Graphics2D) {
     val gradientHeight = size.getHeight.toInt
     val gradientWidth = size.getWidth.toInt
     val gradient = new LinearGradientPaint(
@@ -66,5 +73,5 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     g.fillRect(0, 0, gradientWidth, gradientHeight)
     g.setPaint(paint)
     //super.paintComponent(g)
-  }
+  }*/
 }
