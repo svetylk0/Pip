@@ -1,6 +1,7 @@
 package pip.core
 
 import java.net.URL
+import java.io.File
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,6 +12,9 @@ import java.net.URL
  */
 
 object Tools {
+
+  import Globals._
+
   def isConnectionAvailable = {
     try {
       (new URL("http://www.twitter.com/")).openConnection.connect
@@ -21,9 +25,13 @@ object Tools {
   }
 
   def waitUntil(cond: => Boolean, timeout: Long = 100l) {
-    while(cond) {
+    while (cond) {
       Thread.sleep(timeout)
     }
   }
+
+  def languagesList = (new File(localizationDir)).list filter {
+    _.endsWith(".loc")
+  } sorted
 
 }

@@ -1,6 +1,7 @@
 package pip.core
 
 import java.io.File
+import swing.Label
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,8 +12,11 @@ import java.io.File
  */
 
 object Globals {
+
+  val configFile = "config.ini"
   val defaultTweetCount = 20
   val encoding = "UTF-8"
 
+  val backgroundColor = (new Label).background
   val localizationDir = "loc"
 }
