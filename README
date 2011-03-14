@@ -3,5 +3,9 @@ Pip
 =====
 
 TODO:
+- upravit vzhled pozadi u text area
+- zjistit vztahy mezi velikosti fontu, velikosti text area a velikosti widgetu na zaklade velikosti hlavniho okna aplikace
+- obalit url adresy do <a> tagu
+- zajistit stejnou funkcionalitu tagu @, # jako na twitter.com
 - upravit komponentu pro zobrazovani cvrlikani tak, aby vhodne zalamovala obsah vzheldem k velikosti okna aplikace
 - co takhle deploynout projekt jako applet s tim, ze lokalni instalace by probihala stylem drag&drop diky Java 6 pluginu?
