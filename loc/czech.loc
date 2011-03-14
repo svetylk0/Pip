@@ -1,17 +1,20 @@
 #Lokalizační soubor pro Český jazyk
-welcome=Vítejte
-ok=Ok
-close=Zavřít
-send=Odeslat
-newTweet=Nový tweet
-shortenURL=Zkrátit URL
-enterPIN=Vložte, prosím, svůj PIN.
-login=Přihlášení
-language=Jazyk
-sound=Zvuk
-preferences=Nastavení
 apply=Použít
-save=Uložit
-tweets=Cvrlikání
+close=Zavřít
+enterPIN=Vložte, prosím, svůj PIN.
+home=Domů
+language=Jazyk
+login=Přihlášení
 mentions=Zmínky
-
+messages=Zprávy
+newTweet=Nový tweet
+ok=Ok
+preferences=Nastavení
+profile=Profil
+save=Uložit
+send=Odeslat
+shortenURL=Zkrátit URL
+sound=Zvuk
+tweets=Cvrlikání
+welcome=Vítejte
+whoToFollow=Koho následovat?
