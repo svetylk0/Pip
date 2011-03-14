@@ -1,5 +1,6 @@
 package pip.gui
 
+import pip.core.Loc
 import scala.swing._
 
 object Toolbar extends BoxPanel(Orientation.Horizontal) {
