@@ -1,4 +1,4 @@
-#Lokalizační soubor pro Český jazyk
+﻿#Lokalizační soubor pro Český jazyk
 apply=Použít
 close=Zavřít
 enterPIN=Vložte, prosím, svůj PIN.
@@ -9,6 +9,7 @@ mentions=Zmínky
 messages=Zprávy
 newTweet=Nový tweet
 ok=Ok
+pip=Zpěváček
 preferences=Nastavení
 profile=Profil
 save=Uložit
