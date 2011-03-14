@@ -38,18 +38,24 @@ object MainWindow extends SimpleSwingApplication {
 
     val pin = Dialog.showInput(
       parent,
-      message = Loc("Enter your PIN, please"),
+      message = Loc("enterPIN"),
       title = Loc("Login"),
       messageType = Dialog.Message.Plain,
       initial = ""
     )
 
-    contents = new BoxPanel(Orientation.Vertical) {
+    val tweetPanel = new BoxPanel(Orientation.Vertical) {
       contents ++= core.homeTimelineFutures map {
-        tweet =>
-          new TweetView(tweet())
+        tweet => new TweetView(tweet())
       }
     }
+    val mentionsPanel = new TextArea //docasna nahrazka
+    val tabs = new TabbedPane {
+      pages += new TabbedPane.Page(Loc("tweets"), tweetPanel)
+      pages += new TabbedPane.Page(Loc("mentions"), mentionsPanel)
+    }
+    val scrollViewport = new ScrollPane(tabs)
+    contents = scrollViewport
 
     iconImage = (new ImageIcon("res" + separator + "zpevacek_icon.jpg")).getImage
   }
