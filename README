@@ -3,6 +3,10 @@ Pip
 =====
 
 TODO:
+- pridat pole a tlacitko pro novy tweet
+- udelat klavesove zkratky pro pohyb mezi:
+a) strankami s tweety (jenom sipkama)
+b) jednotlivymy taby (alt+sipka)
 - upravit vzhled pozadi u text area
 - zjistit vztahy mezi velikosti fontu, velikosti text area a velikosti widgetu na zaklade velikosti hlavniho okna aplikace
 - obalit url adresy do <a> tagu
