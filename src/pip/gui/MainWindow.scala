@@ -64,13 +64,17 @@ object MainWindow extends SimpleSwingApplication {
       pages += new TabbedPane.Page(Loc("tweets"), tweetPanel)
       pages += new TabbedPane.Page(Loc("mentions"), mentionsPanel)
     }
-    val scrollViewport = new ScrollPane(tabs)
+    val scrollViewport = new ScrollPane(tabs) {
+      horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
+    }
     val toolbar = Toolbar
     contents = new BoxPanel(Orientation.Vertical) {
       contents += scrollViewport
       contents += toolbar
     }
 
+    title = Loc("pip")
+    minimumSize = toolbar.maximumSize
     iconImage = (new ImageIcon("res" + separator + "zpevacek_icon.jpg")).getImage
   }
 }
