@@ -2,6 +2,7 @@ package pip.gui
 
 import pip.core.{Loc, Tools, Auth, PipCore}
 import swing._
+import scala.swing.event.Key._
 import java.io.File
 import javax.swing.ImageIcon
 
@@ -61,11 +62,15 @@ object MainWindow extends SimpleSwingApplication {
     }
 
     val tabs = new TabbedPane {
-      pages += new TabbedPane.Page(Loc("tweets"), tweetPanel)
-      pages += new TabbedPane.Page(Loc("mentions"), mentionsPanel)
+      pages += new TabbedPane.Page(Loc("tweets"), tweetPanel) {
+        mnemonic = Key1.##
+      }
+      pages += new TabbedPane.Page(Loc("mentions"), mentionsPanel) {
+        mnemonic = Key2.##
+      }
     }
     val scrollViewport = new ScrollPane(tabs) {
-      horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
+      //horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
     }
     val toolbar = Toolbar
     contents = new BoxPanel(Orientation.Vertical) {
@@ -74,7 +79,7 @@ object MainWindow extends SimpleSwingApplication {
     }
 
     title = Loc("pip")
-    minimumSize = toolbar.maximumSize
+    minimumSize = toolbar.size // + scrollViewport.verticalScrollBar.size
     iconImage = (new ImageIcon("res" + separator + "zpevacek_icon.jpg")).getImage
   }
 }
