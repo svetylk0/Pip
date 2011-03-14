@@ -55,7 +55,11 @@ object MainWindow extends SimpleSwingApplication {
       pages += new TabbedPane.Page(Loc("mentions"), mentionsPanel)
     }
     val scrollViewport = new ScrollPane(tabs)
-    contents = scrollViewport
+    val toolbar = Toolbar
+    contents = new BoxPanel(Orientation.Vertical) {
+      contents += scrollViewport
+      contents += toolbar
+    }
 
     iconImage = (new ImageIcon("res" + separator + "zpevacek_icon.jpg")).getImage
   }
