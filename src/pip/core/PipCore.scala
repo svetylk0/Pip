@@ -19,6 +19,14 @@ class PipCore(tw: Twitter) {
   private def homeTimelinePage(pageNum: Int, tweetCount: Int = defaultTweetCount) =
     tw.getHomeTimeline(new Paging(pageNum, tweetCount)).toList
 
+  def mentions = tw.getMentions.toList map Tweet
+
+  def mentionsFutures = tw.getMentions.toList map {
+    status => future {
+      Tweet(status)
+    }
+  }
+
   def homeTimeline: List[Tweet] = homeTimeline(defaultTweetCount)
 
   def homeTimeline(tweetCount: Int) = homeTimelinePage(1, tweetCount) map Tweet
@@ -51,4 +59,6 @@ class PipCore(tw: Twitter) {
   def directMessages = tw.getDirectMessages.toList
 
   def trends = tw.getTrends.getTrends.toList
+
+
 }

@@ -45,11 +45,21 @@ object MainWindow extends SimpleSwingApplication {
     )
 
     val tweetPanel = new BoxPanel(Orientation.Vertical) {
-      contents ++= core.homeTimelineFutures map {
+      //docasne budeme nacitat jen 5 tweetu, at vidime jak to bude vypadat
+      //pak se to da pryc :-)
+      contents ++= core.homeTimelineFutures.take(5) map {
         tweet => new TweetView(tweet())
       }
     }
-    val mentionsPanel = new TextArea //docasna nahrazka
+
+    val mentionsPanel = new BoxPanel(Orientation.Vertical) {
+      //docasne budeme nacitat jen 5 tweetu, at vidime jak to bude vypadat
+      //pak se to da pryc :-)
+      contents ++= core.mentionsFutures.take(5) map {
+        tweet => new TweetView(tweet())
+      }
+    }
+
     val tabs = new TabbedPane {
       pages += new TabbedPane.Page(Loc("tweets"), tweetPanel)
       pages += new TabbedPane.Page(Loc("mentions"), mentionsPanel)
