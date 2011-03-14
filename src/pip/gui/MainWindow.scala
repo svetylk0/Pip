@@ -44,12 +44,18 @@ object MainWindow extends SimpleSwingApplication {
       initial = ""
     )
 
-    contents = new BoxPanel(Orientation.Vertical) {
+    val tweetPanel = new BoxPanel(Orientation.Vertical) {
       contents ++= core.homeTimelineFutures map {
-        tweet =>
-          new TweetView(tweet())
+        tweet => new TweetView(tweet())
       }
     }
+    val mentionsPanel = new TextArea //docasna nahrazka
+    val tabs = new TabbedPane {
+      pages += new TabbedPane.Page(Loc("Tweets"), tweetPanel)
+      pages += new TabbedPane.Page(Loc("Mentions"), mentionsPanel)
+    }
+    val scrollViewport = new ScrollPane(tabs)
+    contents = scrollViewport
 
     iconImage = (new ImageIcon("res" + separator + "zpevacek_icon.jpg")).getImage
   }
