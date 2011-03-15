@@ -2,6 +2,12 @@
 Pip
 =====
 
+NAVRHY:
+-vetsi, roztazene obdelnikove taby
+-"sachovnicove" pozadi pro tweety, anebo nejaka oddelovaci tenka cara
+-nejaky jednotny font? muzeme i nacitat ze souboru
+-male "tlacitka": retweet, reply, favorite pro kazdy tweet
+
 TODO:
 - pridat pole a tlacitko pro novy tweet
 - udelat klavesove zkratky pro pohyb mezi:
