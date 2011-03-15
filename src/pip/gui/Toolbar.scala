@@ -8,7 +8,6 @@ object Toolbar extends BoxPanel(Orientation.Horizontal) {
   val addTweet = new Button("<html><b>+</b></html>") {
     tooltip = Loc("newTweet")
   }
-  contents += new Button(Loc("home"))
   contents += new Button(Loc("profile"))
   contents += new Button(Loc("messages"))
   contents += new Button(Loc("whoToFollow"))
