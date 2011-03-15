@@ -85,6 +85,6 @@ object MainWindow extends SimpleSwingApplication {
 
     title = Loc("pip")
     minimumSize = toolbar.size // + scrollViewport.verticalScrollBar.size
-    iconImage = (new ImageIcon("res" + separator + "zpevacek_icon.jpg")).getImage
+    iconImage = (new ImageIcon("res"+ separator +"zpevacek_icon.jpg")).getImage
   }
 }
