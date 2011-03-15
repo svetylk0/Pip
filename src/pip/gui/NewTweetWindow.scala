@@ -2,9 +2,7 @@ package pip.gui
 
 import swing._
 import event._
-import java.io.File
 import javax.swing.BorderFactory
-import javax.swing.ImageIcon
 import javax.swing.border.EmptyBorder
 import java.awt.{Font, Color}
 import pip.core.{URLShortener, Auth, PipCore, Loc}
@@ -20,14 +18,12 @@ import pip.core.{URLShortener, Auth, PipCore, Loc}
 class NewTweetWindow extends Dialog with URLShortener {
 
   import Colors._
-  import File.separator
 
   val tweetSize = 140
   val tw = Auth.authorizedTwitterInstance(Auth.loadAccessToken("myauth"))
   val pip = new PipCore(tw)
 
   title = Loc("newTweet")
-  //iconImage = (new ImageIcon("res"+ separator +"zpevacek_icon.jpg")).getImage
   minimumSize = new Dimension(400, 200)
   resizable = false
   visible = true
