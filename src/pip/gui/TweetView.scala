@@ -1,8 +1,9 @@
 package pip.gui
 
-import pip.core.Tweet
-import java.awt.{Graphics2D, LinearGradientPaint, Color, Insets}
+import pip.core.{Loc, Tweet}
+import java.awt.{Cursor, Graphics2D, LinearGradientPaint, Color, Insets}
 import swing._
+import scala.swing.event._
 
 class TweetView(tweet: Tweet) extends GridBagPanel {
 
@@ -18,7 +19,31 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   val tweetText = new TextArea(tweet.text, 3, 20) {
     editable = false
     lineWrap = true
+    opaque = false
     wordWrap = true
+  }
+
+  val hand = new Cursor(Cursor.HAND_CURSOR)
+
+  val favoriteLabel = new Label {
+    cursor = hand
+    foreground = Color.blue
+    text = Loc("favorite")
+    visible = false
+  }
+
+  val retweetLabel = new Label {
+    cursor = hand
+    foreground = Color.blue
+    text = Loc("retweet")
+    visible = false
+  }
+
+  val replyLabel = new Label {
+    cursor = hand
+    foreground = Color.blue
+    text = Loc("reply")
+    visible = false
   }
 
   val constraints = new Constraints
@@ -32,6 +57,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   add(iconLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
+  constraints.gridwidth = 1 
   constraints.gridheight = 1
   constraints.gridx = 1
   constraints.gridy = 0
@@ -39,6 +65,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   add(nameLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
+  constraints.gridwidth = 1
   constraints.gridheight = 1
   constraints.gridx = 2
   constraints.gridy = 0
@@ -46,7 +73,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   add(userLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
-  constraints.gridwidth = 2
+  constraints.gridwidth = 4
   constraints.gridheight = 1
   constraints.gridx = 1
   constraints.gridy = 1
@@ -54,13 +81,53 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   add(tweetText, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
-  constraints.gridwidth = 3
+  constraints.gridwidth = 1
+  constraints.gridheight = 1
+  constraints.gridx = 1
+  constraints.gridy = 2
+  constraints.insets = new Insets(0, 0, 0, 0)
+  add(favoriteLabel, constraints)
+
+  constraints.fill = GridBagPanel.Fill.Horizontal
+  constraints.gridwidth = 1
+  constraints.gridheight = 1
+  constraints.gridx = 2
+  constraints.gridy = 2
+  constraints.insets = new Insets(0, 0, 0, 0)
+  add(retweetLabel, constraints)
+ 
+  constraints.fill = GridBagPanel.Fill.Horizontal
+  constraints.gridwidth = 1
+  constraints.gridheight = 1
+  constraints.gridx = 3
+  constraints.gridy = 2
+  constraints.insets = new Insets(0, 0, 0, 0)
+  add(replyLabel, constraints)
+
+  constraints.fill = GridBagPanel.Fill.Horizontal
+  constraints.gridwidth = 4
   constraints.gridheight = 1
   constraints.gridx = 0
-  constraints.gridy = 2
+  constraints.gridy = 3
+  constraints.insets = new Insets(0, 0, 0, 0)
   add(new Separator, constraints)
 
   border = Swing.EmptyBorder(10, 10, 10, 10)
+  background = Color.white
+
+  listenTo(mouse.moves, `tweetText`)
+  reactions += {
+    case e: MouseEntered => 
+      background = Color.gray
+      favoriteLabel.visible = true
+      retweetLabel.visible = true
+      replyLabel.visible = true
+    case e: MouseExited => 
+      background = Color.white
+      favoriteLabel.visible = false
+      retweetLabel.visible = false
+      replyLabel.visible = false
+  }
 
   /*override def paintComponent(g: Graphics2D) {
     val gradientHeight = size.getHeight.toInt
