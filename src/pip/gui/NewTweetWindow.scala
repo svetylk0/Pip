@@ -2,7 +2,9 @@ package pip.gui
 
 import swing._
 import event._
+import java.io.File
 import javax.swing.BorderFactory
+import javax.swing.ImageIcon
 import javax.swing.border.EmptyBorder
 import java.awt.{Font, Color}
 import pip.core.{URLShortener, Auth, PipCore, Loc}
@@ -15,14 +17,20 @@ import pip.core.{URLShortener, Auth, PipCore, Loc}
  * To change this template use File | Settings | File Templates.
  */
 
-class NewTweetWindow(pip: PipCore) extends MainFrame with URLShortener {
+class NewTweetWindow extends Dialog with URLShortener {
 
   import Colors._
+  import File.separator
 
   val tweetSize = 140
+  val tw = Auth.authorizedTwitterInstance(Auth.loadAccessToken("myauth"))
+  val pip = new PipCore(tw)
 
   title = Loc("newTweet")
+  //iconImage = (new ImageIcon("res"+ separator +"zpevacek_icon.jpg")).getImage
   minimumSize = new Dimension(400, 200)
+  resizable = false
+  visible = true
 
   object CloseButton extends Button {
     text = Loc("close")
@@ -97,9 +105,9 @@ class NewTweetWindow(pip: PipCore) extends MainFrame with URLShortener {
 }
 
 
-//testovani
+/*testovani
 object NewTweetWindow extends Application {
   val tw = Auth.authorizedTwitterInstance(Auth.loadAccessToken("myauth"))
   Loc.load("czech.loc")
   (new NewTweetWindow(new PipCore(tw))).visible = true
-}
+}*/
