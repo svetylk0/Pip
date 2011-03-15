@@ -53,6 +53,13 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.insets = new Insets(0, 0, 0, 0)
   add(tweetText, constraints)
 
+  constraints.fill = GridBagPanel.Fill.Horizontal
+  constraints.gridwidth = 3
+  constraints.gridheight = 1
+  constraints.gridx = 0
+  constraints.gridy = 2
+  add(new Separator, constraints)
+
   border = Swing.EmptyBorder(10, 10, 10, 10)
 
   /*override def paintComponent(g: Graphics2D) {
