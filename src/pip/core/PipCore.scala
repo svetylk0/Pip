@@ -19,9 +19,18 @@ class PipCore(tw: Twitter) {
   private def homeTimelinePage(pageNum: Int, tweetCount: Int = defaultTweetCount) =
     tw.getHomeTimeline(new Paging(pageNum, tweetCount)).toList
 
-  def mentions = tw.getMentions.toList map Tweet
+  private def mentionsPage(pageNum: Int, tweetCount: Int = defaultTweetCount) =
+    tw.getMentions(new Paging(pageNum, tweetCount)).toList
 
-  def mentionsFutures = tw.getMentions.toList map {
+
+
+  def mentions: List[Tweet] = mentions(defaultTweetCount)
+
+  def mentions(tweetCount: Int, page: Int = 1) = mentionsPage(page, tweetCount) map Tweet
+
+  def mentionsFutures: List[Future[Tweet]] = mentionsFutures(defaultTweetCount)
+
+  def mentionsFutures(tweetCount: Int, page: Int = 1) = mentionsPage(page, tweetCount) map {
     status => future {
       Tweet(status)
     }
@@ -29,11 +38,11 @@ class PipCore(tw: Twitter) {
 
   def homeTimeline: List[Tweet] = homeTimeline(defaultTweetCount)
 
-  def homeTimeline(tweetCount: Int) = homeTimelinePage(1, tweetCount) map Tweet
+  def homeTimeline(tweetCount: Int, page: Int = 1) = homeTimelinePage(page, tweetCount) map Tweet
 
   def homeTimelineFutures: List[Future[Tweet]] = homeTimelineFutures(defaultTweetCount)
 
-  def homeTimelineFutures(tweetCount: Int) = homeTimelinePage(1, tweetCount) map {
+  def homeTimelineFutures(tweetCount: Int, page: Int = 1) = homeTimelinePage(page, tweetCount) map {
     status => future {
       Tweet(status)
     }

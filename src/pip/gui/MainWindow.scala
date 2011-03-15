@@ -1,10 +1,10 @@
 package pip.gui
 
-import pip.core.{Loc, Tools, Auth, PipCore}
 import swing._
 import scala.swing.event.Key._
 import java.io.File
 import javax.swing.ImageIcon
+import pip.core._
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,6 +17,7 @@ import javax.swing.ImageIcon
 object MainWindow extends SimpleSwingApplication {
 
   import File.separator
+  import Globals._
 
   /**
    * Cast cvicneho nacteni dat
@@ -29,7 +30,8 @@ object MainWindow extends SimpleSwingApplication {
   //  })
 
   Loc.load("czech.loc")
-
+  Config.loadConfig
+  Globals.setConfigVariables
   /**
    * Konec cvicne casti
    */
@@ -45,10 +47,13 @@ object MainWindow extends SimpleSwingApplication {
       initial = ""
     )
 
+    val tweetPager = new TweetPager(tweetsPerPage,core.homeTimelineFutures)
+    val mentionsPager = new TweetPager(tweetsPerPage,core.mentionsFutures)
+
     val tweetPanel = new BoxPanel(Orientation.Vertical) {
       //docasne budeme nacitat jen 5 tweetu, at vidime jak to bude vypadat
       //pak se to da pryc :-)
-      contents ++= core.homeTimelineFutures.take(5) map {
+      contents ++= tweetPager.firstPage map {
         tweet => new TweetView(tweet())
       }
     }
@@ -56,7 +61,7 @@ object MainWindow extends SimpleSwingApplication {
     val mentionsPanel = new BoxPanel(Orientation.Vertical) {
       //docasne budeme nacitat jen 5 tweetu, at vidime jak to bude vypadat
       //pak se to da pryc :-)
-      contents ++= core.mentionsFutures.take(5) map {
+      contents ++= mentionsPager.firstPage map {
         tweet => new TweetView(tweet())
       }
     }

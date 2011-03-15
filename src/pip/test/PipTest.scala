@@ -11,31 +11,48 @@ import pip.core._
  */
 
 object PipTest extends Application {
-  println("Otevri tuto URL v prohlizeci:")
-  println(Auth.authURL)
-  println("a zadej pin:")
-  val pin = readLine
+//  println("Otevri tuto URL v prohlizeci:")
+//  println(Auth.authURL)
+//  println("a zadej pin:")
+//  val pin = readLine
 
-  val (t,s) = Auth.tokenStringAndSecret(pin)
-  val tw = Auth.authorizedTwitterInstance(t,s)
+//  val (t,s) = Auth.tokenStringAndSecret(pin)
+//  val tw = Auth.authorizedTwitterInstance(t,s)
 
-  Auth.saveAccessToken(t,s,"myauth")
-  //val tw = Auth.authorizedTwitterInstance(Auth.loadAccessToken("myauth"))
+//  Auth.saveAccessToken(t,s,"myauth")
+  val tw = Auth.authorizedTwitterInstance(Auth.loadAccessToken("myauth"))
   val core = new PipCore(tw)
 
-  println("Je Twitter.com dostupny? " + {
-    if (Tools.isConnectionAvailable) "ano" else "ne"
-  })
+//  println("Je Twitter.com dostupny? " + {
+//    if (Tools.isConnectionAvailable) "ano" else "ne"
+//  })
 
   Loc.load("czech.loc")
   println("Test lokalizace: "+Loc("welcome"))
 
 
-  println("Home timeline:")
-  core.homeTimeline foreach {
+  println("Pager Test:")
+  val pager = new TweetPager(2,core.homeTimeline)
+
+  println("First page:")
+  pager.firstPage foreach {
     x => println(x.name+": "+x.text)
   }
 
+  println("Next page:")
+  pager.nextPage foreach {
+    x => println(x.name+": "+x.text)
+  }
+
+  println("Previous page:")
+  pager.previousPage foreach {
+    x => println(x.name+": "+x.text)
+  }
+
+  println("Previous page:")
+  pager.previousPage foreach {
+    x => println(x.name+": "+x.text)
+  }
 
 //  println("\nHome timeline (using futures):")
 //  core.homeTimelineFutures foreach {

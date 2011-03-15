@@ -12,11 +12,17 @@ import swing.Label
  */
 
 object Globals {
-
   val configFile = "config.ini"
   val defaultTweetCount = 20
   val encoding = "UTF-8"
 
   val backgroundColor = (new Label).background
   val localizationDir = "loc"
+
+  //promenne ze souboru config.ini
+  var tweetsPerPage = 5
+
+  def setConfigVariables {
+    tweetsPerPage = Config("tweetsPerPage").toInt
+  }
 }
