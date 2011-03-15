@@ -1,21 +1,24 @@
 #Lokalizační soubor pro Český jazyk
 apply=Použít
 close=Zavřít
-enterPIN=Vložte, prosím, svůj PIN.
+enterPIN=Vložte prosím svůj PIN.
+favorite=Oblíbený
 home=Domů
 language=Jazyk
 login=Přihlášení
 mentions=Zmínky
 messages=Zprávy
-newTweet=Nový cvrlik
+newTweet=Štěbetat
 ok=Ok
 pip=Zpěváček
 preferences=Nastavení
 profile=Profil
+reply=Odpoveďet
+retweet=Přeštěbetat
 save=Uložit
 send=Odeslat
 shortenURL=Zkrátit URL
 sound=Zvuk
-tweets=Cvrlikání
+tweets=Štěbetání
 welcome=Vítejte
 whoToFollow=Koho následovat?
