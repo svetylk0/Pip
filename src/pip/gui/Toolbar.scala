@@ -5,7 +5,9 @@ import scala.swing._
 import scala.swing.event._
 
 object Toolbar extends BoxPanel(Orientation.Horizontal) {
-  val addTweet = new Button("<html><b>+</b></html>")
+  val addTweet = new Button("<html><b>+</b></html>") {
+    tooltip = Loc("newTweet")
+  }
   contents += new Button(Loc("home"))
   contents += new Button(Loc("profile"))
   contents += new Button(Loc("messages"))
@@ -14,6 +16,6 @@ object Toolbar extends BoxPanel(Orientation.Horizontal) {
   listenTo(addTweet)
   val parent = new TextField(10)
   reactions += {
-    case ButtonClicked(addTweet) => new NewTweetWindow
+    case ButtonClicked(`addTweet`) => new NewTweetWindow
   }
 }
