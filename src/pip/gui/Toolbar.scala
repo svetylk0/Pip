@@ -2,10 +2,18 @@ package pip.gui
 
 import pip.core.Loc
 import scala.swing._
+import scala.swing.event._
 
 object Toolbar extends BoxPanel(Orientation.Horizontal) {
-      contents += new Button(Loc("home"))
-      contents += new Button(Loc("profile"))
-      contents += new Button(Loc("messages"))
-      contents += new Button(Loc("whoToFollow"))
+  val addTweet = new Button("<html><b>+</b></html>")
+  contents += new Button(Loc("home"))
+  contents += new Button(Loc("profile"))
+  contents += new Button(Loc("messages"))
+  contents += new Button(Loc("whoToFollow"))
+  contents += addTweet
+  listenTo(addTweet)
+  val parent = new TextField(10)
+  reactions += {
+    case ButtonClicked(addTweet) => new NewTweetWindow
+  }
 }
