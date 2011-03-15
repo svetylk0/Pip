@@ -6,7 +6,6 @@ import swing._
 
 class TweetView(tweet: Tweet) extends GridBagPanel {
 
-  //  title = "Tweet View"
   val iconLabel = new Label {
     icon = tweet.profileIcon
   }
@@ -25,25 +24,25 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   val constraints = new Constraints
   constraints.anchor = GridBagPanel.Anchor.LineStart
   constraints.fill = GridBagPanel.Fill.Horizontal
-  constraints.gridheight = 2
+  constraints.gridheight = 1 
   constraints.weightx = .5
   constraints.gridx = 0
-  constraints.gridy = 0
-  constraints.insets = new Insets(5, 10, 0, 0)
+  constraints.gridy = 1 
+  constraints.insets = new Insets(0, 0, 0, 5) //top, left, bottom, right
   add(iconLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridheight = 1
   constraints.gridx = 1
   constraints.gridy = 0
-  constraints.insets = new Insets(0, 3, 5, 0)
+  constraints.insets = new Insets(0, 0, 0, 0)
   add(nameLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridheight = 1
   constraints.gridx = 2
   constraints.gridy = 0
-  constraints.insets = new Insets(0, 5, 5, 0)
+  constraints.insets = new Insets(0, 0, 0, 0)
   add(userLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
@@ -51,7 +50,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.gridheight = 1
   constraints.gridx = 1
   constraints.gridy = 1
-  constraints.insets = new Insets(0, 5, 5, 0)
+  constraints.insets = new Insets(0, 0, 0, 0)
   add(tweetText, constraints)
 
   border = Swing.EmptyBorder(10, 10, 10, 10)
