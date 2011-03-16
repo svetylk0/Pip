@@ -4,7 +4,7 @@ import swing._
 import event._
 import scala.swing.event.Key._
 import java.io.File
-import javax.swing.ImageIcon
+import javax.swing.{ImageIcon, UIManager}
 import pip.core._
 
 /**
@@ -36,6 +36,8 @@ object MainWindow extends SimpleSwingApplication {
   /**
    * Konec cvicne casti
    */
+ 
+  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
 
   def top = new MainFrame {
     val parent = new TextField(10)
