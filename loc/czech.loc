@@ -1,4 +1,4 @@
-#Lokalizační soubor pro Český jazyk
+﻿#Lokalizační soubor pro Český jazyk
 apply=Použít
 close=Zavřít
 enterPIN=Vložte prosím svůj PIN.
@@ -13,7 +13,7 @@ ok=Ok
 pip=Zpěváček
 preferences=Nastavení
 profile=Profil
-reply=Odpoveďet
+reply=Odpověďet
 retweet=Přeštěbetat
 save=Uložit
 send=Odeslat
