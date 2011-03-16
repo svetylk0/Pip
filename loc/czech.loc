@@ -1,4 +1,4 @@
-﻿#Lokalizační soubor pro Český jazyk
+#Lokalizační soubor pro Český jazyk
 apply=Použít
 close=Zavřít
 enterPIN=Vložte prosím svůj PIN.
@@ -15,7 +15,7 @@ pin=PIN:
 pinMessage=Ve webovém prohlížeči otevřete tuto URL a zadejte PIN:
 preferences=Nastavení
 profile=Profil
-reply=Odpověďet
+reply=Odpovědět
 retweet=Přeštěbetat
 save=Uložit
 send=Odeslat
