@@ -37,7 +37,7 @@ object MainWindow extends SimpleSwingApplication {
    * Konec cvicne casti
    */
  
-  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
 
   def top = new MainFrame {
     val parent = new TextField(10)
