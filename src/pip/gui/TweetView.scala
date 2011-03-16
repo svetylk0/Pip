@@ -31,21 +31,18 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     cursor = hand
     foreground = Color.blue
     text = Loc("favorite")
-//    visible = false
   }
 
   val retweetLabel = new Label {
     cursor = hand
     foreground = Color.blue
     text = Loc("retweet")
-//    visible = false
   }
 
   val replyLabel = new Label {
     cursor = hand
     foreground = Color.blue
     text = Loc("reply")
-//    visible = false
   }
 
   val separator = new Separator
@@ -76,7 +73,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.insets = new Insets(0, 0, 0, 0)
   add(userLabel, constraints)
 
-  constraints.fill = GridBagPanel.Fill.Horizontal
+  constraints.fill = GridBagPanel.Fill.None
   constraints.gridwidth = 4
   constraints.gridheight = 1
   constraints.gridx = 1
@@ -116,7 +113,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.insets = new Insets(0, 0, 0, 0)
   add(separator, constraints)
 
-  border = Swing.EmptyBorder(10, 10, 10, 10)
+  //border = Swing.EmptyBorder(10, 10, 10, 10)
   background = Color.white
   val width = iconLabel.size.width + tweetText.size.width
   val height = userLabel.size.height + tweetText.size.height + 
@@ -127,14 +124,8 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   reactions += {
     case e: MouseEntered => 
       background = lightGray
-//      favoriteLabel.visible = true
-//      retweetLabel.visible = true
-//      replyLabel.visible = true
     case e: MouseExited => 
       background = white
-//      favoriteLabel.visible = false
-//      retweetLabel.visible = false
-//      replyLabel.visible = false
   }
 
   /*override def paintComponent(g: Graphics2D) {
