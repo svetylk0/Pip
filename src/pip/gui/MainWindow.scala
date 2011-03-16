@@ -73,7 +73,7 @@ object MainWindow extends SimpleSwingApplication {
     }
 
     title = Loc("pip")
-    minimumSize = Toolbar.size // + scrollViewport.verticalScrollBar.size
+    minimumSize = new Dimension(tabs.size.width + scrollViewport.verticalScrollBar.size.width, tabs.size.height)
     iconImage = (new ImageIcon("res"+ separator +"zpevacek_icon.jpg")).getImage
 
     listenTo(Toolbar.AddTweetButton)
