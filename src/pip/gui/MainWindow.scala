@@ -18,38 +18,27 @@ import pip.core._
 object MainWindow extends SimpleSwingApplication {
 
   import File.separator
+  import Tools._
   import Globals._
 
-  /**
-   * Cast cvicneho nacteni dat
-   */
-  val tw = Auth.authorizedTwitterInstance(Auth.loadAccessToken("myauth"))
+  //nejdrive nacist vse potrebne
+  Config.loadConfig()
+
+  Loc.load(Config("language"))
+
+  val tw = if (fileExists(authFile)) {
+    Auth.authorizedTwitterInstance(Auth.loadAccessToken(authFile))
+  } else {
+    val (t,s) = Auth.tokenStringAndSecret(new AuthDialog(Auth.authURL) getPin)
+    Auth.saveAccessToken(t,s,authFile)
+    Auth.authorizedTwitterInstance(t,s)
+  }
+
   val core = new PipCore(tw)
 
-  //  println("Je Twitter.com dostupny? " + {
-  //    if (Tools.isConnectionAvailable) "ano" else "ne"
-  //  })
-
-  Loc.load("czech.loc")
-  Config.loadConfig
-  Globals.setConfigVariables
-  /**
-   * Konec cvicne casti
-   */
- 
   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
 
   def top = new MainFrame {
-    val parent = new TextField(10)
-
-    val pin = Dialog.showInput(
-      parent,
-      message = Loc("enterPIN"),
-      title = Loc("Login"),
-      messageType = Dialog.Message.Plain,
-      initial = ""
-    )
-
     val tweetPager = new TweetPager(tweetsPerPage,core.homeTimelineFutures)
     val mentionsPager = new TweetPager(tweetsPerPage,core.mentionsFutures)
 
@@ -90,7 +79,7 @@ object MainWindow extends SimpleSwingApplication {
     listenTo(Toolbar.AddTweetButton)
 
     reactions += {
-      case ButtonClicked(Toolbar.AddTweetButton) => new NewTweetWindow(core)
+      case ButtonClicked(Toolbar.AddTweetButton) => new NewTweetWindow(core,this)
     }
 
   }

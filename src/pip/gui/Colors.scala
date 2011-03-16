@@ -15,4 +15,5 @@ object Colors {
   val lightGray = new Color(235,235,235)
   val white = new Color(255,255,255)
   val black = new Color(0,0,0)
+  val blue = new Color(50,50,255)
 }

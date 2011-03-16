@@ -16,9 +16,12 @@ object Config {
 
   val prop = new Properties
 
-  def loadConfig {
+  def loadConfig() {
     prop.clear
     prop.load(new InputStreamReader(new FileInputStream(configFile),encoding))
+
+    //nastavit nektere globalni promenne
+    Globals.setConfigVariables()
   }
 
   def saveConfig {

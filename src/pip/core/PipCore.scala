@@ -24,7 +24,7 @@ class PipCore(tw: Twitter) {
 
 
 
-  def mentions: List[Tweet] = mentions(defaultTweetCount)
+  def mentions(): List[Tweet] = mentions(defaultTweetCount)
 
   def mentions(tweetCount: Int, page: Int = 1) = mentionsPage(page, tweetCount) map Tweet
 
@@ -36,11 +36,11 @@ class PipCore(tw: Twitter) {
     }
   }
 
-  def homeTimeline: List[Tweet] = homeTimeline(defaultTweetCount)
+  def homeTimeline(): List[Tweet] = homeTimeline(defaultTweetCount)
 
   def homeTimeline(tweetCount: Int, page: Int = 1) = homeTimelinePage(page, tweetCount) map Tweet
 
-  def homeTimelineFutures: List[Future[Tweet]] = homeTimelineFutures(defaultTweetCount)
+  def homeTimelineFutures(): List[Future[Tweet]] = homeTimelineFutures(defaultTweetCount)
 
   def homeTimelineFutures(tweetCount: Int, page: Int = 1) = homeTimelinePage(page, tweetCount) map {
     status => future {
@@ -65,9 +65,9 @@ class PipCore(tw: Twitter) {
 
   def sendDirectMessage(id: Long, text: String) = tw.sendDirectMessage(id,text)
 
-  def directMessages = tw.getDirectMessages.toList
+  def directMessages() = tw.getDirectMessages.toList
 
-  def trends = tw.getTrends.getTrends.toList
+  def trends() = tw.getTrends.getTrends.toList
 
 
 }

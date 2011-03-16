@@ -15,7 +15,7 @@ import pip.core.{URLShortener, Auth, PipCore, Loc}
  * To change this template use File | Settings | File Templates.
  */
 
-class NewTweetWindow(pip: PipCore) extends MainFrame with URLShortener with DisposeOnClose {
+class NewTweetWindow(pip: PipCore, parent: UIElement) extends MainFrame with URLShortener with DisposeOnClose {
 
   import Colors._
 
@@ -91,6 +91,8 @@ class NewTweetWindow(pip: PipCore) extends MainFrame with URLShortener with Disp
       counter.update
     case KeyReleased(TweetText, _, _, _) => counter.update
   }
+
+  setLocationRelativeTo(parent)
 
   //zobrazit az je vse inicializovano
   visible = true

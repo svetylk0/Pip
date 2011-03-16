@@ -15,6 +15,8 @@ object Tools {
 
   import Globals._
 
+  def fileExists(file: String) = new File(file) exists
+
   def isConnectionAvailable = {
     try {
       (new URL("http://www.twitter.com/")).openConnection.connect

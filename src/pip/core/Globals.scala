@@ -12,6 +12,8 @@ import swing.Label
  */
 
 object Globals {
+  val authFile = "myauth"
+
   val configFile = "config.ini"
   val defaultTweetCount = 20
   val encoding = "UTF-8"
@@ -22,7 +24,7 @@ object Globals {
   //promenne ze souboru config.ini
   var tweetsPerPage = 5
 
-  def setConfigVariables {
+  def setConfigVariables() {
     tweetsPerPage = Config("tweetsPerPage").toInt
   }
 }
