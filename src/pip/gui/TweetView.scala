@@ -46,6 +46,8 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     visible = false
   }
 
+  val separator = new Separator
+
   val constraints = new Constraints
   constraints.anchor = GridBagPanel.Anchor.LineStart
   constraints.fill = GridBagPanel.Fill.Horizontal
@@ -110,10 +112,14 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.gridx = 0
   constraints.gridy = 3
   constraints.insets = new Insets(0, 0, 0, 0)
-  add(new Separator, constraints)
+  add(separator, constraints)
 
   border = Swing.EmptyBorder(10, 10, 10, 10)
   background = Color.white
+  val width = iconLabel.size.width + tweetText.size.width
+  val height = userLabel.size.height + tweetText.size.height + 
+               favoriteLabel.size.height + separator.size.height
+  minimumSize = new Dimension(width, height)
 
   listenTo(mouse.moves, `tweetText`)
   reactions += {
