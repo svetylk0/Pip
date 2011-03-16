@@ -1,6 +1,7 @@
 package pip.gui
 
 import swing._
+import event._
 import scala.swing.event.Key._
 import java.io.File
 import javax.swing.ImageIcon
@@ -51,16 +52,12 @@ object MainWindow extends SimpleSwingApplication {
     val mentionsPager = new TweetPager(tweetsPerPage,core.mentionsFutures)
 
     val tweetPanel = new BoxPanel(Orientation.Vertical) {
-      //docasne budeme nacitat jen 5 tweetu, at vidime jak to bude vypadat
-      //pak se to da pryc :-)
       contents ++= tweetPager.firstPage map {
         tweet => new TweetView(tweet())
       }
     }
 
     val mentionsPanel = new BoxPanel(Orientation.Vertical) {
-      //docasne budeme nacitat jen 5 tweetu, at vidime jak to bude vypadat
-      //pak se to da pryc :-)
       contents ++= mentionsPager.firstPage map {
         tweet => new TweetView(tweet())
       }
@@ -74,17 +71,25 @@ object MainWindow extends SimpleSwingApplication {
         mnemonic = Key2.##
       }
     }
+
     val scrollViewport = new ScrollPane(tabs) {
-      //horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
+//      horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
     }
-    val toolbar = Toolbar
+
     contents = new BoxPanel(Orientation.Vertical) {
       contents += scrollViewport
-      contents += toolbar
+      contents += Toolbar
     }
 
     title = Loc("pip")
-    minimumSize = toolbar.size // + scrollViewport.verticalScrollBar.size
+    minimumSize = Toolbar.size // + scrollViewport.verticalScrollBar.size
     iconImage = (new ImageIcon("res"+ separator +"zpevacek_icon.jpg")).getImage
+
+    listenTo(Toolbar.AddTweetButton)
+
+    reactions += {
+      case ButtonClicked(Toolbar.AddTweetButton) => new NewTweetWindow(core)
+    }
+
   }
 }

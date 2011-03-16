@@ -7,6 +7,8 @@ import scala.swing.event._
 
 class TweetView(tweet: Tweet) extends GridBagPanel {
 
+  import Colors._
+
   val iconLabel = new Label {
     icon = tweet.profileIcon
   }
@@ -29,21 +31,21 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     cursor = hand
     foreground = Color.blue
     text = Loc("favorite")
-    visible = false
+//    visible = false
   }
 
   val retweetLabel = new Label {
     cursor = hand
     foreground = Color.blue
     text = Loc("retweet")
-    visible = false
+//    visible = false
   }
 
   val replyLabel = new Label {
     cursor = hand
     foreground = Color.blue
     text = Loc("reply")
-    visible = false
+//    visible = false
   }
 
   val separator = new Separator
@@ -121,18 +123,18 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
                favoriteLabel.size.height + separator.size.height
   minimumSize = new Dimension(width, height)
 
-  listenTo(mouse.moves, `tweetText`)
+  listenTo(mouse.moves, tweetText.mouse.moves)
   reactions += {
     case e: MouseEntered => 
-      background = Color.gray
-      favoriteLabel.visible = true
-      retweetLabel.visible = true
-      replyLabel.visible = true
+      background = lightGray
+//      favoriteLabel.visible = true
+//      retweetLabel.visible = true
+//      replyLabel.visible = true
     case e: MouseExited => 
-      background = Color.white
-      favoriteLabel.visible = false
-      retweetLabel.visible = false
-      replyLabel.visible = false
+      background = white
+//      favoriteLabel.visible = false
+//      retweetLabel.visible = false
+//      replyLabel.visible = false
   }
 
   /*override def paintComponent(g: Graphics2D) {

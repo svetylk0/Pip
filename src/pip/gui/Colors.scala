@@ -11,5 +11,8 @@ import java.awt.Color
  */
 
 object Colors {
-  val DarkRed = new Color(92,0,2)
+  val darkRed = new Color(92,0,2)
+  val lightGray = new Color(235,235,235)
+  val white = new Color(255,255,255)
+  val black = new Color(0,0,0)
 }

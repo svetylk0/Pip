@@ -15,18 +15,15 @@ import pip.core.{URLShortener, Auth, PipCore, Loc}
  * To change this template use File | Settings | File Templates.
  */
 
-class NewTweetWindow extends Dialog with URLShortener {
+class NewTweetWindow(pip: PipCore) extends MainFrame with URLShortener with DisposeOnClose {
 
   import Colors._
 
   val tweetSize = 140
-  val tw = Auth.authorizedTwitterInstance(Auth.loadAccessToken("myauth"))
-  val pip = new PipCore(tw)
 
   title = Loc("newTweet")
   minimumSize = new Dimension(400, 200)
   resizable = false
-  visible = true
 
   object CloseButton extends Button {
     text = Loc("close")
@@ -46,7 +43,7 @@ class NewTweetWindow extends Dialog with URLShortener {
 
     def update {
       val num = TweetText.text.size
-      foreground = if (num <= tweetSize - 20) Color.black else DarkRed
+      foreground = if (num <= tweetSize - 20) black else darkRed
       text = (tweetSize - num).toString
 
       //enabloavni/disablovani tweet buttonu
@@ -82,10 +79,6 @@ class NewTweetWindow extends Dialog with URLShortener {
 
   }
 
-  override def closeOperation {
-    dispose
-  }
-
   listenTo(TweetText.keys, TweetButton, ShortenURLButton, CloseButton)
 
   reactions += {
@@ -98,6 +91,9 @@ class NewTweetWindow extends Dialog with URLShortener {
       counter.update
     case KeyReleased(TweetText, _, _, _) => counter.update
   }
+
+  //zobrazit az je vse inicializovano
+  visible = true
 }
 
 
