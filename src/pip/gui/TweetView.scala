@@ -19,11 +19,11 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   val nameLabel = new Label {
     text = tweet.name
   }
-  val tweetText = new TextArea(tweet.text, 3, 20) {
+  val tweetText = new TextArea(tweet.text, 3, 40) {
     editable = false
+    font = userLabel.font
     lineWrap = true
     opaque = false
-    //preferredSize = size
     wordWrap = true
   }
 
