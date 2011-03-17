@@ -33,8 +33,10 @@ object Globals {
   val replyHighlightIcon = loadIcon("reply_highlight.png")
   val retweetIcon = loadIcon("retweet.png")
   val retweetHighlightIcon = loadIcon("retweet_highlight.png")
+  val retweetHighlightIcon2 = loadIcon("retweet_highlight2.png")
   val favoriteIcon = loadIcon("favorite.png")
   val favoriteHighlightIcon = loadIcon("favorite_highlight.png")
+  val favoriteHighlightIcon2 = loadIcon("favorite_highlight2.png")
 
   def setConfigVariables() {
     tweetsPerPage = Config("tweetsPerPage").toInt

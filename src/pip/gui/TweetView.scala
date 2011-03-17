@@ -29,25 +29,28 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
 
   val hand = new Cursor(Cursor.HAND_CURSOR)
 
-  object FavoriteLabel extends Label {
+  object FavoriteLabel extends Label with LabelIconHighlighting {
+    val defaultIcon = if (tweet.isFavorited) favoriteHighlightIcon2 else favoriteIcon
+    val highLightIcon = if (tweet.isFavorited) favoriteIcon else favoriteHighlightIcon
+
     cursor = hand
-    foreground = Color.blue
-//    text = Loc("favorite")
-    icon = favoriteIcon
+    icon = defaultIcon
   }
 
-  object RetweetLabel extends Label {
+  object RetweetLabel extends Label with LabelIconHighlighting {
+    val defaultIcon = if (tweet.isRetweetedByMe) retweetHighlightIcon2 else retweetIcon
+    val highLightIcon = if (tweet.isRetweetedByMe) retweetIcon else retweetHighlightIcon
+
     cursor = hand
-    foreground = Color.blue
-//    text = Loc("retweet")
-    icon = retweetIcon
+    icon = defaultIcon
   }
 
-  object ReplyLabel extends Label {
+  object ReplyLabel extends Label with LabelIconHighlighting {
+    val defaultIcon = replyIcon
+    val highLightIcon = replyHighlightIcon
+
     cursor = hand
-    foreground = Color.blue
-//    text = Loc("reply")
-    icon = replyIcon
+    icon = defaultIcon
   }
 
   val separator = new Separator
@@ -132,23 +135,25 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     case e: MouseEntered =>
       //osetrit higlight labelu
       e.source match {
-        case ReplyLabel => ReplyLabel.icon = replyHighlightIcon
-        case RetweetLabel => RetweetLabel.icon = retweetHighlightIcon
-        case FavoriteLabel => FavoriteLabel.icon = favoriteHighlightIcon
+        case ReplyLabel => ReplyLabel.highLight()
+        case RetweetLabel => RetweetLabel.highLight()
+        case FavoriteLabel => FavoriteLabel.highLight()
         case _ =>
       }
 
-      background = lightGray
+      background = tweetHighlightBlue
     case e: MouseExited => 
       //osetrit higlight labelu
       e.source match {
-        case ReplyLabel => ReplyLabel.icon = replyIcon
-        case RetweetLabel => RetweetLabel.icon = retweetIcon
-        case FavoriteLabel => FavoriteLabel.icon = favoriteIcon
+        case ReplyLabel => ReplyLabel.deHighlight()
+        case RetweetLabel => RetweetLabel.deHighlight()
+        case FavoriteLabel => FavoriteLabel.deHighlight()
         case _ =>
       }
 
       background = white
+      //resi chybne vykreslovani reply ikonky po najeti na jiny tweet
+      MainWindow.mainFrame.repaint
   }
 
   /*override def paintComponent(g: Graphics2D) {
