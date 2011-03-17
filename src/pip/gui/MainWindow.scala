@@ -20,6 +20,7 @@ object MainWindow extends SimpleSwingApplication {
   import File.separator
   import Tools._
   import Globals._
+  import Implicits.convertFutureTweetToTweetView
 
   //nejdrive nacist vse potrebne
   Config.loadConfig()
@@ -38,20 +39,16 @@ object MainWindow extends SimpleSwingApplication {
 
   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
 
-  def top = new MainFrame {
+  val mainFrame = new MainFrame {
     val tweetPager = new TweetPager(tweetsPerPage,core.homeTimelineFutures)
     val mentionsPager = new TweetPager(tweetsPerPage,core.mentionsFutures)
 
     val tweetPanel = new BoxPanel(Orientation.Vertical) {
-      contents ++= tweetPager.firstPage map {
-        tweet => new TweetView(tweet())
-      }
+      contents ++= tweetPager.firstPage
     }
 
     val mentionsPanel = new BoxPanel(Orientation.Vertical) {
-      contents ++= mentionsPager.firstPage map {
-        tweet => new TweetView(tweet())
-      }
+      contents ++= mentionsPager.firstPage
     }
 
     val tabs = new TabbedPane {
@@ -76,7 +73,7 @@ object MainWindow extends SimpleSwingApplication {
     title = Loc("pip")
     minimumSize = new Dimension(tabs.size.width + scrollViewport.verticalScrollBar.size.width, tabs.size.height)
     iconImage = (new ImageIcon("res"+ separator +"zpevacek_icon.jpg")).getImage
-
-
   }
+
+  def top = mainFrame
 }
