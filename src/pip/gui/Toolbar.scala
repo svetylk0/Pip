@@ -12,9 +12,18 @@ object Toolbar extends BoxPanel(Orientation.Horizontal) {
     tooltip = Loc("newTweet")
   }
 
+  object NextPageButton extends Button("<html><b>&gt;</b></html>") {
+    tooltip = Loc("nextPage")
+  }
+
+  object PrevPageButton extends Button("<html><b>&lt;</b></html>") {
+    tooltip = Loc("prevPage")
+  }
+
   contents += new Button(Loc("profile"))
   contents += new Button(Loc("messages"))
-  contents += new Button(Loc("whoToFollow"))
+  contents += PrevPageButton
+  contents += NextPageButton
   contents += AddTweetButton
 
   val parent = new TextField(10)
