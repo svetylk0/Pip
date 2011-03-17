@@ -1,22 +1,23 @@
 package pip.gui
 
-import pip.core.Loc
 import scala.swing._
 import scala.swing.event._
+import pip.core.{Implicits, Loc}
 
 object Toolbar extends BoxPanel(Orientation.Horizontal) {
 
   import MainWindow.core
+  import Implicits._
 
-  object AddTweetButton extends Button("<html><b>+</b></html>") {
+  object AddTweetButton extends Button("+".tagB.tagHtml) {
     tooltip = Loc("newTweet")
   }
 
-  object NextPageButton extends Button("<html><b>&gt;</b></html>") {
+  object NextPageButton extends Button("&gt;".tagB.tagHtml) {
     tooltip = Loc("nextPage")
   }
 
-  object PrevPageButton extends Button("<html><b>&lt;</b></html>") {
+  object PrevPageButton extends Button("&lt;".tagB.tagHtml) {
     tooltip = Loc("prevPage")
   }
 
@@ -28,10 +29,35 @@ object Toolbar extends BoxPanel(Orientation.Horizontal) {
 
   val parent = new TextField(10)
 
-  listenTo(Toolbar.AddTweetButton)
+  listenTo(Toolbar.AddTweetButton, PrevPageButton, NextPageButton)
+
+  import MainWindow.mainFrame.{tabs, tweetPanel, tweetPager, mentionsPanel, mentionsPager}
 
   reactions += {
-    case ButtonClicked(Toolbar.AddTweetButton) => new NewTweetWindow(core, this)
+    case ButtonClicked(AddTweetButton) => new NewTweetWindow(core, this)
+    case ButtonClicked(PrevPageButton) =>
+      tabs.selection.index match {
+        case 0 =>
+          tweetPanel.contents.clear
+          tweetPanel.contents ++= tweetPager.previousPage()
+        case 1 =>
+          mentionsPanel.contents.clear
+          mentionsPanel.contents ++= mentionsPager.previousPage()
+        case _ =>
+      }
+      tabs.repaint
+
+    case ButtonClicked(NextPageButton) =>
+    tabs.selection.index match {
+      case 0 =>
+        tweetPanel.contents.clear
+        tweetPanel.contents ++= tweetPager.nextPage()
+      case 1 =>
+        mentionsPanel.contents.clear
+        mentionsPanel.contents ++= mentionsPager.nextPage()
+      case _ =>
+    }
+    tabs.repaint
   }
 
 }
