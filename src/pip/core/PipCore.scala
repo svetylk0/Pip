@@ -3,7 +3,7 @@ package pip.core
 import collection.JavaConversions._
 import actors.Futures.future
 import actors.Future
-import twitter4j.{Query, Paging, Twitter}
+import twitter4j.{StatusUpdate, Query, Paging, Twitter}
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,7 +22,9 @@ class PipCore(tw: Twitter) {
   private def mentionsPage(pageNum: Int, tweetCount: Int = defaultTweetCount) =
     tw.getMentions(new Paging(pageNum, tweetCount)).toList
 
+  def favorite(id: Long) = tw.createFavorite(id)
 
+  def unFavorite(id: Long) = tw.destroyFavorite(id)
 
   def mentions(): List[Tweet] = mentions(defaultTweetCount)
 
@@ -49,6 +51,16 @@ class PipCore(tw: Twitter) {
   }
 
   def tweet(text: String) = tw.updateStatus(text)
+
+  def tweet(text: String, inReplyToId: Long) = {
+    val st = new StatusUpdate(text)
+    st.setInReplyToStatusId(inReplyToId)
+    tw.updateStatus(st)
+  }
+
+  def retweet(id: Long) = tw.retweetStatus(id)
+
+  def undoRetweet(id: Long) = tw.destroyStatus(id)
 
   def search(query: String) = tw.search(new Query(query)).getTweets.toList map {
     tw4jTweet =>

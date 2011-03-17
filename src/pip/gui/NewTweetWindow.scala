@@ -5,7 +5,7 @@ import event._
 import javax.swing.BorderFactory
 import javax.swing.border.EmptyBorder
 import java.awt.{Font, Color}
-import pip.core.{URLShortener, Auth, PipCore, Loc}
+import pip.core._
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +15,10 @@ import pip.core.{URLShortener, Auth, PipCore, Loc}
  * To change this template use File | Settings | File Templates.
  */
 
-class NewTweetWindow(pip: PipCore, parent: UIElement) extends MainFrame with URLShortener with DisposeOnClose {
+class NewTweetWindow(pip: PipCore,
+                     parent: UIElement,
+                     inReplyToTweet: Tweet = null)
+  extends MainFrame with URLShortener with DisposeOnClose {
 
   import Colors._
 
@@ -52,10 +55,14 @@ class NewTweetWindow(pip: PipCore, parent: UIElement) extends MainFrame with URL
   }
 
   object TweetText extends TextArea {
+    text = if (inReplyToTweet == null) "" else "@"+inReplyToTweet.nick+" "
     font = new Font("arial", Font.PLAIN, 20)
     border = BorderFactory.createLineBorder(Color.black)
     lineWrap = true
   }
+
+  //update Counter
+  counter.update
 
   contents = new BoxPanel(Orientation.Vertical) {
     contents += new BoxPanel(Orientation.Vertical) {
@@ -83,7 +90,8 @@ class NewTweetWindow(pip: PipCore, parent: UIElement) extends MainFrame with URL
 
   reactions += {
     case ButtonClicked(TweetButton) =>
-      pip.tweet(TweetText.text)
+      if (inReplyToTweet == null) pip.tweet(TweetText.text)
+      else pip.tweet(TweetText.text, inReplyToTweet.id)
       dispose
     case ButtonClicked(CloseButton) => dispose
     case ButtonClicked(ShortenURLButton) =>

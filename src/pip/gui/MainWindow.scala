@@ -30,27 +30,46 @@ object MainWindow extends SimpleSwingApplication {
   val tw = if (fileExists(authFile)) {
     Auth.authorizedTwitterInstance(Auth.loadAccessToken(authFile))
   } else {
-    val (t,s) = Auth.tokenStringAndSecret(new AuthDialog(Auth.authURL) getPin)
-    Auth.saveAccessToken(t,s,authFile)
-    Auth.authorizedTwitterInstance(t,s)
+    val (t, s) = Auth.tokenStringAndSecret(new AuthDialog(Auth.authURL) getPin)
+    Auth.saveAccessToken(t, s, authFile)
+    Auth.authorizedTwitterInstance(t, s)
   }
 
   val core = new PipCore(tw)
 
   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
 
+  val tweetPager = new TweetPager(tweetsPerPage, core.homeTimelineFutures)
+  val mentionsPager = new TweetPager(tweetsPerPage, core.mentionsFutures)
+
+  val tweetPanel = new BoxPanel(Orientation.Vertical) {
+    contents ++= tweetPager.firstPage
+  }
+
+  val mentionsPanel = new BoxPanel(Orientation.Vertical) {
+    contents ++= mentionsPager.firstPage
+  }
+
+  def reloadTweetsPanel() {
+    tweetPanel.contents.clear
+    tweetPanel.contents ++= tweetPager.currentPage
+  }
+
+  def reloadMentionsPanel() {
+    mentionsPanel.contents.clear
+    mentionsPanel.contents ++= mentionsPager.currentPage
+  }
+
+  def reloadActiveTabPanel() {
+    mainFrame.tabs.selection.index match {
+      case 0 => reloadTweetsPanel
+      case 1 => reloadMentionsPanel
+      case _ =>
+    }
+    mainFrame.repaint
+  }
+
   val mainFrame = new MainFrame {
-    val tweetPager = new TweetPager(tweetsPerPage,core.homeTimelineFutures)
-    val mentionsPager = new TweetPager(tweetsPerPage,core.mentionsFutures)
-
-    val tweetPanel = new BoxPanel(Orientation.Vertical) {
-      contents ++= tweetPager.firstPage
-    }
-
-    val mentionsPanel = new BoxPanel(Orientation.Vertical) {
-      contents ++= mentionsPager.firstPage
-    }
-
     val tabs = new TabbedPane {
       pages += new TabbedPane.Page(Loc("tweets"), tweetPanel) {
         mnemonic = Key1.##
@@ -72,7 +91,7 @@ object MainWindow extends SimpleSwingApplication {
 
     title = Loc("pip")
     minimumSize = new Dimension(tabs.size.width + scrollViewport.verticalScrollBar.size.width, tabs.size.height)
-    iconImage = (new ImageIcon("res"+ separator +"zpevacek_icon.jpg")).getImage
+    iconImage = (new ImageIcon("res" + separator + "zpevacek_icon.jpg")).getImage
   }
 
   def top = mainFrame

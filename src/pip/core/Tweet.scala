@@ -18,8 +18,8 @@ case class Tweet(status: Status) {
   val id = status.getId
   val isFavorited = status.isFavorited
   val isRetweetedByMe = status.isRetweetedByMe
-  val name = user.getScreenName
-  val nick = user.getName
+  val name = user.getName
+  val nick = user.getScreenName
   val text = status.getText
   val retweetCount = status.getRetweetCount
 

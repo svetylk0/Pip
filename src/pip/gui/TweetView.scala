@@ -9,6 +9,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
 
   import Colors._
   import Globals._
+  import MainWindow.{core,reloadMentionsPanel,reloadTweetsPanel}
 
   val iconLabel = new Label {
     icon = tweet.profileIcon
@@ -128,10 +129,27 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
                FavoriteLabel.size.height + separator.size.height
   minimumSize = new Dimension(width, height)
 
-  listenTo(mouse.moves, tweetText.mouse.moves, ReplyLabel.mouse.moves,
-           RetweetLabel.mouse.moves, FavoriteLabel.mouse.moves)
+  listenTo(mouse.moves,
+           tweetText.mouse.moves,
+           ReplyLabel.mouse.moves,
+           ReplyLabel.mouse.clicks,
+           RetweetLabel.mouse.moves,
+           RetweetLabel.mouse.clicks,
+           FavoriteLabel.mouse.moves,
+           FavoriteLabel.mouse.clicks)
 
   reactions += {
+    case MouseClicked(RetweetLabel,_,_,_,_) =>
+      if (tweet.isRetweetedByMe) core.undoRetweet(tweet.id) else core.retweet(tweet.id)
+      MainWindow.reloadActiveTabPanel()
+
+    case MouseClicked(FavoriteLabel,_,_,_,_) =>
+      if (tweet.isFavorited) core.unFavorite(tweet.id) else core.favorite(tweet.id)
+      MainWindow.reloadActiveTabPanel()
+
+    case MouseClicked(ReplyLabel,_,_,_,_) =>
+      new NewTweetWindow(core, this, tweet)
+
     case e: MouseEntered =>
       //osetrit higlight labelu
       e.source match {

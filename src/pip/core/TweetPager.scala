@@ -11,20 +11,22 @@ package pip.core
 class TweetPager[A](tweetsPerPage: Int, f: (Int,Int) => List[A]) {
   var page = 1
 
-  private def getPage = f(tweetsPerPage,page)
+  private def getPage() = f(tweetsPerPage,page)
+
+  def currentPage() = getPage()
 
   def firstPage() = {
     page = 1
-    getPage
+    getPage()
   }
 
   def nextPage() = {
     page += 1
-    getPage
+    getPage()
   }
 
   def previousPage() = {
     page = if (page > 1) page-1 else page
-    getPage
+    getPage()
   }
 }

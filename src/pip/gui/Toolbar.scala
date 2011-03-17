@@ -34,7 +34,8 @@ object Toolbar extends BoxPanel(Orientation.Horizontal) {
 
   listenTo(Toolbar.AddTweetButton, PrevPageButton, NextPageButton)
 
-  import MainWindow.mainFrame.{tabs, tweetPanel, tweetPager, mentionsPanel, mentionsPager}
+  import MainWindow.{tweetPanel, tweetPager, mentionsPanel, mentionsPager}
+  import MainWindow.mainFrame.tabs
 
   reactions += {
     case ButtonClicked(AddTweetButton) => new NewTweetWindow(core, this)
