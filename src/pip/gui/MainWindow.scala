@@ -65,7 +65,7 @@ object MainWindow extends SimpleSwingApplication {
 
     val scrollViewport = new ScrollPane(tabs) {
       //horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
-      verticalScrollBar.blockIncrement = 10
+      verticalScrollBar.unitIncrement = 10
     }
 
     contents = new BoxPanel(Orientation.Vertical) {
