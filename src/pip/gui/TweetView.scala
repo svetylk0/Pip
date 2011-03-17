@@ -1,13 +1,14 @@
 package pip.gui
 
-import pip.core.{Loc, Tweet}
 import java.awt.{Cursor, Graphics2D, LinearGradientPaint, Color, Insets}
 import swing._
 import scala.swing.event._
+import pip.core.{Globals, Loc, Tweet}
 
 class TweetView(tweet: Tweet) extends GridBagPanel {
 
   import Colors._
+  import Globals._
 
   val iconLabel = new Label {
     icon = tweet.profileIcon
@@ -28,22 +29,25 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
 
   val hand = new Cursor(Cursor.HAND_CURSOR)
 
-  val favoriteLabel = new Label {
+  object FavoriteLabel extends Label {
     cursor = hand
     foreground = Color.blue
-    text = Loc("favorite")
+//    text = Loc("favorite")
+    icon = favoriteIcon
   }
 
-  val retweetLabel = new Label {
+  object RetweetLabel extends Label {
     cursor = hand
     foreground = Color.blue
-    text = Loc("retweet")
+//    text = Loc("retweet")
+    icon = retweetIcon
   }
 
-  val replyLabel = new Label {
+  object ReplyLabel extends Label {
     cursor = hand
     foreground = Color.blue
-    text = Loc("reply")
+//    text = Loc("reply")
+    icon = replyIcon
   }
 
   val separator = new Separator
@@ -88,7 +92,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.gridx = 1
   constraints.gridy = 2
   constraints.insets = new Insets(0, 0, 0, 0)
-  add(favoriteLabel, constraints)
+  add(FavoriteLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridwidth = 1
@@ -96,7 +100,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.gridx = 2
   constraints.gridy = 2
   constraints.insets = new Insets(0, 0, 0, 0)
-  add(retweetLabel, constraints)
+  add(RetweetLabel, constraints)
  
   constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridwidth = 1
@@ -104,7 +108,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.gridx = 3
   constraints.gridy = 2
   constraints.insets = new Insets(0, 0, 0, 0)
-  add(replyLabel, constraints)
+  add(ReplyLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridwidth = 4
@@ -118,14 +122,32 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   background = Color.white
   val width = iconLabel.size.width + tweetText.size.width
   val height = userLabel.size.height + tweetText.size.height + 
-               favoriteLabel.size.height + separator.size.height
+               FavoriteLabel.size.height + separator.size.height
   minimumSize = new Dimension(width, height)
 
-  listenTo(mouse.moves, tweetText.mouse.moves)
+  listenTo(mouse.moves, tweetText.mouse.moves, ReplyLabel.mouse.moves,
+           RetweetLabel.mouse.moves, FavoriteLabel.mouse.moves)
+
   reactions += {
-    case e: MouseEntered => 
+    case e: MouseEntered =>
+      //osetrit higlight labelu
+      e.source match {
+        case ReplyLabel => ReplyLabel.icon = replyHighlightIcon
+        case RetweetLabel => RetweetLabel.icon = retweetHighlightIcon
+        case FavoriteLabel => FavoriteLabel.icon = favoriteHighlightIcon
+        case _ =>
+      }
+
       background = lightGray
     case e: MouseExited => 
+      //osetrit higlight labelu
+      e.source match {
+        case ReplyLabel => ReplyLabel.icon = replyIcon
+        case RetweetLabel => RetweetLabel.icon = retweetIcon
+        case FavoriteLabel => FavoriteLabel.icon = favoriteIcon
+        case _ =>
+      }
+
       background = white
   }
 

@@ -2,6 +2,7 @@ package pip.core
 
 import java.io.File
 import swing.Label
+import javax.swing.ImageIcon
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,6 +13,8 @@ import swing.Label
  */
 
 object Globals {
+  import Tools.loadIcon
+
   val authFile = "myauth"
 
   val configFile = "config.ini"
@@ -20,9 +23,18 @@ object Globals {
 
   val backgroundColor = (new Label).background
   val localizationDir = "loc"
+  val resourcesDir = "res"
 
   //promenne ze souboru config.ini
   var tweetsPerPage = 5
+
+  //ikonky
+  val replyIcon = loadIcon("reply.png")
+  val replyHighlightIcon = loadIcon("reply_highlight.png")
+  val retweetIcon = loadIcon("retweet.png")
+  val retweetHighlightIcon = loadIcon("retweet_highlight.png")
+  val favoriteIcon = loadIcon("favorite.png")
+  val favoriteHighlightIcon = loadIcon("favorite_highlight.png")
 
   def setConfigVariables() {
     tweetsPerPage = Config("tweetsPerPage").toInt

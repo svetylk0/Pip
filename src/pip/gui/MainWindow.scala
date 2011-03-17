@@ -77,11 +77,6 @@ object MainWindow extends SimpleSwingApplication {
     minimumSize = new Dimension(tabs.size.width + scrollViewport.verticalScrollBar.size.width, tabs.size.height)
     iconImage = (new ImageIcon("res"+ separator +"zpevacek_icon.jpg")).getImage
 
-    listenTo(Toolbar.AddTweetButton)
-
-    reactions += {
-      case ButtonClicked(Toolbar.AddTweetButton) => new NewTweetWindow(core,this)
-    }
 
   }
 }

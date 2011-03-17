@@ -2,6 +2,7 @@ package pip.core
 
 import java.net.URL
 import java.io.File
+import javax.swing.ImageIcon
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,6 +17,8 @@ object Tools {
   import Globals._
 
   def fileExists(file: String) = new File(file) exists
+
+  def loadIcon(file: String) = new ImageIcon(resourcesDir+File.separator+file)
 
   def isConnectionAvailable = {
     try {
