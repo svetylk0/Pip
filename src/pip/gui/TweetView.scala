@@ -23,8 +23,8 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     editable = false
     lineWrap = true
     opaque = false
-    preferredSize = size
-    //wordWrap = true
+    //preferredSize = size
+    wordWrap = true
   }
 
   val hand = new Cursor(Cursor.HAND_CURSOR)
