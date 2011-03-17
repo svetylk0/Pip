@@ -1,4 +1,4 @@
-#Lokalizační soubor pro Český jazyk
+﻿#Lokalizační soubor pro Český jazyk
 apply=Použít
 close=Zavřít
 enterPIN=Vložte prosím svůj PIN.
@@ -9,11 +9,13 @@ login=Přihlášení
 mentions=Zmínky
 messages=Zprávy
 newTweet=Štěbetat
+nextPage=Starší štebetání
 ok=Ok
 pip=Zpěváček
 pin=PIN:
 pinMessage=Ve webovém prohlížeči otevřete tuto URL a zadejte PIN:
 preferences=Nastavení
+prevPage=Novější štěbetání
 profile=Profil
 reply=Odpovědět
 retweet=Přeštěbetat
