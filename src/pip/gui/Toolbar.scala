@@ -14,12 +14,14 @@ object Toolbar extends BoxPanel(Orientation.Horizontal) {
   }
 
   object NextPageButton extends Button("&gt;".tagB.tagHtml) {
-    tooltip = Loc("nextPage")
+    mnemonic = Key.Right
+    tooltip = Loc("nextPage") +", "+ Loc("altRightArrow")
   }
 
   object PrevPageButton extends Button("&lt;".tagB.tagHtml) {
     enabled = false
-    tooltip = Loc("prevPage")
+    mnemonic = Key.Left
+    tooltip = Loc("prevPage") +", "+ Loc("altLeftArrow")
   }
 
   contents += new Button(Loc("profile"))
