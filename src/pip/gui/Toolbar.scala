@@ -18,6 +18,7 @@ object Toolbar extends BoxPanel(Orientation.Horizontal) {
   }
 
   object PrevPageButton extends Button("&lt;".tagB.tagHtml) {
+    enabled = false
     tooltip = Loc("prevPage")
   }
 
@@ -40,6 +41,7 @@ object Toolbar extends BoxPanel(Orientation.Horizontal) {
         case 0 =>
           tweetPanel.contents.clear
           tweetPanel.contents ++= tweetPager.previousPage()
+	  if (tweetPager.page == 1) PrevPageButton.enabled = false
         case 1 =>
           mentionsPanel.contents.clear
           mentionsPanel.contents ++= mentionsPager.previousPage()
@@ -48,6 +50,7 @@ object Toolbar extends BoxPanel(Orientation.Horizontal) {
       tabs.repaint
 
     case ButtonClicked(NextPageButton) =>
+      PrevPageButton.enabled = true
     tabs.selection.index match {
       case 0 =>
         tweetPanel.contents.clear
