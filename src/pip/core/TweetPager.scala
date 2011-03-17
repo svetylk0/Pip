@@ -13,17 +13,17 @@ class TweetPager[A](tweetsPerPage: Int, f: (Int,Int) => List[A]) {
 
   private def getPage = f(tweetsPerPage,page)
 
-  def firstPage = {
+  def firstPage() = {
     page = 1
     getPage
   }
 
-  def nextPage = {
+  def nextPage() = {
     page += 1
     getPage
   }
 
-  def previousPage = {
+  def previousPage() = {
     page = if (page > 1) page-1 else page
     getPage
   }
