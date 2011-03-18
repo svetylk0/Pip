@@ -10,6 +10,7 @@ object Toolbar extends BoxPanel(Orientation.Horizontal) {
   import Implicits._
 
   object AddTweetButton extends Button("+".tagB.tagHtml) {
+    mnemonic = Key.N
     tooltip = Loc("newTweet")
   }
 
