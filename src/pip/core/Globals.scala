@@ -27,6 +27,7 @@ object Globals {
 
   //promenne ze souboru config.ini
   var tweetsPerPage = 5
+  var browserCommand = ""
 
   //ikonky
   val replyIcon = loadIcon("reply.png")
@@ -38,7 +39,13 @@ object Globals {
   val favoriteHighlightIcon = loadIcon("favorite_highlight.png")
   val favoriteHighlightIcon2 = loadIcon("favorite_highlight2.png")
 
+  //tlacitka mysi
+  val leftMouseButton = 0
+  val middleMouseButton = 512
+  val rightMouseButton = 256
+
   def setConfigVariables() {
     tweetsPerPage = Config("tweetsPerPage").toInt
+    browserCommand = Config("browserCommand")
   }
 }

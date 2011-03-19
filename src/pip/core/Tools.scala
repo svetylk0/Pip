@@ -39,4 +39,11 @@ object Tools {
     _.endsWith(".loc")
   } sorted
 
+  def openURLInBrowser(url: String) {
+    Runtime.getRuntime.exec(browserCommand.replace("%url",url))
+  }
+
+  def openTweetInBrowser(tweet: Tweet) {
+    openURLInBrowser("http://twitter.com/#!/"+tweet.nick+"/status/"+tweet.id)
+  }
 }
