@@ -2,6 +2,7 @@ package pip.core
 
 import actors.Future
 import pip.gui.TweetView
+import java.awt.Color
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,4 +24,5 @@ object Implicits {
   implicit def convertFutureTweetToTweetView(in: List[Future[Tweet]]) = in map {
     tweet => new TweetView(tweet())
   }
+
 }

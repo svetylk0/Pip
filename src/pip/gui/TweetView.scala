@@ -1,16 +1,16 @@
 package pip.gui
 
-import java.awt.{Cursor, Graphics2D, LinearGradientPaint, Color, Insets}
+import java.awt.{Cursor, Color, Insets}
 import swing._
 import scala.swing.event._
-import pip.core.{Tools, Globals, Loc, Tweet}
+import pip.core._
 
 class TweetView(tweet: Tweet) extends GridBagPanel {
 
   import Colors._
   import Globals._
   import Tools._
-  import MainWindow.{core,reloadMentionsPanel,reloadTweetsPanel}
+  import MainWindow.core
 
   class TransparentFlowPanel extends FlowPanel {
     background = transparent
@@ -77,7 +77,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
       tooltip = Loc("openURL")
     }
   }
- 
+
   object URLLabel extends HighlightableLabel {
     val defaultIcon = urlIcon
     val highLightIcon = urlHighLightIcon
@@ -218,7 +218,9 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
 
     case e: MouseClicked =>
       e.modifiers match {
-        case `leftMouseButton` => openTweetInBrowser(tweet)
+        case `leftMouseButton` =>
+          openTweetInBrowser(tweet)
+          Animations.backgroundColorTransition(specialBlue,white,this,MainWindow.mainFrame)
         case _ =>
       }
 
