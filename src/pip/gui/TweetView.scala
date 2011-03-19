@@ -62,7 +62,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     icon = defaultIcon
   }
 
-  val URLMenu = new MenuBar {
+  val URLMenu = new URLMenu {
     focusable = false
     opaque = false
     contents += new Menu("") {
