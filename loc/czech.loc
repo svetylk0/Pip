@@ -11,6 +11,7 @@ messages=Zprávy
 newTweet=Štěbetat
 nextPage=Starší štěbetání
 ok=Ok
+openURL=Otevřít URL
 pip=Zpěváček
 pin=PIN:
 pinMessage=Ve webovém prohlížeči otevřete tuto URL a zadejte PIN:

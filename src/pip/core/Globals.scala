@@ -38,6 +38,9 @@ object Globals {
   val favoriteIcon = loadIcon("favorite.png")
   val favoriteHighlightIcon = loadIcon("favorite_highlight.png")
   val favoriteHighlightIcon2 = loadIcon("favorite_highlight2.png")
+  val urlIcon = loadIcon("url.png")
+  val urlHighLightIcon = loadIcon("url_highlight.png")
+
 
   //tlacitka mysi
   val leftMouseButton = 0

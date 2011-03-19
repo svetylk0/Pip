@@ -1,17 +1,17 @@
 package pip.gui
 
-import swing.Label
 import javax.swing.Icon
+import swing.Label
 
 /**
  * Created by IntelliJ IDEA.
  * User: svetylk0@seznam.cz
- * Date: 17.3.11
- * Time: 15:19
+ * Date: 19.3.11
+ * Time: 13:40
  * To change this template use File | Settings | File Templates.
  */
 
-trait LabelIconHighlighting extends Label {
+trait HighlightableLabel extends Label {
   val defaultIcon: Icon
   val highLightIcon: Icon
 

@@ -12,6 +12,10 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   import Tools._
   import MainWindow.{core,reloadMentionsPanel,reloadTweetsPanel}
 
+  class TransparentFlowPanel extends FlowPanel {
+    background = transparent
+  }
+
   val iconLabel = new Label {
     icon = tweet.profileIcon
   }
@@ -31,7 +35,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
 
   val hand = new Cursor(Cursor.HAND_CURSOR)
 
-  object FavoriteLabel extends Label with LabelIconHighlighting {
+  object FavoriteLabel extends HighlightableLabel {
     val defaultIcon = if (tweet.isFavorited) favoriteHighlightIcon2 else favoriteIcon
     val highLightIcon = if (tweet.isFavorited) favoriteIcon else favoriteHighlightIcon
 
@@ -40,7 +44,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     icon = defaultIcon
   }
 
-  object RetweetLabel extends Label with LabelIconHighlighting {
+  object RetweetLabel extends HighlightableLabel {
     val defaultIcon = if (tweet.isRetweetedByMe) retweetHighlightIcon2 else retweetIcon
     val highLightIcon = if (tweet.isRetweetedByMe) retweetIcon else retweetHighlightIcon
 
@@ -49,7 +53,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     icon = defaultIcon
   }
 
-  object ReplyLabel extends Label with LabelIconHighlighting {
+  object ReplyLabel extends HighlightableLabel {
     val defaultIcon = replyIcon
     val highLightIcon = replyHighlightIcon
 
@@ -57,6 +61,23 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     cursor = hand
     icon = defaultIcon
   }
+
+  object URLLabel extends HighlightableLabel {
+    val defaultIcon = urlIcon
+    val highLightIcon = urlHighLightIcon
+
+    tooltip = Loc("openURL")
+    cursor = hand
+    icon = defaultIcon
+  }
+
+  object IconsFlowPanel extends FlowPanel(FlowPanel.Alignment.Right)() with TransparentBackgroundComponent {
+    if (tweet.containsURLs) contents += URLLabel
+    contents += FavoriteLabel
+    contents += RetweetLabel
+    contents += ReplyLabel
+  }
+
 
   val separator = new Separator
 
@@ -116,10 +137,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.gridx = 3
   constraints.gridy = 2
   constraints.insets = new Insets(0, 0, 0, 0)
-//  add(ReplyLabel, constraints)
-  add(new FlowPanel(FlowPanel.Alignment.Right)(FavoriteLabel, RetweetLabel, ReplyLabel) {
-    background = transparent
-  }, constraints)
+  add(IconsFlowPanel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridwidth = 4
@@ -145,7 +163,9 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
            RetweetLabel.mouse.moves,
            RetweetLabel.mouse.clicks,
            FavoriteLabel.mouse.moves,
-           FavoriteLabel.mouse.clicks)
+           FavoriteLabel.mouse.clicks,
+           URLLabel.mouse.moves,
+           URLLabel.mouse.clicks)
 
   reactions += {
     case MouseClicked(RetweetLabel,_,_,_,_) =>
@@ -159,12 +179,12 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     case MouseClicked(ReplyLabel,_,_,_,_) =>
       new NewTweetWindow(core, this, tweet)
 
+    case MouseClicked(URLLabel,_,_,_,_) =>
+
     case e: MouseEntered =>
       //osetrit higlight labelu
       e.source match {
-        case ReplyLabel => ReplyLabel.highLight()
-        case RetweetLabel => RetweetLabel.highLight()
-        case FavoriteLabel => FavoriteLabel.highLight()
+        case x: HighlightableLabel => x.highLight()
         case _ =>
       }
 
@@ -172,9 +192,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     case e: MouseExited => 
       //osetrit higlight labelu
       e.source match {
-        case ReplyLabel => ReplyLabel.deHighlight()
-        case RetweetLabel => RetweetLabel.deHighlight()
-        case FavoriteLabel => FavoriteLabel.deHighlight()
+        case x: HighlightableLabel => x.deHighlight
         case _ =>
       }
 

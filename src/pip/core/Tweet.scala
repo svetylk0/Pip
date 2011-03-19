@@ -25,8 +25,16 @@ case class Tweet(status: Status) {
 
   val profileIcon = new ImageIcon(user.getProfileImageURL)
 
-  val urlList = status.getURLEntities match {
-    case null => None
-    case x => Some(x.toList)
-  }
+//  val urlList = status.getURLEntities match {
+//    case null => Nil
+//    case x => x.toList
+//  }
+
+  //getURLEntities zrejme nefunguje, docasna nahrazka:
+
+  private val urlReg = """\w+://\S+""".r
+
+  val urlList = urlReg findAllIn text toList
+
+  def containsURLs = !urlList.isEmpty
 }
