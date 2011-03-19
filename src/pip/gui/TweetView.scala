@@ -62,6 +62,22 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     icon = defaultIcon
   }
 
+  val URLMenu = new MenuBar {
+    focusable = false
+    opaque = false
+    contents += new Menu("") {
+      focusable = false 
+      opaque = false
+      contents += new MenuItem("url 1")
+      contents += new MenuItem("url 2")
+      rolloverEnabled = true
+      cursor = hand
+      icon = urlIcon
+      rolloverIcon = urlHighLightIcon
+      tooltip = Loc("openURL")
+    }
+  }
+ 
   object URLLabel extends HighlightableLabel {
     val defaultIcon = urlIcon
     val highLightIcon = urlHighLightIcon
@@ -72,7 +88,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   }
 
   object IconsFlowPanel extends FlowPanel(FlowPanel.Alignment.Right)() with TransparentBackgroundComponent {
-    if (tweet.containsURLs) contents += URLLabel
+    if (tweet.containsURLs) contents += URLMenu
     contents += FavoriteLabel
     contents += RetweetLabel
     contents += ReplyLabel
