@@ -3,6 +3,7 @@ package pip.gui
 import java.awt.{Cursor, Color, Insets}
 import swing._
 import scala.swing.event._
+import actors.Actor.actor
 import pip.core._
 
 class TweetView(tweet: Tweet) extends GridBagPanel {
@@ -38,28 +39,37 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   object FavoriteLabel extends HighlightableLabel {
     val defaultIcon = if (tweet.isFavorited) favoriteHighlightIcon2 else favoriteIcon
     val highLightIcon = if (tweet.isFavorited) favoriteIcon else favoriteHighlightIcon
+    val defaultText = Loc("favorite")
 
-    tooltip = Loc("favorite")
     cursor = hand
     icon = defaultIcon
+
+    //je treba zavolat, aby se nacetl text
+    deHighlight()
   }
 
   object RetweetLabel extends HighlightableLabel {
     val defaultIcon = if (tweet.isRetweetedByMe) retweetHighlightIcon2 else retweetIcon
     val highLightIcon = if (tweet.isRetweetedByMe) retweetIcon else retweetHighlightIcon
+    val defaultText = Loc("retweet")
 
-    tooltip = Loc("retweet")
     cursor = hand
     icon = defaultIcon
+
+    //je treba zavolat, aby se nacetl text
+    deHighlight()
   }
 
   object ReplyLabel extends HighlightableLabel {
     val defaultIcon = replyIcon
     val highLightIcon = replyHighlightIcon
+    val defaultText = Loc("reply")
 
-    tooltip = Loc("reply")
     cursor = hand
     icon = defaultIcon
+
+    //je treba zavolat, aby se nacetl text
+    deHighlight()
   }
 
   val URLMenu = new URLMenu {
@@ -81,14 +91,14 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   object URLLabel extends HighlightableLabel {
     val defaultIcon = urlIcon
     val highLightIcon = urlHighLightIcon
+    val defaultText = ""
 
     tooltip = Loc("openURL")
     cursor = hand
     icon = defaultIcon
   }
 
-  object IconsFlowPanel extends FlowPanel(FlowPanel.Alignment.Right)() with TransparentBackgroundComponent {
-    if (tweet.containsURLs) contents += URLMenu
+  object IconsFlowPanel extends FlowPanel(FlowPanel.Alignment.Left)() with TransparentBackgroundComponent {
     contents += FavoriteLabel
     contents += RetweetLabel
     contents += ReplyLabel
@@ -114,7 +124,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.gridx = 1
   constraints.gridy = 0
   constraints.insets = new Insets(0, 0, 0, 0)
-  add(nameLabel, constraints)
+  add(userLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridwidth = 1
@@ -122,7 +132,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.gridx = 2
   constraints.gridy = 0
   constraints.insets = new Insets(0, 0, 0, 0)
-  add(userLabel, constraints)
+  add(nameLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.None
   constraints.gridwidth = 4
@@ -151,10 +161,21 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridwidth = 1
   constraints.gridheight = 1
-  constraints.gridx = 3
+  constraints.gridx = 1
   constraints.gridy = 2
   constraints.insets = new Insets(0, 0, 0, 0)
   add(IconsFlowPanel, constraints)
+
+  //pokud je URL ve tweetu, pridat prislusnou komponentu
+  if (tweet.containsURLs) {
+    constraints.fill = GridBagPanel.Fill.Horizontal
+    constraints.gridwidth = 1
+    constraints.gridheight = 1
+    constraints.gridx = 3
+    constraints.gridy = 2
+    constraints.insets = new Insets(0, 0, 0, 0)
+    add(new FlowPanel(FlowPanel.Alignment.Right)(URLMenu) with TransparentBackgroundComponent, constraints)
+  }
 
   constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridwidth = 4
@@ -221,8 +242,10 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     case e: MouseClicked =>
       e.modifiers match {
         case `leftMouseButton` =>
-          openTweetInBrowser(tweet)
-          Animations.backgroundColorTransition(specialBlue,white,this,MainWindow.mainFrame)
+          actor {
+            Animations.backgroundColorTransition(specialBlue,white,this,MainWindow.mainFrame)
+            openTweetInBrowser(tweet)
+          }
         case _ =>
       }
 
