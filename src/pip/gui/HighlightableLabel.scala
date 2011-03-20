@@ -2,6 +2,8 @@ package pip.gui
 
 import javax.swing.Icon
 import swing.Label
+import java.awt.Font
+import pip.core.Implicits
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,14 +14,19 @@ import swing.Label
  */
 
 trait HighlightableLabel extends Label {
+  import Implicits.encloseStringInHtmlTag
+
   val defaultIcon: Icon
   val highLightIcon: Icon
+  val defaultText: String
 
   def highLight() {
+    text = defaultText.tagU.tagHtml
     icon = highLightIcon
   }
 
   def deHighlight() {
+    text = defaultText
     icon = defaultIcon
   }
 }

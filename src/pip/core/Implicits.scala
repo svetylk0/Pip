@@ -15,9 +15,12 @@ import java.awt.Color
 object Implicits {
   //rozsireni pro uzavirani stringu do HTML tagu
   implicit def encloseStringInHtmlTag(s: String) = new {
+    private def simpleTag(tag: String) = "<"+tag+">"+s+"</"+tag+">"
+
     def tagA = "<a href=\""+s+"\">"+s+"</a>"
-    def tagB = "<b>"+s+"</b>"
-    def tagHtml = "<html>"+s+"</html>"
+    def tagB = simpleTag("b")
+    def tagU = simpleTag("u")
+    def tagHtml = simpleTag("html")
   }
 
   //automaticka konverze List[Future[Tweet]] na List[TweetView]
