@@ -92,6 +92,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     contents += FavoriteLabel
     contents += RetweetLabel
     contents += ReplyLabel
+    opaque = false
   }
 
 
@@ -214,7 +215,8 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
 
       background = white
       //resi chybne vykreslovani reply ikonky po najeti na jiny tweet
-      MainWindow.mainFrame.repaint
+      //MainWindow.mainFrame.repaint
+      ReplyLabel.repaint
 
     case e: MouseClicked =>
       e.modifiers match {
