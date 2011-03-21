@@ -208,11 +208,11 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   reactions += {
     case MouseClicked(RetweetLabel,_,_,_,_) =>
       if (tweet.isRetweetedByMe) core.undoRetweet(tweet.id) else core.retweet(tweet.id)
-      MainWindow.reloadActiveTabPanel()
+      MainWindow.refreshActiveTab
 
     case MouseClicked(FavoriteLabel,_,_,_,_) =>
       if (tweet.isFavorited) core.unFavorite(tweet.id) else core.favorite(tweet.id)
-      MainWindow.reloadActiveTabPanel()
+      MainWindow.refreshActiveTab
 
     case MouseClicked(ReplyLabel,_,_,_,_) =>
       new NewTweetWindow(core, this, tweet)
@@ -227,7 +227,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
       }
 
       background = tweetHighlightBlue
-    case e: MouseExited => 
+    case e: MouseExited =>
       //osetrit higlight labelu
       e.source match {
         case x: HighlightableLabel => x.deHighlight
@@ -236,8 +236,8 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
 
       background = white
       //resi chybne vykreslovani reply ikonky po najeti na jiny tweet
-      //MainWindow.mainFrame.repaint
-      ReplyLabel.repaint
+      MainWindow.repaint()
+      ReplyLabel.repaint()
 
     case e: MouseClicked =>
       e.modifiers match {

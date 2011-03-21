@@ -2,9 +2,13 @@ package pip.gui
 
 import scala.swing._
 import scala.swing.event._
-import pip.core.{Implicits, Loc}
+import swing.TabbedPane.Page
+import pip.core.{Tweet, TweetPager, Implicits, Loc}
+import actors.Future
 
-object Toolbar extends BoxPanel(Orientation.Horizontal) {
+class Toolbar(tab: TabbedPane,
+              tweetPanel: BoxPanel,
+              pager: TweetPager[Future[Tweet]]) extends BoxPanel(Orientation.Horizontal) {
 
   import MainWindow.core
   import Implicits._
@@ -33,38 +37,27 @@ object Toolbar extends BoxPanel(Orientation.Horizontal) {
 
   val parent = new TextField(10)
 
-  listenTo(Toolbar.AddTweetButton, PrevPageButton, NextPageButton)
-
-  import MainWindow.{tweetPanel, tweetPager, mentionsPanel, mentionsPager}
-  import MainWindow.mainFrame.tabs
+  listenTo(AddTweetButton, PrevPageButton, NextPageButton)
 
   reactions += {
     case ButtonClicked(AddTweetButton) => new NewTweetWindow(core, this)
     case ButtonClicked(PrevPageButton) =>
-      tabs.selection.index match {
-        case 0 =>
-          tweetPanel.contents.clear
-          tweetPanel.contents ++= tweetPager.previousPage()
-	  if (tweetPager.page == 1) PrevPageButton.enabled = false
-        case 1 =>
-          mentionsPanel.contents.clear
-          mentionsPanel.contents ++= mentionsPager.previousPage()
-        case _ =>
-      }
-      tabs.repaint
+      if (pager.page == 2) PrevPageButton.enabled = false
+
+      tweetPanel.contents.clear
+      tweetPanel.contents ++= pager.previousPage()
+      tweetPanel.contents += this
+
+      tab.repaint
 
     case ButtonClicked(NextPageButton) =>
       PrevPageButton.enabled = true
-    tabs.selection.index match {
-      case 0 =>
-        tweetPanel.contents.clear
-        tweetPanel.contents ++= tweetPager.nextPage()
-      case 1 =>
-        mentionsPanel.contents.clear
-        mentionsPanel.contents ++= mentionsPager.nextPage()
-      case _ =>
-    }
-    tabs.repaint
+
+      tweetPanel.contents.clear
+      tweetPanel.contents ++= pager.nextPage()
+      tweetPanel.contents += this
+
+      tab.repaint
   }
 
 }

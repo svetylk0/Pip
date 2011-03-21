@@ -6,6 +6,10 @@ import scala.swing.event.Key._
 import java.io.File
 import javax.swing.{ImageIcon, UIManager}
 import pip.core._
+import swing.TabbedPane.Page
+import actors.Future
+import javax.swing.border.EmptyBorder
+import java.awt.Font
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,42 +46,94 @@ object MainWindow extends SimpleSwingApplication {
   val tweetPager = new TweetPager(tweetsPerPage, core.homeTimelineFutures)
   val mentionsPager = new TweetPager(tweetsPerPage, core.mentionsFutures)
 
-  val tweetPanel = new BoxPanel(Orientation.Vertical) {
-    contents ++= tweetPager.firstPage
+  private def getTweetPanelByPager(tabPane: TabbedPane,
+                                   pager: TweetPager[Future[Tweet]]) = new BoxPanel(Orientation.Vertical) with RefreshableBoxPanel {
+
+    val twPanel = new BoxPanel(Orientation.Vertical) {
+      contents ++= pager.firstPage
+    }
+
+    val defaultPager = pager
+    val defaultPanel = twPanel
+
+    contents += scrollPane(twPanel)
+    contents += new Toolbar(tabPane, twPanel, pager)
   }
 
-  val mentionsPanel = new BoxPanel(Orientation.Vertical) {
-    contents ++= mentionsPager.firstPage
+  def scrollPane(c: Component) = new ScrollPane(c) {
+    //horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
+    verticalScrollBar.unitIncrement = 10
   }
 
-  def reloadTweetsPanel() {
-    tweetPanel.contents.clear
-    tweetPanel.contents ++= tweetPager.currentPage
+  val tabs = new TabbedPane {
+    val tweetPanel = getTweetPanelByPager(this, tweetPager)
+    val mentionsPanel = getTweetPanelByPager(this, mentionsPager)
+
+    private val tabsRef = this
+    val searchPanel = new BoxPanel(Orientation.Vertical) {
+      val searchText = new TextField(10)
+
+      object SearchButton extends Button {
+        text = Loc("search")
+      }
+
+      val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(searchText, SearchButton)
+
+      contents += topPanel
+
+      listenTo(SearchButton)
+
+      reactions += {
+        case ButtonClicked(SearchButton) =>
+        contents.clear
+        contents += topPanel
+
+        //nejsou k dispozici stranky, tudiz ani pager
+        contents += scrollPane(new BoxPanel(Orientation.Vertical) {
+          try {
+            contents ++= core.searchAsFutures(searchText.text)
+          } catch {
+            //osetreni pripadu selhani, napr. kvuli pretizeni twitteru
+            case e: Exception =>
+              contents += new Label {
+                font = font.deriveFont(Font.BOLD, 20f)
+                text = Loc("searchFailed")
+                border = new EmptyBorder(20, 10, 20, 10)
+              }
+          }
+        })
+        MainWindow.repaint
+      }
+
+    }
+
+    pages += new TabbedPane.Page(Loc("tweets"), tweetPanel) {
+      mnemonic = Key1.##
+    }
+
+    pages += new TabbedPane.Page(Loc("mentions"), mentionsPanel) {
+      mnemonic = Key2.##
+    }
+
+    pages += new TabbedPane.Page(Loc("searchTitle"), searchPanel) {
+    }
   }
 
-  def reloadMentionsPanel() {
-    mentionsPanel.contents.clear
-    mentionsPanel.contents ++= mentionsPager.currentPage
-  }
-
-  def reloadActiveTabPanel() {
-    mainFrame.tabs.selection.index match {
-      case 0 => reloadTweetsPanel
-      case 1 => reloadMentionsPanel
+  def refreshActiveTab() {
+    tabs.selection.index match {
+      case 0 => tabs.tweetPanel.refresh()
+      case 1 => tabs.mentionsPanel.refresh()
+      case 2 => //nerefreshuje se
       case _ =>
     }
-    mainFrame.repaint
+    tabs.repaint
+  }
+
+  def repaint() {
+    mainFrame.repaint()
   }
 
   val mainFrame = new MainFrame {
-    val tabs = new TabbedPane {
-      pages += new TabbedPane.Page(Loc("tweets"), tweetPanel) {
-        mnemonic = Key1.##
-      }
-      pages += new TabbedPane.Page(Loc("mentions"), mentionsPanel) {
-        mnemonic = Key2.##
-      }
-    }
 
     val scrollViewport = new ScrollPane(tabs) {
       //horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
@@ -85,8 +141,9 @@ object MainWindow extends SimpleSwingApplication {
     }
 
     contents = new BoxPanel(Orientation.Vertical) {
-      contents += scrollViewport
-      contents += Toolbar
+      contents += tabs
+      //      contents += scrollViewport
+      //      contents += Toolbar
     }
 
     title = Loc("pip")
