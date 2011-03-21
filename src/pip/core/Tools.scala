@@ -3,6 +3,7 @@ package pip.core
 import java.net.URL
 import java.io.File
 import javax.swing.ImageIcon
+import concurrent.ThreadRunner
 
 /**
  * Created by IntelliJ IDEA.
@@ -46,4 +47,8 @@ object Tools {
   def openTweetInBrowser(tweet: Tweet) {
     openURLInBrowser("http://twitter.com/#!/"+tweet.nick+"/status/"+tweet.id)
   }
+
+  private val tr = new ThreadRunner
+  def thread(f: () => Unit) = tr.execute(f)
+
 }

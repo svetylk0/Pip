@@ -86,7 +86,7 @@ object MainWindow extends SimpleSwingApplication {
 
       reactions += {
         case ButtonClicked(SearchButton) =>
-          actor {
+          thread {
             SearchButton.enabled = false
             contents.clear
             contents += topPanel
@@ -107,8 +107,8 @@ object MainWindow extends SimpleSwingApplication {
             })
             
             SearchButton.enabled = true
+            MainWindow.repaint
           }
-        MainWindow.repaint
       }
 
     }

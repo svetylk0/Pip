@@ -46,7 +46,6 @@ class Toolbar(tab: TabbedPane,
 
       tweetPanel.contents.clear
       tweetPanel.contents ++= pager.previousPage()
-      tweetPanel.contents += this
 
       tab.repaint
 
@@ -55,7 +54,6 @@ class Toolbar(tab: TabbedPane,
 
       tweetPanel.contents.clear
       tweetPanel.contents ++= pager.nextPage()
-      tweetPanel.contents += this
 
       tab.repaint
   }
