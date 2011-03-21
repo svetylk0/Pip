@@ -2,6 +2,8 @@ package pip.gui
 
 import javax.swing.border.{EmptyBorder, LineBorder}
 import swing._
+import java.awt.Toolkit
+import pip.core.Tools
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +14,11 @@ import swing._
  */
 
 object Notifications {
-  def simpleNotification(msg: String, parent: UIElement = null) = new MainFrame with DisposeOnClose {
+  import Tools.thread
+
+  def simpleNotification(msg: String,
+                         parent: UIElement = null,
+                         autoVisible: Boolean = true) = new MainFrame with DisposeOnClose {
     peer.setUndecorated(true)
 
     val label = new Label {
@@ -32,6 +38,38 @@ object Notifications {
 
     if (parent == null) peer.setLocationRelativeTo(null) else setLocationRelativeTo(parent)
 
-    visible = true
+    visible = autoVisible
+  }
+
+  private val screenSize = Toolkit.getDefaultToolkit().getScreenSize()
+  private val (screenWidth, screenHeight) = (screenSize.getWidth.toInt, screenSize.getHeight.toInt)
+
+  def animatedRightDownCornerSimpleNotification(text: String, timeout: Long = 3000) = {
+    val notif = simpleNotification(msg = text, autoVisible = false)
+    val dim = notif.size
+    val (w,h) = (dim.getWidth.toInt, dim.getHeight.toInt)
+
+    notif.location = new Point(screenWidth-w,screenHeight)
+
+    val x = screenWidth-w
+
+    //nabeh
+    thread {
+      notif.visible = true
+      for(y <- Range((screenHeight-h),screenHeight).reverse) {
+        notif.location = new Point(x,y)
+        Thread.sleep(10l)
+      }
+    }
+
+    //cekani a konec
+    thread {
+      Thread.sleep(timeout)
+      for(y <- Range((screenHeight-h),screenHeight)) {
+        notif.location = new Point(x,y)
+        Thread.sleep(10l)
+      }
+      notif.dispose
+    }
   }
 }

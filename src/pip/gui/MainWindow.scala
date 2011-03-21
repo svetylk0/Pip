@@ -34,6 +34,8 @@ object MainWindow extends SimpleSwingApplication {
 
   val notification = Notifications.simpleNotification(Loc("loginInProgress"))
 
+  Notifications.animatedRightDownCornerSimpleNotification("Hellloooo :-)")
+
   val tw = if (fileExists(authFile)) {
     Auth.authorizedTwitterInstance(Auth.loadAccessToken(authFile))
   } else {

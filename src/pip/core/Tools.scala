@@ -49,6 +49,6 @@ object Tools {
   }
 
   private val tr = new ThreadRunner
-  def thread(f: () => Unit) = tr.execute(f)
+  def thread(f: => Unit) = tr.execute(f _)
 
 }
