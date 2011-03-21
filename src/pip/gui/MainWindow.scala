@@ -32,6 +32,8 @@ object MainWindow extends SimpleSwingApplication {
 
   Loc.load(Config("language"))
 
+  val notification = Notifications.simpleNotification(Loc("loginInProgress"))
+
   val tw = if (fileExists(authFile)) {
     Auth.authorizedTwitterInstance(Auth.loadAccessToken(authFile))
   } else {
@@ -65,6 +67,8 @@ object MainWindow extends SimpleSwingApplication {
     //horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
     verticalScrollBar.unitIncrement = 10
   }
+
+  notification.setText(Loc("loadingTweets"))
 
   val tabs = new TabbedPane {
     val tweetPanel = getTweetPanelByPager(this, tweetPager)
@@ -139,6 +143,8 @@ object MainWindow extends SimpleSwingApplication {
     mainFrame.repaint()
   }
 
+  notification.setText(Loc("loadingMainWindow"))
+
   val mainFrame = new MainFrame {
 
     val scrollViewport = new ScrollPane(tabs) {
@@ -158,4 +164,6 @@ object MainWindow extends SimpleSwingApplication {
   }
 
   def top = mainFrame
+
+  notification.dispose
 }
