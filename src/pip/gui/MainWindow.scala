@@ -8,6 +8,7 @@ import javax.swing.{ImageIcon, UIManager}
 import pip.core._
 import swing.TabbedPane.Page
 import actors.Future
+import actors.Actor.actor
 import javax.swing.border.EmptyBorder
 import java.awt.Font
 
@@ -85,23 +86,28 @@ object MainWindow extends SimpleSwingApplication {
 
       reactions += {
         case ButtonClicked(SearchButton) =>
-        contents.clear
-        contents += topPanel
+          actor {
+            SearchButton.enabled = false
+            contents.clear
+            contents += topPanel
 
-        //nejsou k dispozici stranky, tudiz ani pager
-        contents += scrollPane(new BoxPanel(Orientation.Vertical) {
-          try {
-            contents ++= core.searchAsFutures(searchText.text)
-          } catch {
-            //osetreni pripadu selhani, napr. kvuli pretizeni twitteru
-            case e: Exception =>
-              contents += new Label {
-                font = font.deriveFont(Font.BOLD, 20f)
-                text = Loc("searchFailed")
-                border = new EmptyBorder(20, 10, 20, 10)
+            //nejsou k dispozici stranky, tudiz ani pager
+            contents += scrollPane(new BoxPanel(Orientation.Vertical) {
+              try {
+                contents ++= core.searchAsFutures(searchText.text)
+              } catch {
+                //osetreni pripadu selhani, napr. kvuli pretizeni twitteru
+                case e: Exception =>
+                  contents += new Label {
+                    font = font.deriveFont(Font.BOLD, 20f)
+                    text = Loc("searchFailed")
+                    border = new EmptyBorder(20, 10, 20, 10)
+                  }
               }
+            })
+            
+            SearchButton.enabled = true
           }
-        })
         MainWindow.repaint
       }
 
