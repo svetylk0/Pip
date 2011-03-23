@@ -27,6 +27,7 @@ object Globals {
 
   //promenne ze souboru config.ini
   var tweetsPerPage = 5
+  var tweetFontSize = 12f
   var browserCommand = ""
 
   //ikonky
@@ -49,6 +50,7 @@ object Globals {
 
   def setConfigVariables() {
     tweetsPerPage = Config("tweetsPerPage").toInt
+    tweetFontSize = Config("tweetFontSize").toFloat
     browserCommand = Config("browserCommand")
   }
 }
