@@ -3,6 +3,7 @@ package pip.core
 import twitter4j.{User, Status}
 import javax.swing.ImageIcon
 import actors.Futures.future
+import pip.gui.{ImageService, NoServiceAvailable, TwitpicService, YfrogService}
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,8 +34,18 @@ case class Tweet(status: Status) {
   //getURLEntities zrejme nefunguje, docasna nahrazka:
 
   private val urlReg = """\w+://\S+""".r
+  private val yfrogReg = """(http://yfrog.com/+.)""".r
+  private val twitpicReg = """(http://twitpic.com/.+)""".r
 
   val urlList = urlReg findAllIn text toList
 
+  val imagesList = urlList collect {
+//  val imagesList: List[ImageService] = urlList collect {
+    case yfrogReg(url) => new YfrogService(url)
+    case twitpicReg(url) => new TwitpicService(url)
+    case _ => NoServiceAvailable
+  } filterNot { _ == NoServiceAvailable }
+
   def containsURLs = !urlList.isEmpty
+  def containsImages = !imagesList.isEmpty
 }

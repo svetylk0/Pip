@@ -60,16 +60,17 @@ object Notifications {
         notif.location = new Point(x,y)
         Thread.sleep(10l)
       }
-    }
 
-    //cekani a konec
-    thread {
+      //cekani a konec
+//      thread {
       Thread.sleep(timeout)
       for(y <- Range((screenHeight-h),screenHeight)) {
         notif.location = new Point(x,y)
         Thread.sleep(10l)
       }
       notif.dispose
+//      }
     }
+
   }
 }

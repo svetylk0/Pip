@@ -84,14 +84,24 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
       rolloverEnabled = true
       cursor = hand
       icon = urlIcon
-      rolloverIcon = urlHighLightIcon
+      rolloverIcon = urlHighlightIcon
       tooltip = Loc("openURL")
     }
   }
 
+  object ImageLabel extends HighlightableLabel {
+    val defaultIcon = imageIcon
+    val highLightIcon = imageHighlightIcon
+    val defaultText = ""
+
+    tooltip = Loc("showImages")
+    cursor = hand
+    icon = defaultIcon
+  }
+
   object URLLabel extends HighlightableLabel {
     val defaultIcon = urlIcon
-    val highLightIcon = urlHighLightIcon
+    val highLightIcon = urlHighlightIcon
     val defaultText = ""
 
     tooltip = Loc("openURL")
@@ -167,6 +177,12 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.insets = new Insets(0, 0, 0, 0)
   add(IconsFlowPanel, constraints)
 
+  //na tohle se bude nejspise vice hodit mutable kolekce
+  import collection.mutable
+  val componentList = new mutable.ListBuffer[Component]()
+  if (tweet.containsImages) componentList += ImageLabel
+  if (tweet.containsURLs) componentList += URLMenu
+
   //pokud je URL ve tweetu, pridat prislusnou komponentu
   if (tweet.containsURLs) {
     constraints.fill = GridBagPanel.Fill.Horizontal
@@ -175,7 +191,8 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     constraints.gridx = 3
     constraints.gridy = 2
     constraints.insets = new Insets(0, 0, 0, 0)
-    add(new FlowPanel(FlowPanel.Alignment.Right)(URLMenu) with TransparentBackgroundComponent, constraints)
+    add(new FlowPanel(FlowPanel.Alignment.Right)(componentList: _*) with TransparentBackgroundComponent, constraints)
+//    add(URLMenu, constraints)
   }
 
   constraints.fill = GridBagPanel.Fill.Horizontal
@@ -204,7 +221,9 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
            FavoriteLabel.mouse.moves,
            FavoriteLabel.mouse.clicks,
            URLLabel.mouse.moves,
-           URLLabel.mouse.clicks)
+           URLLabel.mouse.clicks,
+           ImageLabel.mouse.moves,
+           ImageLabel.mouse.clicks)
 
   reactions += {
     case MouseClicked(RetweetLabel,_,_,_,_) =>
@@ -219,6 +238,20 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
       new NewTweetWindow(core, this, tweet)
 
     case MouseClicked(URLLabel,_,_,_,_) =>
+
+    case MouseClicked(ImageLabel,_,_,_,_) =>
+      actor {
+        val notif = Notifications.simpleNotification(Loc("loadingImages"),ImageLabel)
+        try {
+          tweet.imagesList foreach { img =>
+            new ImageView(img.getIcon)
+          }
+        } catch {
+          case e: Exception => e.printStackTrace
+        } finally {
+          notif.dispose
+        }
+      }
 
     case e: MouseEntered =>
       //osetrit higlight labelu
