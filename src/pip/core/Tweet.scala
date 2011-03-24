@@ -40,7 +40,7 @@ case class Tweet(st: Status) {
   //getURLEntities zrejme nefunguje, docasna nahrazka:
 
   private val urlReg = """\w+://\S+""".r
-  private val yfrogReg = """(http://yfrog.com/+.)""".r
+  private val yfrogReg = """(http://yfrog.com/.+)""".r
   private val twitpicReg = """(http://twitpic.com/.+)""".r
 
   val urlList = urlReg findAllIn text toList
@@ -49,7 +49,6 @@ case class Tweet(st: Status) {
   val hrefList = List.concat(hrefList1, hrefList2) mkString ""
 
   val imagesList = urlList collect {
-//  val imagesList: List[ImageService] = urlList collect {
     case yfrogReg(url) => new YfrogService(url)
     case twitpicReg(url) => new TwitpicService(url)
     case _ => NoServiceAvailable

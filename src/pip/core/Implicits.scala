@@ -3,6 +3,8 @@ package pip.core
 import actors.Future
 import pip.gui.TweetView
 import java.awt.Color
+import java.io.{InputStreamReader, InputStream}
+import collection.immutable.PagedSeq
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,4 +30,8 @@ object Implicits {
     tweet => new TweetView(tweet())
   }
 
+
+  implicit def wrapInputStream[T <: InputStream](is: T) =
+    PagedSeq.fromReader(new InputStreamReader(is,"UTF-8"))
+//    PagedSeq.fromReader(new InputStreamReader(is,encoding))
 }

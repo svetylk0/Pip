@@ -4,6 +4,7 @@ import io.Source
 import javax.swing.{ImageIcon, Icon}
 import java.net.URL
 import util.matching.Regex
+import pip.net.Http
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,8 +18,10 @@ trait ImageService {
   val reg: Regex
   val url: String
 
+  val http = new Http("","UTF-8")
+
   def getIcon() = {
-    val data = Source.fromURL(url).mkString
+    val data = http.Get(url)
     reg findFirstMatchIn data match {
       case Some(x) => new ImageIcon(new URL(x group 1))
       case None => new ImageIcon

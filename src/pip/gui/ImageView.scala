@@ -20,16 +20,18 @@ class ImageView(image: ImageIcon, parent: UIElement = null) extends MainFrame wi
       icon = image
     }
 
-  contents = new BoxPanel(Orientation.Horizontal) {
+  val panel = new BoxPanel(Orientation.Horizontal) {
     contents += Img
   }
 
-  listenTo(Img.keys, Img.mouse.clicks, this)
+  contents = panel
+
+  listenTo(Img.keys, Img.mouse.clicks, this, panel.keys)
 
   reactions += {
      case MouseClicked(_,_,_,_,_) =>
        dispose
-     case KeyPressed (_, key,_,_) =>
+     case KeyPressed(_, key,_,_) =>
        if (key == Key.Escape) dispose
   }
 
