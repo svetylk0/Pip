@@ -44,6 +44,9 @@ case class Tweet(st: Status) {
   private val twitpicReg = """(http://twitpic.com/.+)""".r
 
   val urlList = urlReg findAllIn text toList
+  val hrefList1 = urlList map("<html><a href=\""+ _ +"\">")
+  val hrefList2 = urlList map (_ +"</a></html>")
+  val hrefList = List.concat(hrefList1, hrefList2) mkString ""
 
   val imagesList = urlList collect {
 //  val imagesList: List[ImageService] = urlList collect {
