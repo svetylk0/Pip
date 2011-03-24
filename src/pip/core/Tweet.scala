@@ -13,15 +13,21 @@ import pip.gui.{ImageService, NoServiceAvailable, TwitpicService, YfrogService}
  * To change this template use File | Settings | File Templates.
  */
 
-case class Tweet(status: Status) {
+case class Tweet(st: Status) {
+  val status = if (st.isRetweet) st.getRetweetedStatus else st
+
   val user = status.getUser
 
   val id = status.getId
   val isFavorited = status.isFavorited
+  val isRetweet = st.isRetweet
   val isRetweetedByMe = status.isRetweetedByMe
+
   val name = user.getName
   val nick = user.getScreenName
   val text = status.getText
+
+  val retweetedBy = st.getUser.getScreenName
   val retweetCount = status.getRetweetCount
 
   val profileIcon = new ImageIcon(user.getProfileImageURL)

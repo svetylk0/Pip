@@ -1,10 +1,11 @@
 package pip.gui
 
-import java.awt.{Cursor, Color, Insets}
 import swing._
 import scala.swing.event._
 import actors.Actor.actor
 import pip.core._
+import javax.swing.border.EmptyBorder
+import java.awt.{Font, Cursor, Color, Insets}
 
 class TweetView(tweet: Tweet) extends GridBagPanel {
 
@@ -20,16 +21,31 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   val iconLabel = new Label {
     icon = tweet.profileIcon
   }
-  val userLabel = new Label {
-    text = tweet.nick
+
+//  val userLabel = new Label {
+//    text = tweet.nick
+//  }
+
+  //docasne reseni, jak zobrazit, kym je tweet retweetnuty
+  val userLabel = new BoxPanel(Orientation.Horizontal) with TransparentBackgroundComponent {
+    contents += new Label {
+      text = tweet.nick
+    }
+
+    if (tweet.isRetweet) contents += new Label {
+      text = "by "+tweet.retweetedBy
+      icon = retweetIcon
+      border = new EmptyBorder(0,5,0,0)
+    }
   }
+
   val nameLabel = new Label {
     text = tweet.name
   }
   val tweetText = new TextArea(tweet.text, 3, 40) {
     editable = false
 //    font = userLabel.font
-    font = userLabel.font.deriveFont(tweetFontSize)
+    font = font.deriveFont(Font.BOLD, tweetFontSize)
     lineWrap = true
     opaque = false
     wordWrap = true
