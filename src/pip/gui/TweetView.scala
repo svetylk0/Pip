@@ -47,7 +47,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   val tweetText = new TextArea(tweet.text, 3, 40) {
     editable = false
 //    font = userLabel.font
-    font = userLabel.nick.font.deriveFont(Font.BOLD, tweetFontSize)
+    font = userLabel.nick.font.deriveFont(tweetFontSize)
     lineWrap = true
     opaque = false
     wordWrap = true
