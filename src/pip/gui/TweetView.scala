@@ -28,9 +28,11 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
 
   //docasne reseni, jak zobrazit, kym je tweet retweetnuty
   val userLabel = new BoxPanel(Orientation.Horizontal) with TransparentBackgroundComponent {
-    contents += new Label {
+    val nick =  new Label {
       text = tweet.nick
     }
+    
+    contents += nick
 
     if (tweet.isRetweet) contents += new Label {
       text = "by "+tweet.retweetedBy
@@ -45,7 +47,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   val tweetText = new TextArea(tweet.text, 3, 40) {
     editable = false
 //    font = userLabel.font
-    font = font.deriveFont(Font.BOLD, tweetFontSize)
+    font = userLabel.nick.font.deriveFont(Font.BOLD, tweetFontSize)
     lineWrap = true
     opaque = false
     wordWrap = true
