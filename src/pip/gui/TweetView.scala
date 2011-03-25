@@ -31,19 +31,25 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     val nick =  new Label {
       text = tweet.nick
     }
-    
+
+    val nameLabel = new Label {
+      text = tweet.name
+      font = font.deriveFont(Font.PLAIN)
+      border = new EmptyBorder(0,5,0,0)
+    }
+
     contents += nick
+    contents += nameLabel
 
     if (tweet.isRetweet) contents += new Label {
       text = "by "+tweet.retweetedBy
       icon = retweetIcon
       border = new EmptyBorder(0,5,0,0)
     }
+
+    border = new EmptyBorder(0,0,2,0)
   }
 
-  val nameLabel = new Label {
-    text = tweet.name
-  }
   val tweetText = new TextArea(tweet.text, 3, 40) {
     editable = false
 //    font = userLabel.font
@@ -155,13 +161,13 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.insets = new Insets(0, 0, 0, 0)
   add(userLabel, constraints)
 
-  constraints.fill = GridBagPanel.Fill.Horizontal
+  /*constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridwidth = 1
   constraints.gridheight = 1
   constraints.gridx = 2
   constraints.gridy = 0
   constraints.insets = new Insets(0, 0, 0, 0)
-  add(nameLabel, constraints)
+  add(nameLabel, constraints)*/
 
   constraints.fill = GridBagPanel.Fill.None
   constraints.gridwidth = 4
