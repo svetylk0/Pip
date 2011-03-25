@@ -199,7 +199,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   import collection.mutable
   val componentList = new mutable.ListBuffer[Component]()
   if (tweet.containsImages) componentList += ImageLabel
-  if (tweet.containsURLs) componentList += URLMenu
+//  if (tweet.containsURLs) componentList += URLMenu
 
   //pokud je URL ve tweetu, pridat prislusnou komponentu
   if (tweet.containsURLs) {
