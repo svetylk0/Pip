@@ -10,7 +10,7 @@ import pip.core._
  * To change this template use File | Settings | File Templates.
  */
 
-object PipTest extends Application {
+object PipTest extends App {
 //  println("Otevri tuto URL v prohlizeci:")
 //  println(Auth.authURL)
 //  println("a zadej pin:")
