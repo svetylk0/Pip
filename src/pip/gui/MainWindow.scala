@@ -46,7 +46,18 @@ object MainWindow extends SimpleSwingApplication {
 
   val core = new PipCore(tw)
 
-  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
+  //nastaveni L&F z configu
+  private def setSystemLookAndFeel = UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
+
+  Config("lookAndFeel") match {
+    case "System" => setSystemLookAndFeel
+    case lafName =>
+      UIManager.getInstalledLookAndFeels find { _.getName == lafName } match {
+        case Some(lafInfo) => UIManager.setLookAndFeel(lafInfo.getClassName)
+        case None => setSystemLookAndFeel
+      }
+  }
+
 
   val tweetPager = new TweetPager(tweetsPerPage, core.homeTimelineFutures)
   val mentionsPager = new TweetPager(tweetsPerPage, core.mentionsFutures)

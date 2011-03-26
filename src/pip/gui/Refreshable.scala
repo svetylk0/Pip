@@ -19,7 +19,8 @@ trait RefreshableBoxPanel {
   val defaultPanel: BoxPanel
 
   def refresh() {
+    val loadPage = defaultPager.currentPage()
     defaultPanel.contents.clear
-    defaultPanel.contents ++= defaultPager.currentPage()
+    defaultPanel.contents ++= loadPage
   }
 }
