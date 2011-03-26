@@ -13,6 +13,11 @@ class Toolbar(tab: TabbedPane,
   import MainWindow.core
   import Implicits._
 
+  object UpButton extends Button(Loc("up")) {
+    mnemonic = Key.N
+    tooltip = Loc("goToFirstPage")
+  }
+
   object AddTweetButton extends Button("+".tagB.tagHtml) {
     mnemonic = Key.N
     tooltip = Loc("newTweet")
@@ -31,13 +36,14 @@ class Toolbar(tab: TabbedPane,
 
   contents += new Button(Loc("profile"))
   contents += new Button(Loc("messages"))
+  contents += UpButton
   contents += PrevPageButton
   contents += NextPageButton
   contents += AddTweetButton
 
   val parent = new TextField(10)
 
-  listenTo(AddTweetButton, PrevPageButton, NextPageButton)
+  listenTo(AddTweetButton, PrevPageButton, NextPageButton, UpButton)
 
   reactions += {
     case ButtonClicked(AddTweetButton) => new NewTweetWindow(core, this)
@@ -54,6 +60,12 @@ class Toolbar(tab: TabbedPane,
 
       tweetPanel.contents.clear
       tweetPanel.contents ++= pager.nextPage()
+
+      tab.repaint
+
+    case ButtonClicked(UpButton) =>
+      tweetPanel.contents.clear
+      tweetPanel.contents ++= pager.firstPage()
 
       tab.repaint
   }
