@@ -44,9 +44,13 @@ case class Tweet(st: Status) {
   private val twitpicReg = """(http://twitpic.com/.+)""".r
 
   val urlList = urlReg findAllIn text toList
-  val hrefList1 = urlList map("<html><a href=\""+ _ +"\">")
-  val hrefList2 = urlList map (_ +"</a></html>")
-  val hrefList = List.concat(hrefList1, hrefList2) mkString ""
+  //val hrefList1 = urlList map("<html><a href=\""+ _ +"\">")
+  //val hrefList2 = urlList map (_ +"</a></html>")
+  //val hrefList = List.concat(hrefList1, hrefList2) mkString ""
+  val decomposed = text.split(" ")
+  for (i <- decomposed)
+    urlReg replaceAllIn(i, "<html><a href=\""+ urlReg +">"+ urlReg +"</a></html>")
+  //for (i <- decomposed) println("new "+ i)
 
   val imagesList = urlList collect {
     case yfrogReg(url) => new YfrogService(url)
