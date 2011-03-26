@@ -22,37 +22,37 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     icon = tweet.profileIcon
   }
 
-//  val userLabel = new Label {
-//    text = tweet.nick
-//  }
+  //  val userLabel = new Label {
+  //    text = tweet.nick
+  //  }
 
   //docasne reseni, jak zobrazit, kym je tweet retweetnuty
   val userLabel = new BoxPanel(Orientation.Horizontal) with TransparentBackgroundComponent {
-    val nick =  new Label {
+    val nick = new Label {
       text = tweet.nick
     }
 
     val nameLabel = new Label {
       text = tweet.name
       font = font.deriveFont(Font.PLAIN)
-      border = new EmptyBorder(0,5,0,0)
+      border = new EmptyBorder(0, 5, 0, 0)
     }
 
     contents += nick
     contents += nameLabel
 
     if (tweet.isRetweet) contents += new Label {
-      text = "by "+tweet.retweetedBy
+      text = "by " + tweet.retweetedBy
       icon = retweetIcon
-      border = new EmptyBorder(0,5,0,0)
+      border = new EmptyBorder(0, 5, 0, 0)
     }
 
-    border = new EmptyBorder(0,0,2,0)
+    border = new EmptyBorder(0, 0, 2, 0)
   }
 
   val tweetText = new TextArea(tweet.text, 3, 40) {
     editable = false
-//    font = userLabel.font
+    //    font = userLabel.font
     font = (new Label).font.deriveFont(tweetFontSize)
     lineWrap = true
     opaque = false
@@ -101,7 +101,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     focusable = false
     opaque = false
     contents += new Menu("") {
-      focusable = false 
+      focusable = false
       opaque = false
       contents += new MenuItem("url 1")
       contents += new MenuItem("url 2")
@@ -146,15 +146,15 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   val constraints = new Constraints
   constraints.anchor = GridBagPanel.Anchor.LineStart
   constraints.fill = GridBagPanel.Fill.Horizontal
-  constraints.gridheight = 1 
+  constraints.gridheight = 1
   constraints.weightx = .5
   constraints.gridx = 0
-  constraints.gridy = 1 
+  constraints.gridy = 1
   constraints.insets = new Insets(0, 0, 0, 5) //top, left, bottom, right
   add(iconLabel, constraints)
 
   constraints.fill = GridBagPanel.Fill.Horizontal
-  constraints.gridwidth = 1 
+  constraints.gridwidth = 1
   constraints.gridheight = 1
   constraints.gridx = 1
   constraints.gridy = 0
@@ -177,22 +177,22 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.insets = new Insets(0, 0, 0, 0)
   add(tweetText, constraints)
 
- /* constraints.fill = GridBagPanel.Fill.Horizontal
-  constraints.gridwidth = 1
-  constraints.gridheight = 1
-  constraints.gridx = 1
-  constraints.gridy = 2
-  constraints.insets = new Insets(0, 0, 0, 0)
-  add(FavoriteLabel, constraints)
+  /* constraints.fill = GridBagPanel.Fill.Horizontal
+constraints.gridwidth = 1
+constraints.gridheight = 1
+constraints.gridx = 1
+constraints.gridy = 2
+constraints.insets = new Insets(0, 0, 0, 0)
+add(FavoriteLabel, constraints)
 
-  constraints.fill = GridBagPanel.Fill.Horizontal
-  constraints.gridwidth = 1
-  constraints.gridheight = 1
-  constraints.gridx = 2
-  constraints.gridy = 2
-  constraints.insets = new Insets(0, 0, 0, 0)
-  add(RetweetLabel, constraints) */
- 
+constraints.fill = GridBagPanel.Fill.Horizontal
+constraints.gridwidth = 1
+constraints.gridheight = 1
+constraints.gridx = 2
+constraints.gridy = 2
+constraints.insets = new Insets(0, 0, 0, 0)
+add(RetweetLabel, constraints) */
+
   constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridwidth = 1
   constraints.gridheight = 1
@@ -202,10 +202,12 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   add(IconsFlowPanel, constraints)
 
   //na tohle se bude nejspise vice hodit mutable kolekce
+
   import collection.mutable
+
   val componentList = new mutable.ListBuffer[Component]()
   if (tweet.containsImages) componentList += ImageLabel
-//  if (tweet.containsURLs) componentList += URLMenu
+  //  if (tweet.containsURLs) componentList += URLMenu
 
   //pokud je URL ve tweetu, pridat prislusnou komponentu
   if (tweet.containsURLs) {
@@ -216,7 +218,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     constraints.gridy = 2
     constraints.insets = new Insets(0, 0, 0, 0)
     add(new FlowPanel(FlowPanel.Alignment.Right)(componentList: _*) with TransparentBackgroundComponent, constraints)
-//    add(URLMenu, constraints)
+    //    add(URLMenu, constraints)
   }
 
   constraints.fill = GridBagPanel.Fill.Horizontal
@@ -230,45 +232,62 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   //border = Swing.EmptyBorder(10, 10, 10, 10)
   background = Color.white
   val width = iconLabel.size.width + tweetText.size.width
-  val height = userLabel.size.height + tweetText.size.height + 
-               FavoriteLabel.size.height + separator.size.height
+  val height = userLabel.size.height + tweetText.size.height +
+    FavoriteLabel.size.height + separator.size.height
   minimumSize = new Dimension(width, height)
 
   listenTo(mouse.moves,
-           mouse.clicks,
-           tweetText.mouse.moves,
-           tweetText.mouse.clicks,
-           ReplyLabel.mouse.moves,
-           ReplyLabel.mouse.clicks,
-           RetweetLabel.mouse.moves,
-           RetweetLabel.mouse.clicks,
-           FavoriteLabel.mouse.moves,
-           FavoriteLabel.mouse.clicks,
-           URLLabel.mouse.moves,
-           URLLabel.mouse.clicks,
-           ImageLabel.mouse.moves,
-           ImageLabel.mouse.clicks)
+    mouse.clicks,
+    tweetText.mouse.moves,
+    tweetText.mouse.clicks,
+    ReplyLabel.mouse.moves,
+    ReplyLabel.mouse.clicks,
+    RetweetLabel.mouse.moves,
+    RetweetLabel.mouse.clicks,
+    FavoriteLabel.mouse.moves,
+    FavoriteLabel.mouse.clicks,
+    URLLabel.mouse.moves,
+    URLLabel.mouse.clicks,
+    ImageLabel.mouse.moves,
+    ImageLabel.mouse.clicks)
 
   reactions += {
-    case MouseClicked(RetweetLabel,_,_,_,_) =>
-      if (tweet.isRetweetedByMe) core.undoRetweet(tweet.id) else core.retweet(tweet.id)
-      MainWindow.refreshActiveTab
+    case MouseClicked(RetweetLabel, _, _, _, _) =>
+      actor {
+        if (tweet.isRetweetedByMe) {
+          core.undoRetweet(tweet.id)
+          Animations.backgroundColorTransition(specialGreen, white, this, MainWindow.mainFrame)
+        } else {
+          core.retweet(tweet.id)
+          Animations.backgroundColorTransition(white, specialGreen, this, MainWindow.mainFrame)
+        }
+        MainWindow.refreshActiveTab
+      }
 
-    case MouseClicked(FavoriteLabel,_,_,_,_) =>
-      if (tweet.isFavorited) core.unFavorite(tweet.id) else core.favorite(tweet.id)
-      MainWindow.refreshActiveTab
+    case MouseClicked(FavoriteLabel, _, _, _, _) =>
+      actor {
+        if (tweet.isFavorited) {
+          core.unFavorite(tweet.id)
+          Animations.backgroundColorTransition(specialYellow, white, this, MainWindow.mainFrame)
+        } else {
+          core.favorite(tweet.id)
+          Animations.backgroundColorTransition(white, specialYellow, this, MainWindow.mainFrame)
+        }
+        MainWindow.refreshActiveTab
+      }
 
-    case MouseClicked(ReplyLabel,_,_,_,_) =>
+    case MouseClicked(ReplyLabel, _, _, _, _) =>
       new NewTweetWindow(core, this, tweet)
 
-    case MouseClicked(URLLabel,_,_,_,_) =>
+    case MouseClicked(URLLabel, _, _, _, _) =>
 
-    case MouseClicked(ImageLabel,_,_,_,_) =>
+    case MouseClicked(ImageLabel, _, _, _, _) =>
       actor {
-        val notif = Notifications.simpleNotification(Loc("loadingImages"),ImageLabel)
+        val notif = Notifications.simpleNotification(Loc("loadingImages"), ImageLabel)
         try {
-          tweet.imagesList foreach { img =>
-            new ImageView(img.getIcon)
+          tweet.imagesList foreach {
+            img =>
+              new ImageView(img.getIcon)
           }
         } catch {
           case e: Exception => e.printStackTrace
@@ -278,7 +297,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
       }
 
     case e: MouseEntered =>
-      //osetrit higlight labelu
+    //osetrit higlight labelu
       e.source match {
         case x: HighlightableLabel => x.highLight()
         case _ =>
@@ -286,7 +305,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
 
       background = tweetHighlightBlue
     case e: MouseExited =>
-      //osetrit higlight labelu
+    //osetrit higlight labelu
       e.source match {
         case x: HighlightableLabel => x.deHighlight
         case _ =>
@@ -301,7 +320,7 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
       e.modifiers match {
         case `leftMouseButton` =>
           actor {
-            Animations.backgroundColorTransition(specialBlue,white,this,MainWindow.mainFrame)
+            Animations.backgroundColorTransition(specialBlue, white, this, MainWindow.mainFrame)
             openTweetInBrowser(tweet)
           }
         case _ =>

@@ -16,6 +16,8 @@ object Colors {
   val darkRed = new Color(92,0,2)
   val lightGray = new Color(235,235,235)
   val specialBlue = new Color(200,200,255)
+  val specialGreen = new Color(200,255,200)
+  val specialYellow = new Color(255,255,200)
   val transparent = new Color(0,0,0,0)
   val tweetHighlightBlue = new Color(235,235,255)
   val white = new Color(255,255,255)
