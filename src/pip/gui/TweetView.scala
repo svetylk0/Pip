@@ -121,6 +121,10 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
     tooltip = Loc("showImages")
     cursor = hand
     icon = defaultIcon
+    
+    override def highLight() {
+      icon = highLightIcon
+    }
   }
 
   object URLLabel extends HighlightableLabel {
