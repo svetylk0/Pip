@@ -12,10 +12,12 @@ import pip.core.{Tools, Config, Loc}
  * To change this template use File | Settings | File Templates.
  */
 
-class PreferencesWindow extends MainFrame with DisposeOnClose {
+class PreferencesWindow(parent: UIElement = null) extends MainFrame with DisposeOnClose {
   title = Loc("preferences")
 
-  def optionItem(c: Component*) = new FlowPanel(FlowPanel.Alignment.Center)(c: _*)
+  def rowItemCenter(c: Component*) = new FlowPanel(FlowPanel.Alignment.Center)(c: _*)
+  def rowItemLeft(c: Component*) = new FlowPanel(FlowPanel.Alignment.Left)(c: _*)
+  def rowItemRight(c: Component*) = new FlowPanel(FlowPanel.Alignment.Right)(c: _*)
 
   private val languages = Tools.languagesList
 
@@ -23,8 +25,8 @@ class PreferencesWindow extends MainFrame with DisposeOnClose {
     selection.index = languages indexOf Config("language")
   }
 
-  val languageItem = optionItem(new Label {
-    text = Loc("language")+":"
+  val languageItem = rowItemLeft(new Label {
+    text = Loc("localizationFile")+":"
   }, language)
 
 
@@ -40,9 +42,19 @@ class PreferencesWindow extends MainFrame with DisposeOnClose {
     text = Loc("close")
   }
 
-  contents = new BoxPanel(Orientation.Vertical) {
+  val languagePanel = new BoxPanel(Orientation.Vertical) {
     contents += languageItem
-    contents += optionItem(SaveButton, ApplyButton, CloseButton)
+  }
+
+  contents = new BorderPanel() {
+    val tab = new TabbedPane {
+      pages += new TabbedPane.Page(Loc("language"), languagePanel)
+    }
+
+    add(tab, BorderPanel.Position.Center)
+    add(new FlowPanel(FlowPanel.Alignment.Right)(SaveButton, ApplyButton, CloseButton),
+        BorderPanel.Position.South)
+
   }
 
   listenTo(SaveButton, ApplyButton, CloseButton)
@@ -61,6 +73,8 @@ class PreferencesWindow extends MainFrame with DisposeOnClose {
     case ButtonClicked(CloseButton) => dispose
   }
 
+  minimumSize = new Dimension(600,400)
+  if (parent == null) peer.setLocationRelativeTo(null) else setLocationRelativeTo(parent)
 }
 
 object PreferencesWindow {

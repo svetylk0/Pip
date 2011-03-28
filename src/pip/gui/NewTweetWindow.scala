@@ -17,7 +17,8 @@ import pip.core._
 
 class NewTweetWindow(pip: PipCore,
                      parent: UIElement,
-                     inReplyToTweet: Tweet = null)
+                     inReplyToTweet: Tweet = null,
+                     autoVisible: Boolean = true)
   extends MainFrame with URLShortener with DisposeOnClose {
 
   import Colors._
@@ -103,7 +104,7 @@ class NewTweetWindow(pip: PipCore,
   setLocationRelativeTo(parent)
 
   //zobrazit az je vse inicializovano
-  visible = true
+  visible = autoVisible
 }
 
 

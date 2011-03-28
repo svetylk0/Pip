@@ -34,7 +34,9 @@ class Toolbar(tab: TabbedPane,
     tooltip = Loc("prevPage") +", "+ Loc("altLeftArrow")
   }
 
-  contents += new Button(Loc("profile"))
+  object PreferencesButton extends Button(Loc("preferences"))
+
+  contents += PreferencesButton
   contents += new Button(Loc("messages"))
   contents += UpButton
   contents += PrevPageButton
@@ -43,9 +45,10 @@ class Toolbar(tab: TabbedPane,
 
   val parent = new TextField(10)
 
-  listenTo(AddTweetButton, PrevPageButton, NextPageButton, UpButton)
+  listenTo(AddTweetButton, PrevPageButton, NextPageButton, UpButton, PreferencesButton)
 
   reactions += {
+    case ButtonClicked(PreferencesButton) => (new PreferencesWindow).visible = true
     case ButtonClicked(AddTweetButton) => new NewTweetWindow(core, this)
     case ButtonClicked(PrevPageButton) =>
       if (pager.page == 2) PrevPageButton.enabled = false

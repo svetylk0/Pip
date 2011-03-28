@@ -158,6 +158,9 @@ object MainWindow extends SimpleSwingApplication {
 
   notification.setText(Loc("loadingMainWindow"))
 
+  //plain load, pro rychlejsi nacteni pozdeji
+  new NewTweetWindow(core, new MainFrame, autoVisible = false)
+
   val mainFrame = new MainFrame {
 
     val scrollViewport = new ScrollPane(tabs) {
