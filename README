@@ -2,20 +2,23 @@
 Pip
 =====
 
-NAVRHY:
--vetsi, roztazene obdelnikove taby
--"sachovnicove" pozadi pro tweety, anebo nejaka oddelovaci tenka cara - HOTOVO
--nejaky jednotny font? muzeme i nacitat ze souboru
--male "tlacitka": retweet, reply, favorite pro kazdy tweet - HOTOVO
-
 TODO:
-- pridat pole a tlacitko pro novy tweet - HOTOVO
+-moznost ulozit slova posledniho hledani v tweetech
+-zavest timeouty na IO operace
+-vetsi, roztazene obdelnikove taby (vlastne roztazene byt ani nemusi
+a tohle je uz spise vec L&F)
+-nejaky jednotny font? muzeme i nacitat ze souboru
 - udelat klavesove zkratky pro pohyb mezi:
 a) strankami s tweety (jenom sipkama)
 b) jednotlivymy taby (alt+sipka)
-- upravit vzhled pozadi u text area - HOTOVO
 - zjistit vztahy mezi velikosti fontu, velikosti text area a velikosti widgetu na zaklade velikosti hlavniho okna aplikace
 - obalit url adresy do <a> tagu
 - zajistit stejnou funkcionalitu tagu @, # jako na twitter.com
 - upravit komponentu pro zobrazovani cvrlikani tak, aby vhodne zalamovala obsah vzheldem k velikosti okna aplikace
 - co takhle deploynout projekt jako applet s tim, ze lokalni instalace by probihala stylem drag&drop diky Java 6 pluginu?
+
+DONE:
+-"sachovnicove" pozadi pro tweety, anebo nejaka oddelovaci tenka cara - HOTOVO
+-male "tlacitka": retweet, reply, favorite pro kazdy tweet - HOTOVO
+- pridat pole a tlacitko pro novy tweet - HOTOVO
+- upravit vzhled pozadi u text area - HOTOVO
