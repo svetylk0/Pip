@@ -3,6 +3,7 @@ package pip.gui
 import swing._
 import event._
 import pip.core.{Tools, Config, Loc}
+import javax.swing.GroupLayout.Alignment
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,9 +16,13 @@ import pip.core.{Tools, Config, Loc}
 class PreferencesWindow(parent: UIElement = null) extends MainFrame with DisposeOnClose {
   title = Loc("preferences")
 
-  def rowItemCenter(c: Component*) = new FlowPanel(FlowPanel.Alignment.Center)(c: _*)
-  def rowItemLeft(c: Component*) = new FlowPanel(FlowPanel.Alignment.Left)(c: _*)
-  def rowItemRight(c: Component*) = new FlowPanel(FlowPanel.Alignment.Right)(c: _*)
+
+  def rowItemLeft(c: Component*) = new FlowPanel(FlowPanel.Alignment.Left)(c: _*) {
+    //val mh = math.round(c.maxBy(_.size.getHeight).size.getHeight).toInt
+    val rowSize = 40
+    maximumSize = new Dimension(Int.MaxValue,rowSize)
+  }
+
 
   private val languages = Tools.languagesList
 
@@ -42,7 +47,11 @@ class PreferencesWindow(parent: UIElement = null) extends MainFrame with Dispose
     text = Loc("close")
   }
 
+  val a = new Button("A")
+
+
   val languagePanel = new BoxPanel(Orientation.Vertical) {
+    contents += rowItemLeft(new Label("Jazyk:"))
     contents += languageItem
   }
 
