@@ -16,6 +16,7 @@ mentions=Zmínky
 messages=Zprávy
 newTweet=Štěbetat
 nextPage=Starší štěbetání
+noSearchResults=Pro hledaný výraz nebyl nalezen žádný výsledek.
 ok=Ok
 openURL=Otevřít URL
 pip=Zpěváček

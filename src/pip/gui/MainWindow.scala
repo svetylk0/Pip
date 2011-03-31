@@ -95,11 +95,20 @@ object MainWindow extends SimpleSwingApplication {
         text = Loc("search")
       }
 
-      val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(searchText, SearchButton)
+      val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(searchText, SearchButton) {
+        maximumSize = new Dimension(Int.MaxValue,40)
+      }
 
       contents += topPanel
 
       listenTo(SearchButton)
+
+      def infoLabel(text: String) = new FlowPanel(FlowPanel.Alignment.Center)(
+        new Label(text) {    
+          font = font.deriveFont(Font.BOLD, 20f)
+          border = new EmptyBorder(20, 10, 20, 10)
+        }
+      )
 
       reactions += {
         case ButtonClicked(SearchButton) =>
@@ -111,15 +120,16 @@ object MainWindow extends SimpleSwingApplication {
             //nejsou k dispozici stranky, tudiz ani pager
             contents += scrollPane(new BoxPanel(Orientation.Vertical) {
               try {
-                contents ++= core.searchAsFutures(searchText.text)
+                val searchResult = core.searchAsFutures(searchText.text)
+                if (searchResult.isEmpty) {
+                  contents += infoLabel(Loc("noSearchResults"))
+                } else {
+                  contents ++= searchResult
+                }
               } catch {
                 //osetreni pripadu selhani, napr. kvuli pretizeni twitteru
                 case e: Exception =>
-                  contents += new Label {
-                    font = font.deriveFont(Font.BOLD, 20f)
-                    text = Loc("searchFailed")
-                    border = new EmptyBorder(20, 10, 20, 10)
-                  }
+                  contents += infoLabel(Loc("searchFailed"))
               }
             })
             
