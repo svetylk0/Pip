@@ -1,2 +1,2 @@
 #!/bin/bash
-scala -cp .:lib/twitter4j-core-2.2.1-SNAPSHOT.jar:build pip.test.PipTest
+scala -cp .:lib/twitter4j-core-2.2.2-SNAPSHOT.jar:build pip.test.PipTest
