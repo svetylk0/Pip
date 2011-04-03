@@ -11,6 +11,7 @@ import actors.Future
 import actors.Actor.actor
 import javax.swing.border.EmptyBorder
 import java.awt.Font
+import java.awt.event.{FocusEvent, FocusListener}
 
 /**
  * Created by IntelliJ IDEA.
@@ -89,19 +90,20 @@ object MainWindow extends SimpleSwingApplication {
 
     private val tabsRef = this
     val searchPanel = new BoxPanel(Orientation.Vertical) {
-      val searchText = new TextField(10)
+
+      object SearchText extends TextField(10)
 
       object SearchButton extends Button {
         text = Loc("search")
       }
 
-      val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(searchText, SearchButton) {
+      val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(SearchText, SearchButton) {
         maximumSize = new Dimension(Int.MaxValue,40)
       }
 
       contents += topPanel
 
-      listenTo(SearchButton)
+      listenTo(SearchButton, SearchText)
 
       def infoLabel(text: String) = new FlowPanel(FlowPanel.Alignment.Center)(
         new Label(text) {    
@@ -111,6 +113,10 @@ object MainWindow extends SimpleSwingApplication {
       )
 
       reactions += {
+        case EditDone(SearchText) => actor {
+          SearchButton.doClick
+        }
+
         case ButtonClicked(SearchButton) =>
           thread {
             SearchButton.enabled = false
@@ -120,7 +126,7 @@ object MainWindow extends SimpleSwingApplication {
             //nejsou k dispozici stranky, tudiz ani pager
             contents += scrollPane(new BoxPanel(Orientation.Vertical) {
               try {
-                val searchResult = core.searchAsFutures(searchText.text)
+                val searchResult = core.searchAsFutures(SearchText.text)
                 if (searchResult.isEmpty) {
                   contents += infoLabel(Loc("noSearchResults"))
                 } else {
@@ -136,6 +142,7 @@ object MainWindow extends SimpleSwingApplication {
             SearchButton.enabled = true
             MainWindow.repaint
           }
+
       }
 
     }

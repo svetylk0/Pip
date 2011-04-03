@@ -32,10 +32,16 @@ case class Tweet(st: Status) {
 
   val profileIcon = new ImageIcon(user.getProfileImageURL)
 
-//  val urlList = status.getURLEntities match {
-//    case null => Nil
-//    case x => x.toList
-//  }
+  val urlList = status.getURLEntities match {
+    case null => Nil
+    case x => 
+      x.toList map { entity =>
+        entity.getExpandedURL match {
+          case null => entity.getURL.toString
+          case x => x.toString
+        }
+      }
+  }
 
   //getURLEntities zrejme nefunguje, docasna nahrazka:
 
@@ -43,7 +49,8 @@ case class Tweet(st: Status) {
   private val yfrogReg = """(http://yfrog.com/.+)""".r
   private val twitpicReg = """(http://twitpic.com/.+)""".r
 
-  val urlList = urlReg findAllIn text toList
+//  val urlList = urlReg findAllIn text toList
+
   //val hrefList1 = urlList map("<html><a href=\""+ _ +"\">")
   //val hrefList2 = urlList map (_ +"</a></html>")
   //val hrefList = List.concat(hrefList1, hrefList2) mkString ""
