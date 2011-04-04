@@ -1,9 +1,10 @@
 package pip.gui
 
-import javax.swing.ImageIcon
 import swing._
 import event.Key
 import event._
+import java.awt.event.KeyListener
+import javax.swing.{JComponent, ImageIcon}
 
 
 /**
@@ -14,7 +15,8 @@ import event._
  * To change this template use File | Settings | File Templates.
  */
 
-class ImageView(image: ImageIcon, parent: UIElement = null) extends MainFrame with DisposeOnClose {
+class ImageView(image: ImageIcon, parent: UIElement = null) extends MainFrame
+      with DisposeOnClose {
 
   object Img extends Label {
       icon = image
@@ -26,7 +28,7 @@ class ImageView(image: ImageIcon, parent: UIElement = null) extends MainFrame wi
 
   contents = panel
 
-  listenTo(Img.keys, Img.mouse.clicks, this, panel.keys)
+  listenTo(Img.mouse.clicks, panel.keys)
 
   reactions += {
      case MouseClicked(_,_,_,_,_) =>
@@ -37,4 +39,5 @@ class ImageView(image: ImageIcon, parent: UIElement = null) extends MainFrame wi
 
   if (parent == null) peer.setLocationRelativeTo(null) else setLocationRelativeTo(parent)
   visible = true
+  panel.requestFocus
 }
