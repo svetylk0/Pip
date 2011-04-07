@@ -64,7 +64,8 @@ object MainWindow extends SimpleSwingApplication {
   val mentionsPager = new TweetPager(tweetsPerPage, core.mentionsFutures)
 
   private def getTweetPanelByPager(tabPane: TabbedPane,
-                                   pager: TweetPager[Future[Tweet]]) = new BoxPanel(Orientation.Vertical) with RefreshableBoxPanel {
+                                   pager: TweetPager[Future[Tweet]],
+                                   withAddTweetButton: Boolean = true) = new BoxPanel(Orientation.Vertical) with RefreshableBoxPanel {
 
     val twPanel = new BoxPanel(Orientation.Vertical) {
       contents ++= pager.firstPage
@@ -74,7 +75,7 @@ object MainWindow extends SimpleSwingApplication {
     val defaultPanel = twPanel
 
     contents += scrollPane(twPanel)
-    contents += new Toolbar(tabPane, twPanel, pager)
+    contents += new Toolbar(tabPane, twPanel, pager, withAddTweetButton)
   }
 
   def scrollPane(c: Component) = new ScrollPane(c) {
@@ -86,7 +87,7 @@ object MainWindow extends SimpleSwingApplication {
 
   val tabs = new TabbedPane {
     val tweetPanel = getTweetPanelByPager(this, tweetPager)
-    val mentionsPanel = getTweetPanelByPager(this, mentionsPager)
+    val mentionsPanel = getTweetPanelByPager(this, mentionsPager, withAddTweetButton = false)
 
     private val tabsRef = this
     val searchPanel = new BoxPanel(Orientation.Vertical) {
@@ -103,7 +104,7 @@ object MainWindow extends SimpleSwingApplication {
 
       contents += topPanel
 
-      listenTo(SearchButton, SearchText)
+      listenTo(SearchButton, SearchText.keys)
 
       def infoLabel(text: String) = new FlowPanel(FlowPanel.Alignment.Center)(
         new Label(text) {    
@@ -113,13 +114,15 @@ object MainWindow extends SimpleSwingApplication {
       )
 
       reactions += {
-        case EditDone(SearchText) => actor {
-          SearchButton.doClick
-        }
-
+        case KeyPressed(SearchText, key,_,_) =>
+          if (key == Key.Enter) thread {
+            SearchButton.doClick
+          }
+                    
         case ButtonClicked(SearchButton) =>
           thread {
             SearchButton.enabled = false
+            SearchText.enabled = false
             contents.clear
             contents += topPanel
 
@@ -140,6 +143,7 @@ object MainWindow extends SimpleSwingApplication {
             })
             
             SearchButton.enabled = true
+            SearchText.enabled = true
             MainWindow.repaint
           }
 

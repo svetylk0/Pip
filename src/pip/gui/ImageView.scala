@@ -1,7 +1,6 @@
 package pip.gui
 
 import swing._
-import event.Key
 import event._
 import java.awt.event.KeyListener
 import javax.swing.{JComponent, ImageIcon}

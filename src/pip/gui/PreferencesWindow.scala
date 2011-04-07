@@ -16,13 +16,11 @@ import javax.swing.GroupLayout.Alignment
 class PreferencesWindow(parent: UIElement = null) extends MainFrame with DisposeOnClose {
   title = Loc("preferences")
 
-
   def rowItemLeft(c: Component*) = new FlowPanel(FlowPanel.Alignment.Left)(c: _*) {
-    //val mh = math.round(c.maxBy(_.size.getHeight).size.getHeight).toInt
-    val rowSize = 40
-    maximumSize = new Dimension(Int.MaxValue,rowSize)
+    val rowHeight = (c map (_.preferredSize.getHeight) max).toInt
+    val space = 10
+    maximumSize = new Dimension(Int.MaxValue,rowHeight+space)
   }
-
 
   private val languages = Tools.languagesList
 

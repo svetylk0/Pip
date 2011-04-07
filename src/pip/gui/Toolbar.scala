@@ -8,7 +8,9 @@ import actors.Future
 
 class Toolbar(tab: TabbedPane,
               tweetPanel: BoxPanel,
-              pager: TweetPager[Future[Tweet]]) extends BoxPanel(Orientation.Horizontal) {
+              pager: TweetPager[Future[Tweet]],
+//              withAddTweetButton: Boolean = true) extends BoxPanel(Orientation.Horizontal) {
+              withAddTweetButton: Boolean = true) extends FlowPanel(FlowPanel.Alignment.Center)() {
 
   import MainWindow.core
   import Implicits._
@@ -41,15 +43,16 @@ class Toolbar(tab: TabbedPane,
   contents += UpButton
   contents += PrevPageButton
   contents += NextPageButton
-  contents += AddTweetButton
+
+  if (withAddTweetButton) contents += AddTweetButton
 
   val parent = new TextField(10)
 
   listenTo(AddTweetButton, PrevPageButton, NextPageButton, UpButton, PreferencesButton)
 
   reactions += {
-    case ButtonClicked(PreferencesButton) => (new PreferencesWindow).visible = true
-    case ButtonClicked(AddTweetButton) => new NewTweetWindow(core, this)
+    case ButtonClicked(PreferencesButton) => (new PreferencesWindow(MainWindow.mainFrame)).visible = true
+    case ButtonClicked(AddTweetButton) => new NewTweetWindow(core, MainWindow.mainFrame)
     case ButtonClicked(PrevPageButton) =>
       if (pager.page == 2) PrevPageButton.enabled = false
 
