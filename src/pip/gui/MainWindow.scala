@@ -197,7 +197,7 @@ object MainWindow extends SimpleSwingApplication {
 
     title = Loc("pip")
     minimumSize = new Dimension(tabs.size.width + scrollViewport.verticalScrollBar.size.width, tabs.size.height)
-    iconImage = (new ImageIcon("res" + separator + "zpevacek_icon.jpg")).getImage
+    iconImage = (new ImageIcon("res" + separator + "zpevacek_icon.png")).getImage
   }
 
   def top = mainFrame
