@@ -3,43 +3,55 @@ package pip.gui
 import scala.swing._
 import scala.swing.event._
 import swing.TabbedPane.Page
-import pip.core.{Tweet, TweetPager, Implicits, Loc}
+import pip.core.{Globals, Tweet, TweetPager, Implicits, Loc}
 import actors.Future
 
 class Toolbar(tab: TabbedPane,
               tweetPanel: BoxPanel,
               pager: TweetPager[Future[Tweet]],
-//              withAddTweetButton: Boolean = true) extends BoxPanel(Orientation.Horizontal) {
               withAddTweetButton: Boolean = true) extends FlowPanel(FlowPanel.Alignment.Center)() {
 
   import MainWindow.core
+  import Globals._
   import Implicits._
 
-  object UpButton extends Button(Loc("up")) {
+  object UpButton extends Button {
     mnemonic = Key.N
+    icon = firstIcon
     tooltip = Loc("goToFirstPage")
   }
 
-  object AddTweetButton extends Button("+".tagB.tagHtml) {
+  object AddTweetButton extends Button {
     mnemonic = Key.N
+    icon = addIcon
     tooltip = Loc("newTweet")
   }
 
-  object NextPageButton extends Button("&gt;".tagB.tagHtml) {
+  object NextPageButton extends Button {
     mnemonic = Key.Right
-    tooltip = Loc("nextPage") +", "+ Loc("altRightArrow")
+    icon = rightIcon
+    tooltip = Loc("nextPage")
   }
 
-  object PrevPageButton extends Button("&lt;".tagB.tagHtml) {
+  object PrevPageButton extends Button {
     enabled = false
     mnemonic = Key.Left
-    tooltip = Loc("prevPage") +", "+ Loc("altLeftArrow")
+    icon = leftIcon
+    tooltip = Loc("prevPage")
   }
 
-  object PreferencesButton extends Button(Loc("preferences"))
+  object PreferencesButton extends Button {
+    icon = preferencesIcon
+    tooltip = Loc("preferences")
+  }
+
+  object MessagesButton extends Button {
+    icon = messagesIcon
+    tooltip = Loc("messages")
+  }
 
   contents += PreferencesButton
-  contents += new Button(Loc("messages"))
+  contents += MessagesButton
   contents += UpButton
   contents += PrevPageButton
   contents += NextPageButton

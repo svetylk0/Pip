@@ -95,11 +95,12 @@ object MainWindow extends SimpleSwingApplication {
       object SearchText extends TextField(10)
 
       object SearchButton extends Button {
-        text = Loc("search")
+        tooltip = Loc("search")
+        icon = searchIcon
       }
 
       val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(SearchText, SearchButton) {
-        maximumSize = new Dimension(Int.MaxValue,40)
+        maximumSize = new Dimension(Int.MaxValue,SearchButton.preferredSize.getHeight.toInt+5)
       }
 
       contents += topPanel

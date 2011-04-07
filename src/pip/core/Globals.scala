@@ -30,6 +30,15 @@ object Globals {
   var tweetFontSize = 12f
   var browserCommand = ""
 
+  //ikonky tlacitek
+  val searchIcon = loadIcon("search_icon.png")
+  val preferencesIcon = loadIcon("preferences_icon.png")
+  val addIcon = loadIcon("add_icon.png")
+  val messagesIcon = loadIcon("messages_icon.png")
+  val firstIcon = loadIcon("first_icon.png")
+  val leftIcon = loadIcon("left_icon.png")
+  val rightIcon = loadIcon("right_icon.png")
+
   //ikonky
   val replyIcon = loadIcon("reply.png")
   val replyHighlightIcon = loadIcon("reply_highlight.png")
