@@ -15,37 +15,37 @@ class Toolbar(tab: TabbedPane,
   import Globals._
   import Implicits._
 
-  object UpButton extends Button {
+  object UpButton extends FlatButton {
     mnemonic = Key.N
     icon = firstIcon
     tooltip = Loc("goToFirstPage")
   }
 
-  object AddTweetButton extends Button {
+  object AddTweetButton extends FlatButton {
     mnemonic = Key.N
     icon = addIcon
     tooltip = Loc("newTweet")
   }
 
-  object NextPageButton extends Button {
+  object NextPageButton extends FlatButton {
     mnemonic = Key.Right
     icon = rightIcon
     tooltip = Loc("nextPage")
   }
 
-  object PrevPageButton extends Button {
+  object PrevPageButton extends FlatButton {
     enabled = false
     mnemonic = Key.Left
     icon = leftIcon
     tooltip = Loc("prevPage")
   }
 
-  object PreferencesButton extends Button {
+  object PreferencesButton extends FlatButton {
     icon = preferencesIcon
     tooltip = Loc("preferences")
   }
 
-  object MessagesButton extends Button {
+  object MessagesButton extends FlatButton {
     icon = messagesIcon
     tooltip = Loc("messages")
   }

@@ -14,6 +14,12 @@ import pip.gui.{ImageService, NoServiceAvailable, TwitpicService, YfrogService}
  */
 
 case class Tweet(st: Status) {
+  implicit def scaleImageIcon(icon: ImageIcon) = new {
+    def scale(width: Int, height: Int) = {
+      new ImageIcon(icon.getImage.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH))
+    }
+  }
+  
   val status = if (st.isRetweet) st.getRetweetedStatus else st
 
   val user = status.getUser
@@ -30,7 +36,7 @@ case class Tweet(st: Status) {
   val retweetedBy = st.getUser.getScreenName
   val retweetCount = status.getRetweetCount
 
-  val profileIcon = new ImageIcon(user.getProfileImageURL)
+  val profileIcon = (new ImageIcon(user.getProfileImageURL)).scale(48,48)
 
   val urlList = status.getURLEntities match {
     case null => Nil

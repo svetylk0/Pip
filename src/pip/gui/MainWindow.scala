@@ -94,7 +94,7 @@ object MainWindow extends SimpleSwingApplication {
 
       object SearchText extends TextField(10)
 
-      object SearchButton extends Button {
+      object SearchButton extends FlatButton {
         tooltip = Loc("search")
         icon = searchIcon
       }
