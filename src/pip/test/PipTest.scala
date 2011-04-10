@@ -1,6 +1,12 @@
 package pip.test
 
 import pip.core._
+import pip.gui.TweetView
+import swing.{BoxPanel, Orientation, TabbedPane, MainFrame}
+
+import Implicits._
+
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,28 +37,51 @@ object PipTest extends App {
   println("Test lokalizace: "+Loc("welcome"))
 
 
-  println("Pager Test:")
-  val pager = new TweetPager(2,core.homeTimeline)
+//  println("Pager Test:")
+  val pager = new TweetPager(2,core.homeTimelineFutures)
 
-  println("First page:")
-  pager.firstPage foreach {
-    x => println(x.name+": "+x.text)
+  val testFrame = new MainFrame {
+    contents = new TweetView(pager.firstPage.head())
   }
 
-  println("Next page:")
-  pager.nextPage foreach {
-    x => println(x.name+": "+x.text)
+
+  val tpanel = new BoxPanel(Orientation.Vertical) {
+    contents ++= pager.firstPage
   }
 
-  println("Previous page:")
-  pager.previousPage foreach {
-    x => println(x.name+": "+x.text)
+  val tpanel2 = new BoxPanel(Orientation.Vertical) {
+    contents ++= pager.firstPage
   }
 
-  println("Previous page:")
-  pager.previousPage foreach {
-    x => println(x.name+": "+x.text)
+  val testFrame2 = new MainFrame {
+    contents = new TabbedPane {
+      pages += new TabbedPane.Page(Loc("tweets"), tpanel)
+      pages += new TabbedPane.Page("tweets", tpanel2)
+    }
   }
+
+//  testFrame.visible = true
+  testFrame2.visible = true
+
+//  println("First page:")
+//  pager.firstPage foreach {
+//    x => println(x.name+": "+x.text)
+//  }
+
+//  println("Next page:")
+//  pager.nextPage foreach {
+//    x => println(x.name+": "+x.text)
+//  }
+
+//  println("Previous page:")
+//  pager.previousPage foreach {
+//    x => println(x.name+": "+x.text)
+//  }
+
+//  println("Previous page:")
+//  pager.previousPage foreach {
+//    x => println(x.name+": "+x.text)
+//  }
 
 //  println("\nHome timeline (using futures):")
 //  core.homeTimelineFutures foreach {

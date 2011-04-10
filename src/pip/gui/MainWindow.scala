@@ -65,7 +65,7 @@ object MainWindow extends SimpleSwingApplication {
 
   private def getTweetPanelByPager(tabPane: TabbedPane,
                                    pager: TweetPager[Future[Tweet]],
-                                   withAddTweetButton: Boolean = true) = new BoxPanel(Orientation.Vertical) with RefreshableBoxPanel {
+                                   withAddTweetButton: Boolean = true) = new BorderPanel with RefreshableBoxPanel {
 
     val twPanel = new BoxPanel(Orientation.Vertical) {
       contents ++= pager.firstPage
@@ -74,12 +74,16 @@ object MainWindow extends SimpleSwingApplication {
     val defaultPager = pager
     val defaultPanel = twPanel
 
-    contents += scrollPane(twPanel)
-    contents += new Toolbar(tabPane, twPanel, pager, withAddTweetButton)
+    add(twPanel, BorderPanel.Position.Center)
+    add(new Toolbar(tabPane, twPanel, pager, withAddTweetButton), BorderPanel.Position.South)
+
+//    contents += scrollPane(twPanel)
+//    contents += twPanel
+//    contents += new Toolbar(tabPane, twPanel, pager, withAddTweetButton)
   }
 
   def scrollPane(c: Component) = new ScrollPane(c) {
-    //horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
+    horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
     verticalScrollBar.unitIncrement = 10
   }
 
@@ -186,7 +190,7 @@ object MainWindow extends SimpleSwingApplication {
   val mainFrame = new MainFrame {
 
     val scrollViewport = new ScrollPane(tabs) {
-      //horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
+      horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
       verticalScrollBar.unitIncrement = 10
     }
 
@@ -197,7 +201,7 @@ object MainWindow extends SimpleSwingApplication {
     }
 
     title = Loc("pip")
-    minimumSize = new Dimension(tabs.size.width + scrollViewport.verticalScrollBar.size.width, tabs.size.height)
+//    minimumSize = new Dimension(tabs.size.width + scrollViewport.verticalScrollBar.size.width, tabs.size.height)
     iconImage = (new ImageIcon("res" + separator + "zpevacek_icon.png")).getImage
   }
 

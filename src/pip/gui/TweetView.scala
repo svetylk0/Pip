@@ -173,7 +173,8 @@ class TweetView(tweet: Tweet) extends GridBagPanel {
   constraints.insets = new Insets(0, 0, 0, 0)
   add(nameLabel, constraints)*/
 
-  constraints.fill = GridBagPanel.Fill.None
+  constraints.anchor = GridBagPanel.Anchor.FirstLineStart
+  constraints.fill = GridBagPanel.Fill.Horizontal
   constraints.gridwidth = 4
   constraints.gridheight = 1
   constraints.gridx = 1
