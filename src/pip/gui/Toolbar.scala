@@ -2,14 +2,10 @@ package pip.gui
 
 import scala.swing._
 import scala.swing.event._
-import swing.TabbedPane.Page
-import pip.core.{Globals, Tweet, TweetPager, Implicits, Loc}
-import actors.Future
+import pip.core.{Globals, TweetPager, Implicits, Loc}
 
-class Toolbar(tab: TabbedPane,
-              tweetPanel: BoxPanel,
-              pager: TweetPager[Future[Tweet]],
-              withAddTweetButton: Boolean = true) extends FlowPanel(FlowPanel.Alignment.Center)() {
+class Toolbar(tweetPanel: BoxPanel,
+              pager: TweetPager) extends FlowPanel(FlowPanel.Alignment.Center)() {
 
   import MainWindow.core
   import Globals._
@@ -50,13 +46,12 @@ class Toolbar(tab: TabbedPane,
     tooltip = Loc("messages")
   }
 
-  contents += PreferencesButton
-  contents += MessagesButton
   contents += UpButton
   contents += PrevPageButton
   contents += NextPageButton
-
-  if (withAddTweetButton) contents += AddTweetButton
+  contents += AddTweetButton
+  contents += MessagesButton
+  contents += PreferencesButton
 
   val parent = new TextField(10)
 
@@ -71,7 +66,7 @@ class Toolbar(tab: TabbedPane,
       tweetPanel.contents.clear
       tweetPanel.contents ++= pager.previousPage()
 
-      tab.repaint
+      MainWindow.repaint
 
     case ButtonClicked(NextPageButton) =>
       PrevPageButton.enabled = true
@@ -79,13 +74,14 @@ class Toolbar(tab: TabbedPane,
       tweetPanel.contents.clear
       tweetPanel.contents ++= pager.nextPage()
 
-      tab.repaint
+      MainWindow.repaint
 
     case ButtonClicked(UpButton) =>
+      PrevPageButton.enabled = false
       tweetPanel.contents.clear
       tweetPanel.contents ++= pager.firstPage()
 
-      tab.repaint
+      MainWindow.repaint
   }
 
 }

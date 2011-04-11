@@ -1,7 +1,5 @@
 package pip.gui
 
-import java.net._
-import javax.swing.ImageIcon
 import scala.swing._
 
 object LoginView extends SimpleSwingApplication {

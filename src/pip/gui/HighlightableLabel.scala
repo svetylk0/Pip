@@ -2,7 +2,6 @@ package pip.gui
 
 import javax.swing.Icon
 import swing.Label
-import java.awt.Font
 import pip.core.Implicits
 
 /**

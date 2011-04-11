@@ -1,8 +1,8 @@
 package pip.gui
 
-import actors.Future
-import swing.{BoxPanel, Panel}
-import pip.core.{Implicits, Tweet, TweetPager}
+import swing.Component
+import collection.mutable.Buffer
+import pip.core.{Implicits, TweetPager}
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,11 +12,11 @@ import pip.core.{Implicits, Tweet, TweetPager}
  * To change this template use File | Settings | File Templates.
  */
 
-trait RefreshableBoxPanel {
+trait RefreshablePanel {
   import Implicits.convertFutureTweetToTweetView
 
-  val defaultPager: TweetPager[Future[Tweet]]
-  val defaultPanel: BoxPanel
+  val defaultPager: TweetPager
+  val defaultPanel: { val contents: Buffer[Component] }
 
   def refresh() {
     val loadPage = defaultPager.currentPage()

@@ -1,8 +1,6 @@
 package pip.gui
 
 import scala.swing.{Graphics2D, MenuBar}
-import java.awt.Color
-
 class URLMenu extends MenuBar {
   override def paintComponent(g: Graphics2D) {
     val original = g.getPaint

@@ -3,8 +3,6 @@ package pip.gui
 import swing._
 import event._
 import pip.core.{Tools, Config, Loc}
-import javax.swing.GroupLayout.Alignment
-
 /**
  * Created by IntelliJ IDEA.
  * User: svetylk0@seznam.cz

@@ -1,7 +1,7 @@
 package pip.gui
 
 import java.awt.Color
-import swing.{UIElement, Component}
+import swing.UIElement
 import math.round
 
 /**

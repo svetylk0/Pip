@@ -38,7 +38,9 @@ object PipTest extends App {
 
 
 //  println("Pager Test:")
-  val pager = new TweetPager(2,core.homeTimelineFutures)
+  val pager = new TweetPager(2) {
+    val f = core.homeTimelineFutures _
+  }
 
   val testFrame = new MainFrame {
     contents = new TweetView(pager.firstPage.head())

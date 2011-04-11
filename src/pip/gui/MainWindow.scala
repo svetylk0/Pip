@@ -1,17 +1,9 @@
 package pip.gui
 
 import swing._
-import event._
-import scala.swing.event.Key._
-import java.io.File
 import javax.swing.{ImageIcon, UIManager}
 import pip.core._
-import swing.TabbedPane.Page
-import actors.Future
-import actors.Actor.actor
-import javax.swing.border.EmptyBorder
-import java.awt.Font
-import java.awt.event.{FocusEvent, FocusListener}
+import java.io.File
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,8 +18,6 @@ object MainWindow extends SimpleSwingApplication {
   import File.separator
   import Tools._
   import Globals._
-  import Implicits.convertFutureTweetToTweetView
-
   //nejdrive nacist vse potrebne
   Config.loadConfig()
 
@@ -60,27 +50,27 @@ object MainWindow extends SimpleSwingApplication {
   }
 
 
-  val tweetPager = new TweetPager(tweetsPerPage, core.homeTimelineFutures)
-  val mentionsPager = new TweetPager(tweetsPerPage, core.mentionsFutures)
-
-  private def getTweetPanelByPager(tabPane: TabbedPane,
-                                   pager: TweetPager[Future[Tweet]],
-                                   withAddTweetButton: Boolean = true) = new BorderPanel with RefreshableBoxPanel {
-
-    val twPanel = new BoxPanel(Orientation.Vertical) {
-      contents ++= pager.firstPage
-    }
-
-    val defaultPager = pager
-    val defaultPanel = twPanel
-
-    add(twPanel, BorderPanel.Position.Center)
-    add(new Toolbar(tabPane, twPanel, pager, withAddTweetButton), BorderPanel.Position.South)
-
-//    contents += scrollPane(twPanel)
-//    contents += twPanel
-//    contents += new Toolbar(tabPane, twPanel, pager, withAddTweetButton)
+  val tweetPager = new TweetPager(tweetsPerPage) {
+    val f = core.homeTimelineFutures _
   }
+
+  val mentionsPager = new TweetPager(tweetsPerPage) {
+    val f = core.mentionsFutures _
+  }
+
+//  private def getTweetPanelByPager(tabPane: TabbedPane,
+//                                   pager: TweetPager[Future[Tweet]]) = new BorderPanel with RefreshablePanel {
+//
+//    val twPanel = new BoxPanel(Orientation.Vertical) {
+//      contents ++= pager.firstPage
+//    }
+//
+//    val defaultPager = pager
+//    val defaultPanel = twPanel
+//
+//    add(twPanel, BorderPanel.Position.Center)
+//    add(new Toolbar(tabPane, twPanel, pager), BorderPanel.Position.South)
+//  }
 
   def scrollPane(c: Component) = new ScrollPane(c) {
     horizontalScrollBarPolicy = ScrollPane.BarPolicy.Never
@@ -90,73 +80,16 @@ object MainWindow extends SimpleSwingApplication {
   notification.setText(Loc("loadingTweets"))
 
   val tabs = new TabbedPane {
-    val tweetPanel = getTweetPanelByPager(this, tweetPager)
-    val mentionsPanel = getTweetPanelByPager(this, mentionsPager, withAddTweetButton = false)
 
-    private val tabsRef = this
-    val searchPanel = new BoxPanel(Orientation.Vertical) {
+    val tweetsPage = new TweetTabPage(Loc("tweets"), tweetPager)
+    val mentionsPage = new TweetTabPage(Loc("mentions"), mentionsPager)
+    val searchPage = new SearchTweetTabPage(Loc("searchTitle"))
 
-      object SearchText extends TextField(10)
+    val pageList = List(tweetsPage, mentionsPage, searchPage)
 
-      object SearchButton extends FlatButton {
-        tooltip = Loc("search")
-        icon = searchIcon
-      }
+    pages ++= pageList
 
-      val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(SearchText, SearchButton) {
-        maximumSize = new Dimension(Int.MaxValue,SearchButton.preferredSize.getHeight.toInt+5)
-      }
-
-      contents += topPanel
-
-      listenTo(SearchButton, SearchText.keys)
-
-      def infoLabel(text: String) = new FlowPanel(FlowPanel.Alignment.Center)(
-        new Label(text) {    
-          font = font.deriveFont(Font.BOLD, 20f)
-          border = new EmptyBorder(20, 10, 20, 10)
-        }
-      )
-
-      reactions += {
-        case KeyPressed(SearchText, key,_,_) =>
-          if (key == Key.Enter) thread {
-            SearchButton.doClick
-          }
-                    
-        case ButtonClicked(SearchButton) =>
-          thread {
-            SearchButton.enabled = false
-            SearchText.enabled = false
-            contents.clear
-            contents += topPanel
-
-            //nejsou k dispozici stranky, tudiz ani pager
-            contents += scrollPane(new BoxPanel(Orientation.Vertical) {
-              try {
-                val searchResult = core.searchAsFutures(SearchText.text)
-                if (searchResult.isEmpty) {
-                  contents += infoLabel(Loc("noSearchResults"))
-                } else {
-                  contents ++= searchResult
-                }
-              } catch {
-                //osetreni pripadu selhani, napr. kvuli pretizeni twitteru
-                case e: Exception =>
-                  contents += infoLabel(Loc("searchFailed"))
-              }
-            })
-            
-            SearchButton.enabled = true
-            SearchText.enabled = true
-            MainWindow.repaint
-          }
-
-      }
-
-    }
-
-    pages += new TabbedPane.Page(Loc("tweets"), tweetPanel) {
+   /* pages += new TabbedPane.Page(Loc("tweets"), tweetPanel) {
       mnemonic = Key1.##
     }
 
@@ -165,16 +98,17 @@ object MainWindow extends SimpleSwingApplication {
     }
 
     pages += new TabbedPane.Page(Loc("searchTitle"), searchPanel) {
-    }
+    }*/
   }
 
   def refreshActiveTab() {
-    tabs.selection.index match {
-      case 0 => tabs.tweetPanel.refresh()
-      case 1 => tabs.mentionsPanel.refresh()
-      case 2 => //nerefreshuje se
-      case _ =>
-    }
+    tabs.pageList(tabs.selection.index).refresh()
+//    tabs.selection.index match {
+//      case 0 => tabs.tweetPanel.refresh()
+//      case 1 => tabs.mentionsPanel.refresh()
+//      case 2 => //nerefreshuje se
+//      case _ =>
+//    }
     tabs.repaint
   }
 

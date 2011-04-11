@@ -1,7 +1,6 @@
 package pip.gui
 
-import io.Source
-import javax.swing.{ImageIcon, Icon}
+import javax.swing.ImageIcon
 import java.net.URL
 import util.matching.Regex
 import pip.net.Http

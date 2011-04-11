@@ -1,9 +1,8 @@
 package pip.core
 
-import collection.JavaConversions._
 import actors.Futures.future
-import actors.Future
 import twitter4j.{StatusUpdate, Query, Paging, Twitter}
+import collection.JavaConversions._
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,7 +29,7 @@ class PipCore(tw: Twitter) {
 
   def mentions(tweetCount: Int, page: Int = 1) = mentionsPage(page, tweetCount) map Tweet
 
-  def mentionsFutures: List[Future[Tweet]] = mentionsFutures(defaultTweetCount)
+//  def mentionsFutures: List[Future[Tweet]] = mentionsFutures(defaultTweetCount)
 
   def mentionsFutures(tweetCount: Int, page: Int = 1) = mentionsPage(page, tweetCount) map {
     status => future {
@@ -42,7 +41,7 @@ class PipCore(tw: Twitter) {
 
   def homeTimeline(tweetCount: Int, page: Int = 1) = homeTimelinePage(page, tweetCount) map Tweet
 
-  def homeTimelineFutures(): List[Future[Tweet]] = homeTimelineFutures(defaultTweetCount)
+//  def homeTimelineFutures(): List[Future[Tweet]] = homeTimelineFutures(defaultTweetCount)
 
   def homeTimelineFutures(tweetCount: Int, page: Int = 1) = homeTimelinePage(page, tweetCount) map {
     status => future {

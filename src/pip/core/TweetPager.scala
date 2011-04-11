@@ -1,5 +1,7 @@
 package pip.core
 
+import actors.Future
+
 /**
  * Created by IntelliJ IDEA.
  * User: svetylk0@seznam.cz
@@ -8,10 +10,12 @@ package pip.core
  * To change this template use File | Settings | File Templates.
  */
 
-class TweetPager[A](tweetsPerPage: Int, f: (Int,Int) => List[A]) {
-  var page = 1
+abstract class TweetPager(tweetsPerPage: Int) {
+  val f: (Int,Int) => List[Future[Tweet]]
 
   private def getPage() = f(tweetsPerPage,page)
+
+  var page = 1
 
   def currentPage() = getPage()
 
@@ -28,5 +32,16 @@ class TweetPager[A](tweetsPerPage: Int, f: (Int,Int) => List[A]) {
   def previousPage() = {
     page = if (page > 1) page-1 else page
     getPage()
+  }
+}
+
+class TweetListPager(tweetsPerPage: Int) extends TweetPager(tweetsPerPage) {
+  var tweetList = List[Future[Tweet]]()
+
+  val f = (tweetsPerPage: Int, pageNum: Int) => {
+    tweetList.sliding(tweetsPerPage,tweetsPerPage).toList.lift(pageNum) match {
+      case Some(x) => x
+      case None => List[Future[Tweet]]()
+    }
   }
 }

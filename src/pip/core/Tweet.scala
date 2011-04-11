@@ -2,8 +2,7 @@ package pip.core
 
 import twitter4j.{User, Status}
 import javax.swing.ImageIcon
-import actors.Futures.future
-import pip.gui.{ImageService, NoServiceAvailable, TwitpicService, YfrogService}
+import pip.gui.{NoServiceAvailable, TwitpicService, YfrogService}
 
 /**
  * Created by IntelliJ IDEA.

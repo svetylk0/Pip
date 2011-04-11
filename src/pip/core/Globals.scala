@@ -1,8 +1,6 @@
 package pip.core
 
-import java.io.File
-import javax.swing.ImageIcon
-import swing.{Orientation, BoxPanel, Separator, Label}
+import swing.Label
 
 /**
  * Created by IntelliJ IDEA.

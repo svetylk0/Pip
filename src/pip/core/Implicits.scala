@@ -2,7 +2,6 @@ package pip.core
 
 import actors.Future
 import pip.gui.TweetView
-import java.awt.Color
 import java.io.{InputStreamReader, InputStream}
 import collection.immutable.PagedSeq
 
