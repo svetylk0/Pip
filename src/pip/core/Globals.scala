@@ -29,6 +29,7 @@ object Globals {
   var browserCommand = ""
 
   //ikonky tlacitek
+  val quitIcon = loadIcon("quit_icon.png")
   val searchIcon = loadIcon("search_icon.png")
   val preferencesIcon = loadIcon("preferences_icon.png")
   val addIcon = loadIcon("add_icon.png")

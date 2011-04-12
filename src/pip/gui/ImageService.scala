@@ -21,6 +21,7 @@ trait ImageService {
 
   def getIcon() = {
     val data = http.Get(url)
+
     reg findFirstMatchIn data match {
       case Some(x) => new ImageIcon(new URL(x group 1))
       case None => new ImageIcon
@@ -33,7 +34,13 @@ class TwitpicService(val url: String) extends ImageService {
 }
 
 class YfrogService(val url: String) extends ImageService {
-  val reg = """full_image_click.+?src="(.+?)"""".r
+  val reg = """<img id="main_image" src="(.+?)"""".r
+}
+
+class RawImageService(val url: String) extends ImageService {
+  val reg = "".r
+
+  override def getIcon() = new ImageIcon(new URL(url))
 }
 
 object NoServiceAvailable extends ImageService {

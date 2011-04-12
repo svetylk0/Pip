@@ -2,7 +2,7 @@ package pip.core
 
 import twitter4j.{User, Status}
 import javax.swing.ImageIcon
-import pip.gui.{NoServiceAvailable, TwitpicService, YfrogService}
+import pip.gui.{RawImageService, NoServiceAvailable, TwitpicService, YfrogService}
 
 /**
  * Created by IntelliJ IDEA.
@@ -53,6 +53,7 @@ case class Tweet(st: Status) {
   private val urlReg = """\w+://\S+""".r
   private val yfrogReg = """(http://yfrog.com/.+)""".r
   private val twitpicReg = """(http://twitpic.com/.+)""".r
+  private val rawimageReg = """(http://.+?(gif|jpg|jpeg|png))""".r
 
 //  val urlList = urlReg findAllIn text toList
 
@@ -65,8 +66,10 @@ case class Tweet(st: Status) {
   //for (i <- decomposed) println("new "+ i)
 
   val imagesList = urlList collect {
-    case yfrogReg(url) => new YfrogService(url)
+//zatim nefunkcni - neco zmenili a vzdy dostanu  java.net.ProtocolException: Server redirected too many  times (20)
+//    case yfrogReg(url) => new YfrogService(url)
     case twitpicReg(url) => new TwitpicService(url)
+    case rawimageReg(url,_) => new RawImageService(url)
     case _ => NoServiceAvailable
   } filterNot { _ == NoServiceAvailable }
 

@@ -41,23 +41,31 @@ class Toolbar(tweetPanel: BoxPanel,
     tooltip = Loc("preferences")
   }
 
+  object QuitButton extends FlatButton {
+    icon = quitIcon
+    tooltip = Loc("quit")
+  }
+
   object MessagesButton extends FlatButton {
     icon = messagesIcon
     tooltip = Loc("messages")
   }
 
+  contents += AddTweetButton
   contents += UpButton
   contents += PrevPageButton
   contents += NextPageButton
-  contents += AddTweetButton
   contents += MessagesButton
   contents += PreferencesButton
+  contents += QuitButton
 
   val parent = new TextField(10)
 
-  listenTo(AddTweetButton, PrevPageButton, NextPageButton, UpButton, PreferencesButton)
+  listenTo(AddTweetButton, PrevPageButton, NextPageButton, UpButton, PreferencesButton,
+           QuitButton)
 
   reactions += {
+    case ButtonClicked(QuitButton) => sys.exit()
     case ButtonClicked(PreferencesButton) => (new PreferencesWindow(MainWindow.mainFrame)).visible = true
     case ButtonClicked(AddTweetButton) => new NewTweetWindow(core, MainWindow.mainFrame)
     case ButtonClicked(PrevPageButton) =>
