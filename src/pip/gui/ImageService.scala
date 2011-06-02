@@ -17,11 +17,11 @@ trait ImageService {
   val reg: Regex
   val url: String
 
-  val http = new Http("","UTF-8")
+  val http = new Http("Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/534.10 (KHTML, like Gecko) Chrome/8.0.552.215 Safari/534.10","UTF-8")
 
   def getIcon() = {
     val data = http.Get(url)
-
+    
     reg findFirstMatchIn data match {
       case Some(x) => new ImageIcon(new URL(x group 1))
       case None => new ImageIcon

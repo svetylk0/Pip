@@ -39,11 +39,21 @@ class Http(userAgent: String,
   private def encodePostData(data: Map[String, String]) =
     (for ((name, value) <- data) yield encode(name, encoding) + "=" + encode(value, encoding)).mkString("&")
 
+
+  private def setConnectionProperties(c: URLConnection) {
+    c.setRequestProperty("User-Agent", userAgent)
+    c.setRequestProperty("Cache-Control", "max-age=0")
+    c.setRequestProperty("Accept","application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5")
+    c.setRequestProperty("Accept-Encoding","gzip,deflate,sdch")
+    c.setRequestProperty("Accept-Charset","windows-1250,utf-8;q=0.7,*;q=0.3")
+    c.setConnectTimeout(HttpRequestTimeout)
+  }
+
   def Get(url: String) = {
     val u = new URL(url)
     val conn = u.openConnection()
-    conn.setRequestProperty("User-Agent", userAgent)
-    conn.setConnectTimeout(HttpRequestTimeout)
+
+    setConnectionProperties(conn)
 
     //nacist cookies do URLConnection
     loadCookies(conn)
@@ -61,8 +71,7 @@ class Http(userAgent: String,
     val u = new URL(url)
     val conn = u.openConnection
 
-    conn.setRequestProperty("User-Agent", userAgent)
-    conn.setConnectTimeout(HttpRequestTimeout)
+    setConnectionProperties(conn)
 
     //nacist cookies do URLConnection
     loadCookies(conn)
