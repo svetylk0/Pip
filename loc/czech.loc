@@ -1,4 +1,7 @@
 ﻿#Lokalizační soubor pro Český jazyk
+addSavedSearch=Přidat záznam do uložených hledání
+addSavedSearchFailed=Přidání záznamu do uložených hledání selhalo.
+addSavedSearchOk=Záznam byl přidán.
 apply=Použít
 close=Zavřít
 enterPIN=Vložte prosím svůj PIN.

@@ -24,7 +24,8 @@ object SearchTweetListPager extends TweetListPager(Globals.tweetsPerPage)
 class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetListPager) {
   import Tools.thread
   import MainWindow.core
-
+  import Globals._
+  
   object SearchText extends TextField(10)
 
   object SavedSearch extends ComboBox(core.savedSearch)
@@ -34,7 +35,13 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
     icon = Globals.searchIcon
   }
 
-  innerPanel.listenTo(SearchButton, SearchText.keys)
+  object AddSearchButton extends FlatButton {
+    mnemonic = Key.N
+    icon = addIcon
+    tooltip = Loc("addSavedSearch")
+  }
+  
+  innerPanel.listenTo(SearchButton, SearchText.keys, AddSearchButton)
   
   //AWT reakce na vyber
   SavedSearch.peer.addActionListener(new ActionListener {
@@ -52,6 +59,16 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
         SearchButton.doClick
       }
 
+    case ButtonClicked(AddSearchButton) =>
+      if (SearchText.text != "") {
+        try {
+          core.addSavedSearch(SearchText.text)
+          Notifications.animatedRightDownCornerSimpleNotification(Loc("addSavedSearchOk"))
+        } catch {
+          case e: Exception => Notifications.animatedRightDownCornerSimpleNotification(Loc("addSavedSearchFailed"))
+        }
+      }
+      
     case ButtonClicked(SearchButton) =>
       thread {
         SearchButton.enabled = false
@@ -80,7 +97,7 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
 
   innerPanel.requestFocus
 
-  val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(SearchText, SavedSearch, SearchButton) {
+  val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(SearchText, SavedSearch, SearchButton, AddSearchButton) {
     maximumSize = new Dimension(Int.MaxValue, SearchButton.preferredSize.getHeight.toInt + 5)
   }
 
