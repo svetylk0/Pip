@@ -72,6 +72,8 @@ class PipCore(tw: Twitter) {
     }
   }
 
+  def savedSearch = (tw.getSavedSearches map { _.getName }).toList
+  
   def sendDirectMessage(to: String, text: String) = tw.sendDirectMessage(to,text)
 
   def sendDirectMessage(id: Long, text: String) = tw.sendDirectMessage(id,text)

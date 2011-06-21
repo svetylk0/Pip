@@ -1,5 +1,9 @@
 package pip.gui
 
+import java.awt.event.ActionEvent
+import java.awt.event.ActionListener
+import scala.swing.event.SelectionChanged
+import scala.swing.event.MouseClicked
 import java.awt.Dimension
 import swing._
 import event.{ButtonClicked, Key, KeyPressed}
@@ -23,12 +27,24 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
 
   object SearchText extends TextField(10)
 
+  object SavedSearch extends ComboBox(core.savedSearch)
+  
   object SearchButton extends FlatButton {
     tooltip = Loc("search")
     icon = Globals.searchIcon
   }
 
   innerPanel.listenTo(SearchButton, SearchText.keys)
+  
+  //AWT reakce na vyber
+  SavedSearch.peer.addActionListener(new ActionListener {
+    def actionPerformed(e: ActionEvent) {
+      SearchText.text = SavedSearch.item
+      thread {
+        SearchButton.doClick
+      }
+    }
+  })
 
   innerPanel.reactions += {
     case KeyPressed(SearchText, key, _, _) =>
@@ -64,7 +80,7 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
 
   innerPanel.requestFocus
 
-  val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(SearchText, SearchButton) {
+  val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(SearchText, SavedSearch, SearchButton) {
     maximumSize = new Dimension(Int.MaxValue, SearchButton.preferredSize.getHeight.toInt + 5)
   }
 
