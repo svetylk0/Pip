@@ -2,7 +2,7 @@ package pip.gui
 import scala.swing.Component
 import javax.swing.JComboBox
 
-class MutableComboBox(items: Seq[String]) extends Component {
+class MutableComboBox(i: Seq[String]) extends Component {
   override lazy val peer = new JComboBox
   
   def add(s: String) = peer.addItem(s)
@@ -11,6 +11,8 @@ class MutableComboBox(items: Seq[String]) extends Component {
 
   def item = peer.getSelectedItem.asInstanceOf[String]
   
+  def items = peer.getItemCount
+  
   //oklikou pridat prvky
-  items foreach add
+  i foreach add
 }

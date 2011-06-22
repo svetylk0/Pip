@@ -33,6 +33,7 @@ object Globals {
   val searchIcon = loadIcon("search_icon.png")
   val preferencesIcon = loadIcon("preferences_icon.png")
   val addIcon = loadIcon("add_icon.png")
+  val removeIcon = loadIcon("remove_icon.png")
   val messagesIcon = loadIcon("messages_icon.png")
   val firstIcon = loadIcon("first_icon.png")
   val leftIcon = loadIcon("left_icon.png")

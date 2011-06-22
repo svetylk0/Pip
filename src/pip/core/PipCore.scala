@@ -73,8 +73,15 @@ class PipCore(tw: Twitter) {
   }
 
   def addSavedSearch(query: String) = tw.createSavedSearch(query)
+
+  def removeSavedSearch(id: Int) = tw.destroySavedSearch(id)
   
-  def savedSearch = (tw.getSavedSearches map { _.getName }).toList
+  def savedSearch = tw.getSavedSearches.toList
+  
+  def savedSearchId(key: String) = savedSearch find { _.getName == key } match {
+    case Some(x) => x.getId
+    case None => -1
+  }
   
   def sendDirectMessage(to: String, text: String) = tw.sendDirectMessage(to,text)
 

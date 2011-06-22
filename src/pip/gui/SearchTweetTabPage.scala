@@ -28,20 +28,24 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
   
   object SearchText extends TextField(10)
 
-  object SavedSearch extends MutableComboBox(core.savedSearch)
+  object SavedSearch extends MutableComboBox(core.savedSearch.map(_.getName))
   
   object SearchButton extends FlatButton {
     tooltip = Loc("search")
     icon = Globals.searchIcon
   }
 
-  object AddSearchButton extends FlatButton {
-    mnemonic = Key.N
+  object AddSavedSearchButton extends FlatButton {
     icon = addIcon
     tooltip = Loc("addSavedSearch")
   }
   
-  innerPanel.listenTo(SearchButton, SearchText.keys, AddSearchButton)
+  object RemoveSavedSearchButton extends FlatButton {
+    icon = removeIcon
+    tooltip = Loc("removeSavedSearch")
+  }
+
+  innerPanel.listenTo(SearchButton, SearchText.keys, AddSavedSearchButton, RemoveSavedSearchButton)
   
   //AWT reakce na vyber
   SavedSearch.peer.addActionListener(new ActionListener {
@@ -59,7 +63,19 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
         SearchButton.doClick
       }
 
-    case ButtonClicked(AddSearchButton) =>
+    case ButtonClicked(RemoveSavedSearchButton) =>
+      if (SavedSearch.items > 0) {
+        val item = SavedSearch.item
+    	try {
+    	  core.removeSavedSearch(core.savedSearchId(item))
+    	  SavedSearch.remove(item)
+    	  Notifications.animatedRightDownCornerSimpleNotification(Loc("removeSavedSearchOk"))
+        } catch {
+    	  case e: Exception => Notifications.animatedRightDownCornerSimpleNotification(Loc("removeSavedSearchFailed"))
+    	}
+      }
+
+    case ButtonClicked(AddSavedSearchButton) =>
       if (SearchText.text != "") {
         try {
           core.addSavedSearch(SearchText.text)
@@ -84,7 +100,7 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
             innerPanel.refresh()
           }
         } catch {
-          //        osetreni pripadu selhani, napr. kvuli pretizeni twitteru
+          //osetreni pripadu selhani, napr. kvuli pretizeni twitteru
           case e: Exception =>
             Notifications.animatedRightDownCornerSimpleNotification(Loc("searchFailed"))
             e.printStackTrace
@@ -98,7 +114,7 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
 
   innerPanel.requestFocus
 
-  val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(SearchText, SavedSearch, SearchButton, AddSearchButton) {
+  val topPanel = new FlowPanel(FlowPanel.Alignment.Left)(SearchText, SavedSearch, SearchButton, AddSavedSearchButton,RemoveSavedSearchButton,RemoveSavedSearchButton) {
     maximumSize = new Dimension(Int.MaxValue, SearchButton.preferredSize.getHeight.toInt + 5)
   }
 
