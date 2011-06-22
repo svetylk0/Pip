@@ -28,7 +28,7 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
   
   object SearchText extends TextField(10)
 
-  object SavedSearch extends ComboBox(core.savedSearch)
+  object SavedSearch extends MutableComboBox(core.savedSearch)
   
   object SearchButton extends FlatButton {
     tooltip = Loc("search")
@@ -63,6 +63,7 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
       if (SearchText.text != "") {
         try {
           core.addSavedSearch(SearchText.text)
+          SavedSearch.add(SearchText.text)
           Notifications.animatedRightDownCornerSimpleNotification(Loc("addSavedSearchOk"))
         } catch {
           case e: Exception => Notifications.animatedRightDownCornerSimpleNotification(Loc("addSavedSearchFailed"))
@@ -102,15 +103,4 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
   }
 
   innerPanel.addNorth(topPanel)
-  //  contents += topPanel
-
-
-//  def infoLabel(text: String) = new FlowPanel(FlowPanel.Alignment.Center)() {
-//    content = new Label(text) {
-//      font = font.deriveFont(Font.BOLD, 20f)
-//      border = new EmptyBorder(20, 10, 20, 10)
-//    }
-//  }
-
-
 }
