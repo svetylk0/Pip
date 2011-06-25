@@ -91,5 +91,5 @@ class PipCore(tw: Twitter) {
 
   def trends() = tw.getTrends.getTrends.toList
 
-
+  def screenName = tw.getScreenName
 }

@@ -12,27 +12,32 @@ import pip.gui.{RawImageService, NoServiceAvailable, TwitpicService, YfrogServic
  * To change this template use File | Settings | File Templates.
  */
 
-case class Tweet(st: Status) {
+case class Tweet(originalStatus: Status) {
   implicit def scaleImageIcon(icon: ImageIcon) = new {
     def scale(width: Int, height: Int) = {
       new ImageIcon(icon.getImage.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH))
     }
   }
   
-  val status = if (st.isRetweet) st.getRetweetedStatus else st
+  val status = if (originalStatus.isRetweet) originalStatus.getRetweetedStatus 
+  			   else originalStatus
 
   val user = status.getUser
 
   val id = status.getId
   val isFavorited = status.isFavorited
-  val isRetweet = st.isRetweet
-  val isRetweetedByMe = status.isRetweetedByMe
+  val isRetweet = originalStatus.isRetweet
+  val retweetedBy = originalStatus.getUser.getScreenName
+  
+  val isRetweetedByMe = (isRetweet,retweetedBy == Globals.myNick) match {
+    case (true,true) => true
+    case _ => false
+  }
 
   val name = user.getName
   val nick = user.getScreenName
   val text = status.getText
 
-  val retweetedBy = st.getUser.getScreenName
   val retweetCount = status.getRetweetCount
 
   val profileIcon = (new ImageIcon(user.getProfileImageURL)).scale(48,48)

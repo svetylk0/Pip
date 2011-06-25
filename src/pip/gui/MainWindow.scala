@@ -25,8 +25,6 @@ object MainWindow extends SimpleSwingApplication {
 
   val notification = Notifications.simpleNotification(Loc("loginInProgress"))
 
-//  Notifications.animatedRightDownCornerSimpleNotification("Hellloooo :-)")
-
   val tw = if (fileExists(authFile)) {
     Auth.authorizedTwitterInstance(Auth.loadAccessToken(authFile))
   } else {
@@ -36,6 +34,9 @@ object MainWindow extends SimpleSwingApplication {
   }
 
   val core = new PipCore(tw)
+  
+  //ulozeni screen name
+  Globals.myNick = core.screenName
 
   //nastaveni L&F z configu
   private def setSystemLookAndFeel = UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)

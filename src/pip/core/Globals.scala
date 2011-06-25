@@ -23,6 +23,9 @@ object Globals {
   val localizationDir = "loc"
   val resourcesDir = "res"
 
+  //dalsi promenne
+  var myNick = ""
+    
   //promenne ze souboru config.ini
   var tweetsPerPage = 5
   var tweetFontSize = 12f
