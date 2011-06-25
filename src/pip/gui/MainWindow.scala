@@ -38,6 +38,10 @@ object MainWindow extends SimpleSwingApplication {
   //ulozeni screen name
   Globals.myNick = core.screenName
 
+  //vytvoreni cache adresaru
+  mkDir("cache")
+  mkDir("cache"+File.separator+"img")
+  
   //nastaveni L&F z configu
   private def setSystemLookAndFeel = UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
 
@@ -104,12 +108,6 @@ object MainWindow extends SimpleSwingApplication {
 
   def refreshActiveTab() {
     tabs.pageList(tabs.selection.index).refresh()
-//    tabs.selection.index match {
-//      case 0 => tabs.tweetPanel.refresh()
-//      case 1 => tabs.mentionsPanel.refresh()
-//      case 2 => //nerefreshuje se
-//      case _ =>
-//    }
     tabs.repaint
   }
 

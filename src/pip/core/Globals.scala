@@ -1,7 +1,7 @@
 package pip.core
 
 import swing.Label
-
+import java.io.File
 /**
  * Created by IntelliJ IDEA.
  * User: svetylk0@seznam.cz
@@ -22,7 +22,8 @@ object Globals {
   val backgroundColor = (new Label).background
   val localizationDir = "loc"
   val resourcesDir = "res"
-
+  val imagesCacheDir = "cache"+File.separator+"img"
+    
   //dalsi promenne
   var myNick = ""
     

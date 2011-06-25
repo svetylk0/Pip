@@ -3,6 +3,7 @@ package pip.core
 import twitter4j.{User, Status}
 import javax.swing.ImageIcon
 import pip.gui.{RawImageService, NoServiceAvailable, TwitpicService, YfrogService}
+import java.net.URL
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,11 +14,7 @@ import pip.gui.{RawImageService, NoServiceAvailable, TwitpicService, YfrogServic
  */
 
 case class Tweet(originalStatus: Status) {
-  implicit def scaleImageIcon(icon: ImageIcon) = new {
-    def scale(width: Int, height: Int) = {
-      new ImageIcon(icon.getImage.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH))
-    }
-  }
+  import Implicits._
   
   val status = if (originalStatus.isRetweet) originalStatus.getRetweetedStatus 
   			   else originalStatus
@@ -40,7 +37,17 @@ case class Tweet(originalStatus: Status) {
 
   val retweetCount = status.getRetweetCount
 
-  val profileIcon = (new ImageIcon(user.getProfileImageURL)).scale(48,48)
+  def cachedImageLoad(url: URL) = {
+    val file = url.fileName
+    if (ImagesCache.contains(file)) ImagesCache.get(file)
+    else {
+      ImagesCache.save(url,file)
+      ImagesCache.get(file)
+    }
+  }
+  
+//(new ImageIcon(user.getProfileImageURL))  
+  val profileIcon = cachedImageLoad(user.getProfileImageURL).scale(48,48)
 
   val urlList = status.getURLEntities match {
     case null => Nil

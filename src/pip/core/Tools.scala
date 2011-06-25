@@ -4,6 +4,9 @@ import java.net.URL
 import java.io.File
 import javax.swing.ImageIcon
 import concurrent.ThreadRunner
+import java.io.InputStream
+import java.io.OutputStream
+import java.io.FileOutputStream
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,6 +24,23 @@ object Tools {
 
   def loadIcon(file: String) = new ImageIcon(resourcesDir+File.separator+file)
 
+  def cacheIconFromURL(url: URL, file: String) {
+    transferStream(url.openStream, 
+                   new FileOutputStream(imagesCacheDir+File.separator+file))
+  }
+  
+  def loadCachedImageIcon(file: String) = 
+    loadIcon(imagesCacheDir+File.separator+file)
+  
+  def transferStream(in: InputStream, out: OutputStream) {
+    val buf = new Array[Byte](5000)
+    Iterator.continually(in.read(buf)) takeWhile ( _ != -1 ) foreach {
+      out.write(buf,0,_)
+    }
+    in.close
+    out.close
+  }
+  
   def isConnectionAvailable = {
     try {
       (new URL("http://www.twitter.com/")).openConnection.connect
@@ -30,6 +50,11 @@ object Tools {
     }
   }
 
+  def mkDir(dirName: String) {
+    val f = new File(dirName)
+    if (!f.exists) f.mkdir
+  }
+  
   def waitUntil(cond: => Boolean, timeout: Long = 100l) {
     while (cond) {
       Thread.sleep(timeout)
