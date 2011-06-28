@@ -35,7 +35,11 @@ object Implicits {
   implicit def convertFutureTweetToTweetView(in: List[Future[Tweet]]) = in map {
     tweet => new TweetView(tweet())
   }
-
+  
+  //totez, akorat pro Tweet
+  implicit def convertTweetToTweetView(in: List[Tweet]) = in map {
+    tweet => new TweetView(tweet)
+  }
 
   implicit def wrapInputStream[T <: InputStream](is: T) =
     PagedSeq.fromReader(new InputStreamReader(is,"UTF-8"))

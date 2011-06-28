@@ -25,7 +25,7 @@ class PipCore(tw: Twitter) {
 
   def unFavorite(id: Long) = tw.destroyFavorite(id)
 
-  def mentions(): List[Tweet] = mentions(defaultTweetCount)
+  def defaultMentions(): List[Tweet] = mentions(defaultTweetCount)
 
   def mentions(tweetCount: Int, page: Int = 1) = mentionsPage(page, tweetCount) map Tweet
 
@@ -37,7 +37,7 @@ class PipCore(tw: Twitter) {
     }
   }
 
-  def homeTimeline(): List[Tweet] = homeTimeline(defaultTweetCount)
+  def defaultHomeTimeline(): List[Tweet] = homeTimeline(defaultTweetCount)
 
   def homeTimeline(tweetCount: Int, page: Int = 1) = homeTimelinePage(page, tweetCount) map Tweet
 

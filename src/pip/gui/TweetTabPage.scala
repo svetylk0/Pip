@@ -14,7 +14,7 @@ import pip.core.{Implicits, TweetPager}
 class TweetTabPage(title: String,
                    pager: TweetPager) extends TabbedPane.Page(title, new BorderPanel) {
 
-  import Implicits.convertFutureTweetToTweetView
+  import Implicits._
 
   protected val innerPanel = new BorderPanel with RefreshablePanel {
 

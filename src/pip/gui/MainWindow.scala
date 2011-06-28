@@ -56,11 +56,11 @@ object MainWindow extends SimpleSwingApplication {
 
 
   val tweetPager = new TweetPager(tweetsPerPage) {
-    val f = core.homeTimelineFutures _
+    val f = core.homeTimeline _
   }
 
   val mentionsPager = new TweetPager(tweetsPerPage) {
-    val f = core.mentionsFutures _
+    val f = core.mentions _
   }
 
 //  private def getTweetPanelByPager(tabPane: TabbedPane,

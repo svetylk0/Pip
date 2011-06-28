@@ -11,7 +11,7 @@ import actors.Future
  */
 
 abstract class TweetPager(tweetsPerPage: Int) {
-  val f: (Int,Int) => List[Future[Tweet]]
+  val f: (Int,Int) => List[Tweet]
 
   private def getPage() = f(tweetsPerPage,page)
 
@@ -36,12 +36,12 @@ abstract class TweetPager(tweetsPerPage: Int) {
 }
 
 class TweetListPager(tweetsPerPage: Int) extends TweetPager(tweetsPerPage) {
-  var tweetList = List[Future[Tweet]]()
+  var tweetList = List[Tweet]()
 
   val f = (tweetsPerPage: Int, pageNum: Int) => {
     tweetList.sliding(tweetsPerPage,tweetsPerPage).toList.lift(pageNum) match {
       case Some(x) => x
-      case None => List[Future[Tweet]]()
+      case None => List[Tweet]()
     }
   }
 }

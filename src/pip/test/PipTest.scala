@@ -39,13 +39,12 @@ object PipTest extends App {
 
 //  println("Pager Test:")
   val pager = new TweetPager(2) {
-    val f = core.homeTimelineFutures _
+    val f = core.homeTimeline _
   }
 
   val testFrame = new MainFrame {
-    contents = new TweetView(pager.firstPage.head())
+    contents = new TweetView(pager.firstPage.head)
   }
-
 
   val tpanel = new BoxPanel(Orientation.Vertical) {
     contents ++= pager.firstPage

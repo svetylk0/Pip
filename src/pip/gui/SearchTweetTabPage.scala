@@ -92,7 +92,7 @@ class SearchTweetTabPage(title: String) extends TweetTabPage(title, SearchTweetL
         SearchText.enabled = false
 
         try {
-          val searchResult = core.searchAsFutures(SearchText.text)
+          val searchResult = core.search(SearchText.text)
           if (searchResult.isEmpty) {
             Notifications.animatedRightDownCornerSimpleNotification(Loc("noSearchResults"))
           } else {

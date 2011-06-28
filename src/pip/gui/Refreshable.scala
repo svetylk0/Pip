@@ -13,7 +13,7 @@ import pip.core.{Implicits, TweetPager}
  */
 
 trait RefreshablePanel {
-  import Implicits.convertFutureTweetToTweetView
+  import Implicits._
 
   val defaultPager: TweetPager
   val defaultPanel: { val contents: Buffer[Component] }
